@@ -1,7 +1,7 @@
 const gameSchema = new Schema(
   {
     playerTurn: String,
-    turnTime: Number,
+    turnTime: { type: Number, default: 599 },
     matchPercent: { type: Number, default: 100 },
     stage: { type: Number, default: 0 },
     chat: { type: Schema.Types.ObjectId, ref: "Chat" },
