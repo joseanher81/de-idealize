@@ -17,7 +17,6 @@ router.post("/auth/signup", async (req, res, next) => {
       minAge,
       maxAge,
     } = req.body; // TODO Add pictures
-    console.log(`Sign up req.body ${req.body}`);
 
     if (!username || !password) {
       res.status(400).json({ error: "Provide username and password" });
