@@ -1,13 +1,14 @@
 import axios from "axios";
 require("dotenv").config();
 
-const service = axios.create({baseURL: process.env.SERVER_URL, withCredentials: true});
+const service = axios.create({baseURL: "http://localhost:5000/", withCredentials: true});
 
 // Sign Up
 export const signup = async (formData) => {
   const {
     username,
     password,
+    email,
     age,
     gender,
     location,
@@ -19,6 +20,7 @@ export const signup = async (formData) => {
     const res = await service.post('/auth/signup', {
       username,
       password,
+      email,
       age,
       gender,
       location,
@@ -45,7 +47,7 @@ export const login = async (formData) => {
       password
     });
   
-    console.log("Logged user " + res);
+    console.log("Logged user " + JSON.stringify(res));
     return res.data;
 
   } catch (error) {

@@ -24,3 +24,6 @@ yarn-error.log*
 
 # Environment Variables should NEVER be published
 .env
+
+# Visual Studio Code settings
+.vscode
