@@ -1,11 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useContext, useEffect } from "react";
+import "./App.css";
+import { Switch, Route } from "react-router-dom";
+import { UserContext } from "./contexts/userContexts";
+import { CssBaseline, ThemeProvider } from "@material-ui/core";
+import { createTheme } from "./components/theme";
+import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
+import ProfilePage from "./pages/ProfilePage";
+import GamePage from "./pages/GamePage";
+import { loggedin } from "./services/authService";
 
 function App() {
+  const theme = createTheme();
+  const { setUser } = useContext(UserContext);
+
+  useEffect(() => {
+    // When the app starts this runs only once
+    console.log("WELCOME TO APP!");
+
+    // Try to get the current logged in user from our backend
+    loggedin()
+      .then((user) => {
+        console.log(`Welcome user` + JSON.stringify(user));
+        setUser(user);
+      })
+      .catch((e) => {
+        console.error("No user logged in ");
+      });
+  }, []);
+
   return (
     <div className="App">
-
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Switch>
+          <Route exact path="/" component={LoginPage} />
+          <Route exact path="/signup" component={SignupPage} />
+          <Route exact path="/profile" component={ProfilePage} />
+          <Route exact path="/game" component={GamePage} />
+        </Switch>
+      </ThemeProvider>
     </div>
   );
 }
