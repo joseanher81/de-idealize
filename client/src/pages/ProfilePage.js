@@ -59,29 +59,34 @@ const ProfilePage = () => {
   const onSubmit = async (data) => {
     const { location, age, gender, looking, ageMin, ageMax } = data;
 
-    try {
-      const res = await signup({
-        username,
-        password,
-        email,
-        location,
-        age,
-        gender,
-        looking,
-        ageMin,
-        ageMax,
-      });
+    if (ageMin <= ageMax) {
+      try {
+        const user = await signup({
+          username,
+          password,
+          email,
+          location,
+          age,
+          gender,
+          looking,
+          ageMin,
+          ageMax,
+        });
 
-      if (res.user) {
-        console.log("El usuario es " + JSON.stringify(res));
-        setUser(res.user);
-        history.push("/game");
-      } else {
-        console.log("Error en el signup");
-        // TODO mostrar mensaje
+        if (user) {
+          console.log("El usuario es " + JSON.stringify(user));
+          setUser(user);
+          history.push("/game");
+        } else {
+          console.log("Error en el signup");
+          // TODO mostrar mensaje
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
+    } else {
+      console.log("Bad age range");
+      //TODO show message on screen
     }
   };
 
