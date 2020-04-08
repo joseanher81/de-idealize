@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { createBrowserHistory } from "history";
 import { UserContext } from "./../contexts/userContexts";
 import Button from "@material-ui/core/Button";
@@ -16,6 +16,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { ageGenerator } from "./../lib/utils";
+import IconButton from "@material-ui/core/IconButton";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import DoneIcon from "@material-ui/icons/Done";
 
 // Styles
 const useStyles = makeStyles((theme) => ({
@@ -43,6 +46,12 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  input: {
+    display: "none",
+  },
+  icon: {
+    fontSize: "4em",
+  },
 }));
 
 const ProfilePage = () => {
@@ -51,6 +60,9 @@ const ProfilePage = () => {
   const classes = useStyles();
   const { setUser } = useContext(UserContext);
   const { register, handleSubmit, errors, control } = useForm(); // initialise hook-form
+  const [image1, setImage1] = useState();
+  const [image2, setImage2] = useState();
+  const [image3, setImage3] = useState();
 
   // Get data from signup page
   const { username, password, email } = historyBrowser.location.state.data;
@@ -90,6 +102,13 @@ const ProfilePage = () => {
     }
   };
 
+  const handleFiles = (e) => {
+    console.log("Se seleccionó imagen " + e.target.id);
+    if (e.target.id === "icon-button-file1") setImage1(e.target);
+    if (e.target.id === "icon-button-file2") setImage2(e.target);
+    if (e.target.id === "icon-button-file3") setImage3(e.target);
+  };
+
   const inputRef = useRef();
 
   return (
@@ -99,11 +118,72 @@ const ProfilePage = () => {
         <Typography component="h1" variant="h5">
           {username}
         </Typography>
+        <Typography component="body1">Upload 3 cool pics of you</Typography>
         <form
           className={classes.form}
           noValidate
           onSubmit={handleSubmit(onSubmit)}
         >
+          <Grid container>
+            <Grid item xs={4}>
+              <input
+                accept="image/*"
+                className={classes.input}
+                id="icon-button-file1"
+                type="file"
+                onChange={(e) => handleFiles(e)}
+              />
+              <label htmlFor="icon-button-file1">
+                <IconButton
+                  color="primary"
+                  aria-label="upload picture"
+                  component="span"
+                >
+                  {!image1 && <AccountCircleIcon className={classes.icon} />}
+                  {image1 && <DoneIcon className={classes.icon} />}
+                </IconButton>
+              </label>
+            </Grid>
+            <Grid item xs={4}>
+              <input
+                accept="image/*"
+                className={classes.input}
+                id="icon-button-file2"
+                type="file"
+                onChange={(e) => handleFiles(e)}
+              />
+              <label htmlFor="icon-button-file2">
+                <IconButton
+                  color="primary"
+                  aria-label="upload picture"
+                  component="span"
+                >
+                  {!image2 && <AccountCircleIcon className={classes.icon} />}
+                  {image2 && <DoneIcon className={classes.icon} />}
+                </IconButton>
+              </label>
+            </Grid>
+            <Grid item xs={4}>
+              <input
+                accept="image/*"
+                className={classes.input}
+                id="icon-button-file3"
+                type="file"
+                onChange={(e) => handleFiles(e)}
+              />
+              <label htmlFor="icon-button-file3">
+                <IconButton
+                  color="primary"
+                  aria-label="upload picture3"
+                  component="span"
+                >
+                  {!image3 && <AccountCircleIcon className={classes.icon} />}
+                  {image3 && <DoneIcon className={classes.icon} />}
+                </IconButton>
+              </label>
+            </Grid>
+          </Grid>
+
           <TextField
             variant="outlined"
             margin="normal"
