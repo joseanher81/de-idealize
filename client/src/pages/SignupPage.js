@@ -10,6 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
+import { signup } from "./../services/authService";
 
 // Styles
 const useStyles = makeStyles((theme) => ({
@@ -41,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 const SignupPage = () => {
   const classes = useStyles();
   const history = useHistory();
-  //const { setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
   const { register, handleSubmit, errors } = useForm(); // initialise hook-form
 
   const onSubmit = async (data) => {
@@ -49,9 +50,9 @@ const SignupPage = () => {
 
     history.push("/profile", { data: { username, password, email } });
 
-    /*     try {
-      const user = await signup({username, password});
-      if(user){
+    try {
+      const user = await signup({ username, password });
+      if (user) {
         setUser(user);
         history.push("/signup");
       } else {
@@ -60,7 +61,7 @@ const SignupPage = () => {
       }
     } catch (error) {
       console.log(error);
-    } */
+    }
   };
 
   // For link to Login
@@ -93,7 +94,7 @@ const SignupPage = () => {
             id="username"
             label="Username"
             name="username"
-            autoComplete="username"
+            autoComplete="off"
             autoFocus
             inputRef={(e) => {
               register(e, { required: true });
@@ -110,7 +111,7 @@ const SignupPage = () => {
             label="Password"
             type="password"
             id="password"
-            autoComplete="password"
+            autoComplete="off"
             inputRef={register({ required: true })}
             error={!!errors.password}
           />
@@ -123,7 +124,7 @@ const SignupPage = () => {
             label="Email address"
             type="email"
             id="email"
-            autoComplete="email"
+            autoComplete="off"
             inputRef={register({ required: true })}
             error={!!errors.email}
           />

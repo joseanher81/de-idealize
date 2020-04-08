@@ -1,60 +1,59 @@
-import React, { useContext, useRef, useEffect } from 'react';
-import {UserContext} from './../contexts/userContexts';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+import React, { useContext, useRef, useEffect } from "react";
+import { UserContext } from "./../contexts/userContexts";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import { login } from './../services/authService';
+import { login } from "./../services/authService";
 
 // Styles
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
   logo: {
-    fontFamily: 'Sacramento',
-    fontSize: '3.5em',
-    color: '#FF8BA7',
+    fontFamily: "Sacramento",
+    fontSize: "3.5em",
+    color: "#FF8BA7",
   },
 }));
 
 // Component
 const LoginPage = () => {
-
   const classes = useStyles();
   const history = useHistory();
-  const {setUser} = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
   const { register, handleSubmit, errors } = useForm(); // initialise hook-form
 
   const onSubmit = async (data) => {
-    const {username, password} = data;
+    const { username, password } = data;
     try {
-      const user = await login({username, password});
-      if(user){
+      const user = await login({ username, password });
+      if (user) {
         setUser(user);
-        history.push("/signup");
+        history.push("/game");
       } else {
         console.log("No se encuentra el usuario");
         // TODO mostrar mensaje
@@ -65,7 +64,7 @@ const LoginPage = () => {
   };
 
   // For link to Signup
-  const handleLinkSignup = e => {
+  const handleLinkSignup = (e) => {
     e.preventDefault();
     history.push("/signup");
   };
@@ -74,63 +73,67 @@ const LoginPage = () => {
   const inputRef = useRef();
   useEffect(() => inputRef.current.focus(), []);
 
-  return(
+  return (
     <Container component="main" maxWidth="xs">
-    <CssBaseline />
-    <div className={classes.paper}>
-      <Typography className={classes.logo} component="h1" variant="h5">
-        De-Idealize
-      </Typography>
-      <form className={classes.form} noValidate onSubmit={handleSubmit(onSubmit)}>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          id="username"
-          label="Username"
-          name="username"
-          autoComplete="username"
-          autoFocus
-          inputRef={e => {
-            register(e, { required: true });
-            inputRef.current = e;
-          }}
-          error={!!errors.username}
-        />
-        <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          name="password"
-          label="Password"
-          type="password"
-          id="password"
-          autoComplete="password"
-          inputRef={register({ required: true })}
-          error={!!errors.password}
-        />
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          className={classes.submit}
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Typography className={classes.logo} component="h1" variant="h5">
+          De-Idealize
+        </Typography>
+        <form
+          className={classes.form}
+          noValidate
+          onSubmit={handleSubmit(onSubmit)}
         >
-          Log In
-        </Button>
-        <Grid container justify="center">
-          <Grid item>
-            <Link href="#" onClick={handleLinkSignup} variant="body2">
-              {"New here? Sign Up"}
-            </Link>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="username"
+            label="Username"
+            name="username"
+            autoComplete="off"
+            autoFocus
+            inputRef={(e) => {
+              register(e, { required: true });
+              inputRef.current = e;
+            }}
+            error={!!errors.username}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="off"
+            inputRef={register({ required: true })}
+            error={!!errors.password}
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Log In
+          </Button>
+          <Grid container justify="center">
+            <Grid item>
+              <Link href="#" onClick={handleLinkSignup} variant="body2">
+                {"New here? Sign Up"}
+              </Link>
+            </Grid>
           </Grid>
-        </Grid>
-      </form>
-    </div>
-  </Container>
+        </form>
+      </div>
+    </Container>
   );
-}
+};
 
 export default LoginPage;

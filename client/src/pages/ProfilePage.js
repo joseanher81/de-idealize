@@ -60,7 +60,7 @@ const ProfilePage = () => {
     const { location, age, gender, looking, ageMin, ageMax } = data;
 
     try {
-      const user = await signup({
+      const res = await signup({
         username,
         password,
         email,
@@ -71,9 +71,10 @@ const ProfilePage = () => {
         ageMin,
         ageMax,
       });
-      console.log("El usuario es " + JSON.stringify(user));
-      if (user) {
-        setUser(user);
+
+      if (res.user) {
+        console.log("El usuario es " + JSON.stringify(res));
+        setUser(res.user);
         history.push("/game");
       } else {
         console.log("Error en el signup");
