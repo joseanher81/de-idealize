@@ -3,6 +3,7 @@ const router = express.Router();
 const passport = require("passport");
 const { hashPassword } = require("../lib/hashing");
 const User = require("../models/user");
+const { uploadCloudinaryAvatar } = require("./../middleware/uploader");
 
 // Signup
 router.post("/auth/signup", async (req, res, next) => {
@@ -17,7 +18,10 @@ router.post("/auth/signup", async (req, res, next) => {
       lookingFor,
       minAge,
       maxAge,
-    } = req.body; // TODO Add pictures
+      image1,
+      image2,
+      image3,
+    } = req.body;
 
     if (!username || !password) {
       res.status(400).json({ error: "Provide username and password" });
@@ -38,6 +42,9 @@ router.post("/auth/signup", async (req, res, next) => {
         lookingFor,
         minAge,
         maxAge,
+        image1,
+        image2,
+        image3,
         password: hashPassword(password),
       });
 
@@ -55,6 +62,17 @@ router.post("/auth/signup", async (req, res, next) => {
     res.status(500).json({ status: "error", message: "Error creating user" });
   }
 });
+
+// Upload photo
+router.post(
+  "/profilepic",
+  uploadCloudinaryAvatar.single("image"),
+  async (req, res) => {
+    console.log(req.file);
+
+    return res.json({ status: "ok", file: req.file });
+  }
+);
 
 // Login user
 router.post("/auth/login", passport.authenticate("local"), (req, res) => {

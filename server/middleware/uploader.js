@@ -1,19 +1,19 @@
-import multer from "multer";
-import cloudinaryStorage from "multer-storage-cloudinary";
-import cloudinary from "cloudinary";
-import _ from "lodash";
+const multer = require("multer");
+const cloudinaryStorage = require("multer-storage-cloudinary");
+const cloudinary = require("cloudinary");
+const _ = require("lodash");
+
+cloudinary.config({
+  cloud_name: "hallerjoseph",
+  api_key: "913535749451377",
+  api_secret: "bAghTJdVhDxlM1ruum8S_XV8Akw",
+});
 
 const storage = cloudinaryStorage({
   cloudinary: cloudinary,
-  folder: "avatar",
+  folder: "deidealize",
   allowedFormats: ["jpg", "png"],
-  filename: function (req, file, cb) {
-    const userID = _.get(req, "user._id");
-    const userFile = userID ? `avatar${userID}` : file;
-    cb(undefined, userFile);
-  },
 });
 
-export const uploadCloudinaryAvatar = multer({ storage });
-
-//export const upload = multer({ dest: "uploads/" });
+const uploadCloudinaryAvatar = multer({ storage });
+module.exports = { uploadCloudinaryAvatar };
