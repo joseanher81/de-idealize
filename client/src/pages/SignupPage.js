@@ -50,7 +50,7 @@ const SignupPage = () => {
 
     history.push("/profile", { data: { username, password, email } });
 
-    try {
+    /*     try {
       const user = await signup({ username, password });
       if (user) {
         setUser(user);
@@ -61,7 +61,7 @@ const SignupPage = () => {
       }
     } catch (error) {
       console.log(error);
-    }
+    } */
   };
 
   // For link to Login

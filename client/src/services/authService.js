@@ -1,5 +1,4 @@
 import axios from "axios";
-require("dotenv").config();
 
 const service = axios.create({
   baseURL: "http://localhost:5000/",
@@ -18,6 +17,9 @@ export const signup = async (formData) => {
     lookingFor,
     minAge,
     maxAge,
+    image1,
+    image2,
+    image3,
   } = formData;
 
   try {
@@ -31,6 +33,9 @@ export const signup = async (formData) => {
       lookingFor,
       minAge,
       maxAge,
+      image1,
+      image2,
+      image3,
     });
 
     console.log("Signup user " + JSON.stringify(res));
@@ -56,42 +61,6 @@ export const login = async (formData) => {
     console.log(`Error ${error}`);
   }
 };
-
-// Upload file
-/* export const upload = async (formData) => {
-  const {file } = formData;
-
-  try {
-    const res = await service.post('auth/upload', {
-      file
-    });
-  
-    console.log("File uploaded " + res);
-    return res.data;
-
-  } catch (error) {
-    console.log(`Error ${error}`);
-  }
-} */
-
-// Edit
-/* export const edit = async (formData) => {
-  const {username, password, campus } = formData;
-
-  try {
-    const res = await service.post('auth/edit', {
-      username, 
-      password,
-      campus
-    });
-  
-    console.log("Profile edited " + res);
-    return res.data;
-
-  } catch (error) {
-    console.log(`Error ${error}`);
-  }
-} */
 
 // Log Out
 export const logout = async () => {

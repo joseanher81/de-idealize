@@ -19,6 +19,7 @@ import { ageGenerator } from "./../lib/utils";
 import IconButton from "@material-ui/core/IconButton";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import DoneIcon from "@material-ui/icons/Done";
+import { changeAvatar } from "./../services/userService";
 
 // Styles
 const useStyles = makeStyles((theme) => ({
@@ -71,6 +72,16 @@ const ProfilePage = () => {
   const onSubmit = async (data) => {
     const { location, age, gender, looking, ageMin, ageMax } = data;
 
+    // Upload images
+    let image1, image2, image3;
+    try {
+      image1 = await changeAvatar(data.file1[0]);
+      image2 = await changeAvatar(data.file2[0]);
+      image3 = await changeAvatar(data.file3[0]);
+    } catch (error) {
+      console.log("Error uploading file " + error);
+    }
+
     if (ageMin <= ageMax) {
       try {
         const user = await signup({
@@ -83,6 +94,9 @@ const ProfilePage = () => {
           looking,
           ageMin,
           ageMax,
+          image1,
+          image2,
+          image3,
         });
 
         if (user) {
@@ -104,9 +118,9 @@ const ProfilePage = () => {
 
   const handleFiles = (e) => {
     console.log("Se seleccionó imagen " + e.target.id);
-    if (e.target.id === "icon-button-file1") setImage1(e.target);
-    if (e.target.id === "icon-button-file2") setImage2(e.target);
-    if (e.target.id === "icon-button-file3") setImage3(e.target);
+    if (e.target.id === "file1") setImage1(e.target);
+    if (e.target.id === "file2") setImage2(e.target);
+    if (e.target.id === "file3") setImage3(e.target);
   };
 
   const inputRef = useRef();
@@ -129,11 +143,13 @@ const ProfilePage = () => {
               <input
                 accept="image/*"
                 className={classes.input}
-                id="icon-button-file1"
+                id="file1"
+                name="file1"
                 type="file"
                 onChange={(e) => handleFiles(e)}
+                ref={register()}
               />
-              <label htmlFor="icon-button-file1">
+              <label htmlFor="file1">
                 <IconButton
                   color="primary"
                   aria-label="upload picture"
@@ -148,11 +164,13 @@ const ProfilePage = () => {
               <input
                 accept="image/*"
                 className={classes.input}
-                id="icon-button-file2"
+                id="file2"
+                name="file2"
                 type="file"
                 onChange={(e) => handleFiles(e)}
+                ref={register()}
               />
-              <label htmlFor="icon-button-file2">
+              <label htmlFor="file2">
                 <IconButton
                   color="primary"
                   aria-label="upload picture"
@@ -167,11 +185,13 @@ const ProfilePage = () => {
               <input
                 accept="image/*"
                 className={classes.input}
-                id="icon-button-file3"
+                id="file3"
+                name="file3"
                 type="file"
                 onChange={(e) => handleFiles(e)}
+                ref={register()}
               />
-              <label htmlFor="icon-button-file3">
+              <label htmlFor="file3">
                 <IconButton
                   color="primary"
                   aria-label="upload picture3"
