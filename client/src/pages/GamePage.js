@@ -5,6 +5,7 @@ import NavBar from "./../components/game/NavBar";
 import Head from "./../components/game/Head";
 import Chat from "./../components/game/Chat";
 import Foot from "./../components/game/Foot";
+import { Container, Box } from "@material-ui/core";
 
 const GamePage = () => {
   const { user } = useContext(UserContext);
@@ -12,12 +13,12 @@ const GamePage = () => {
   console.log("GAME " + JSON.stringify(user));
 
   return (
-    <>
+    <Box>
       <NavBar />
-      <Head />
+      <Head user={user} />
       <Chat />
       <Foot />
-    </>
+    </Box>
   );
 };
 

@@ -11,8 +11,8 @@ import Grid from "@material-ui/core/Grid";
 const useStyles = makeStyles((theme) => ({
   stickToBottom: {
     width: "100%",
-    position: "fixed",
     bottom: 0,
+    height: "15vh",
   },
   submit: {
     margin: theme.spacing(2, 0, 2, 0),
