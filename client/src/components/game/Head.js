@@ -7,7 +7,7 @@ import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
   head: {
-    height: "20vh",
+    height: "25vh",
   },
   name: {
     color: "#594A4E",
