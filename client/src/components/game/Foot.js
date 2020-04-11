@@ -7,8 +7,7 @@ import IconButton from "@material-ui/core/IconButton";
 import SendIcon from "@material-ui/icons/Send";
 import { useForm } from "react-hook-form";
 import Grid from "@material-ui/core/Grid";
-import io from "socket.io-client";
-const socket = io("localhost:5000");
+import { sendMessage } from "./../../services/socketService";
 
 const useStyles = makeStyles((theme) => ({
   stickToBottom: {
@@ -30,17 +29,9 @@ const Foot = () => {
   const onSubmit = async (data) => {
     const { message } = data;
     console.log("Mensaje " + message);
+
     // Enviar información
-    socket.emit(
-      "enviarMensaje",
-      {
-        usuario: "Fernando",
-        mensaje: message,
-      },
-      function (resp) {
-        console.log("respuesta server: ", resp);
-      }
-    );
+    sendMessage("Prueba", message);
   };
 
   return (
