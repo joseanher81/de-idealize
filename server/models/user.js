@@ -18,6 +18,7 @@ const userSchema = new Schema(
     blacklist: [{ type: Schema.Types.ObjectId, ref: "User" }],
     role: { type: Schema.Types.ObjectId, ref: "Role" },
     currentGame: { type: Schema.Types.ObjectId, ref: "Game" },
+    socketId: String,
   },
   {
     timestamps: true,
