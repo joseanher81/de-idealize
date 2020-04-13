@@ -25,9 +25,9 @@ const GamePage = () => {
 
         // Check if user has an ongoing game
         if (!user.currentGame) {
-          console.log("USER HAS NOT CURRENT GAME");
+          console.log("USER HAS NOT CURRENT GAME and his id is " + user._id);
           // Create new game
-          setUser(createGame(user.username));
+          setUser(createGame(user._id));
         } else {
         }
       })

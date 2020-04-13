@@ -5,7 +5,7 @@ const api = axios.create({
   withCredentials: true,
 });
 
-export const createGame = async (username) => {
-  const res = await api.post("/game/new", username);
+export const createGame = async (userid) => {
+  const res = await api.post("/game/new", { userid });
   return res.data.game;
 };
