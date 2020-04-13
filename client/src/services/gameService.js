@@ -7,5 +7,6 @@ const api = axios.create({
 
 export const createGame = async (userid) => {
   const res = await api.post("/game/new", { userid });
+  console.log("createGame response " + JSON.stringify(res));
   return res.data.game;
 };
