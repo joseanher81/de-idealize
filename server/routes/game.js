@@ -10,17 +10,52 @@ router.post("/game/new", async (req, res, next) => {
   // Get current player
   const { userid } = req.body;
   const currentUser = await User.findById(userid);
+  //console.log("Usuario que vuelve: " + currentUser);
 
   // Try to find a suitable match
+  const { lookingFor, minAge, maxAge, username, age, gender } = currentUser;
+  const matchedUser = await User.findOne({
+    $and: [
+      {
+        minAge: {
+          $lte: age,
+        },
+      },
+      {
+        maxAge: {
+          $gte: age,
+        },
+      },
+      {
+        lookingFor: gender,
+      },
+      {
+        age: {
+          $lte: maxAge,
+        },
+      },
+      {
+        age: {
+          $gte: minAge,
+        },
+      },
+      {
+        gender: lookingFor,
+      },
+      {
+        currentGame: null,
+      },
+      {
+        username: {
+          $ne: username,
+        },
+      },
+    ],
+  });
+
+  console.log("Usuario encontrado: " + matchedUser);
 
   // Create game
-
-  if (req.user) {
-    req.logout();
-    return res.json({ status: "ok", message: "Log out success" });
-  } else {
-    return res
-      .status(401)
-      .json({ status: "error", message: "You have to be logged in to logout" });
-  }
 });
+
+module.exports = router;
