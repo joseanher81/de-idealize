@@ -83,4 +83,18 @@ router.post("/game/new", async (req, res, next) => {
   }
 });
 
+// Get current game
+router.get("/game/get", async (req, res, next) => {
+  try {
+    // Get game from current player
+    const currentUser = await User.findById(req.user).populate("currentGame");
+
+    console.log("Juego encontrado: " + currentUser.currentGame);
+    res.json({ status: "ok", game: currentUser.currentGame });
+  } catch (error) {
+    console.log("Error " + error);
+    res.status(500).json({ status: "error", message: error });
+  }
+});
+
 module.exports = router;

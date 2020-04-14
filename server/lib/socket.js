@@ -16,7 +16,7 @@ io.on("connection", function (client) {
     });
   });
 
-  // Mensajes privados
+  // Pivate messages
   client.on("mensajePrivado", (data) => {
     let persona = usuarios.getPersona(client.id);
     client.broadcast

@@ -13,3 +13,7 @@ export const sendMessage = (user, message) => {
     }
   );
 };
+
+export const getSocketId = () => {
+  return socket.id;
+};
