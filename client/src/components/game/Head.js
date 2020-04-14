@@ -21,12 +21,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Head = (props) => {
   const classes = useStyles();
-  const { user } = props;
+  const { rival } = props;
 
   return (
     <Container className={classes.head}>
       <Typography component="h1" variant="h5" className={classes.name}>
-        {user.username}
+        {rival && rival.username}
       </Typography>
       <Grid container>
         <Grid item xs={4}>

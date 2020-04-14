@@ -61,18 +61,23 @@ router.post("/game/new", async (req, res, next) => {
 
     const newGame = await Game.create({
       playerTurn: userid,
-      chat: newChat,
-      playerA: currentUser,
-      playerB: matchedUser,
+      chat: newChat._id,
+      playerA: currentUser._id,
+      playerB: matchedUser._id,
     });
 
     // Add game to players
-    currentUser.currentGame = newGame;
-    currentUser.save();
-    matchedUser.currentGame = newGame;
-    matchedUser.save();
+    currentUser.currentGame = newGame._id;
+    await currentUser.save();
+    matchedUser.currentGame = newGame._id;
+    await matchedUser.save();
 
-    res.json({ status: "ok", game: newGame.toJSON() });
+    res.json({
+      status: "ok",
+      game: newGame,
+      playerA: currentUser,
+      playerB: matchedUser,
+    });
   } catch (error) {
     console.log("ERROR CREATING NEW GAME " + error);
   }

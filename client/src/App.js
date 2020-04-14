@@ -9,25 +9,29 @@ import SignupPage from "./pages/SignupPage";
 import ProfilePage from "./pages/ProfilePage";
 import GamePage from "./pages/GamePage";
 import { loggedin } from "./services/authService";
+import { useHistory } from "react-router-dom";
 
 function App() {
   const theme = createTheme();
   const { setUser } = useContext(UserContext);
+  const history = useHistory();
 
-  // useEffect(() => {
-  //   // When the app starts this runs only once
-  //   console.log("WELCOME TO APP!");
+  useEffect(() => {
+    // When the app starts this runs only once
+    console.log("WELCOME TO APP!");
 
-  //   // Try to get the current logged in user from our backend
-  //   loggedin()
-  //     .then((user) => {
-  //       console.log(`Welcome user` + JSON.stringify(user));
-  //       setUser(user);
-  //     })
-  //     .catch((e) => {
-  //       console.error("No user logged in ");
-  //     });
-  // }, []);
+    // Try to get the current logged in user from our backend
+    loggedin()
+      .then((user) => {
+        console.log(`Welcome user` + JSON.stringify(user));
+        console.log("HACIENDO LOGGEDIN");
+        setUser(user);
+        if (user) history.push("/game");
+      })
+      .catch((e) => {
+        console.error("No user logged in ");
+      });
+  }, []);
 
   return (
     <div className="App">
