@@ -19,6 +19,5 @@ export const getUser = async (userid) => {
 
 export const saveSocketId = async (userid, socketid) => {
   const res = await api.post("/user/saveSocketId", { userid, socketid });
-  console.log("AYYYY " + res);
   return res.data;
 };

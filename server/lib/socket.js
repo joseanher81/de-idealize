@@ -10,7 +10,8 @@ io.on("connection", function (client) {
 
   // Listen to client
   client.on("enviarMensaje", (data, callback) => {
-    console.log(data);
+    const { to, message } = data;
+    console.log("DATA " + to + " " + message);
     callback({
       resp: "TODO SALIO BIEN!",
     });
@@ -18,9 +19,8 @@ io.on("connection", function (client) {
 
   // Pivate messages
   client.on("mensajePrivado", (data) => {
-    let persona = usuarios.getPersona(client.id);
-    client.broadcast
-      .to(data.para)
-      .emit("mensajePrivado", crearMensaje(persona.nombre, data.mensaje));
+    const { to, message } = data;
+    //let persona = usuarios.getPersona(client.id);
+    client.broadcast.to(to).emit("mensajePrivado", message);
   });
 });

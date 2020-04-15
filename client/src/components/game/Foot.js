@@ -22,16 +22,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Foot = () => {
+const Foot = (props) => {
   const classes = useStyles();
   const { register, handleSubmit, errors } = useForm(); // initialise hook-form
+  const { rival } = props;
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data, e) => {
     const { message } = data;
     console.log("Mensaje " + message);
 
     // Enviar información
-    sendMessage("Prueba", message);
+    sendMessage(rival.socketId, message);
+
+    // Reset input
+    e.target.reset();
   };
 
   return (

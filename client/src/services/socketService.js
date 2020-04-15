@@ -1,12 +1,13 @@
 import io from "socket.io-client";
-const socket = io("localhost:5000");
+export const socket = io("localhost:5000");
 
-export const sendMessage = (user, message) => {
+// Send a private message
+export const sendMessage = (rivalId, message) => {
   socket.emit(
-    "enviarMensaje",
+    "mensajePrivado",
     {
-      usuario: user,
-      mensaje: message,
+      to: rivalId,
+      message: message,
     },
     function (resp) {
       console.log("respuesta server: ", resp);
@@ -14,6 +15,12 @@ export const sendMessage = (user, message) => {
   );
 };
 
+// Obtain socket id of client
 export const getSocketId = () => {
   return socket.id;
 };
+
+// Listen to private message
+/* socket.on("mensajePrivado", function (msg) {
+  console.log("Mensaje Privado:", msg);
+}); */

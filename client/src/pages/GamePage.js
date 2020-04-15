@@ -31,6 +31,7 @@ const GamePage = () => {
 
     // Check if user has an ongoing game
     if (!user.currentGame) {
+      // USER HAS NO GAME
       console.log("USER HAS NOT CURRENT GAME and his id is " + user._id);
       console.log("3");
 
@@ -49,6 +50,7 @@ const GamePage = () => {
           console.log("Error creating game " + e);
         });
     } else {
+      // USER HAS GAME
       console.log("USER HAS GAME and his id is " + user._id);
       console.log("7");
 
@@ -82,7 +84,7 @@ const GamePage = () => {
       <NavBar />
       <Head rival={rival} />
       <Chat />
-      <Foot />
+      <Foot rival={rival} />
     </Box>
   );
 };
