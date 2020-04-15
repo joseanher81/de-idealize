@@ -6,7 +6,7 @@ export const sendMessage = (rivalId, message) => {
   socket.emit(
     "mensajePrivado",
     {
-      to: rivalId,
+      user: rivalId,
       message: message,
     },
     function (resp) {
@@ -18,6 +18,10 @@ export const sendMessage = (rivalId, message) => {
 // Obtain socket id of client
 export const getSocketId = () => {
   return socket.id;
+};
+
+export const storeClientInfo = (user) => {
+  socket.emit("storeClientInfo", { user: user });
 };
 
 // Listen to private message

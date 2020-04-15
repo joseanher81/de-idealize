@@ -7,12 +7,13 @@ import Head from "./../components/game/Head";
 import Chat from "./../components/game/Chat";
 import Foot from "./../components/game/Foot";
 import { Container, Box } from "@material-ui/core";
-import { getSocketId } from "./../services/socketService";
+import { getSocketId, storeClientInfo } from "./../services/socketService";
 
 const GamePage = () => {
   const { user, setUser } = useContext(UserContext);
   const [game, setGame] = useState();
   const [rival, setRival] = useState();
+  const [messages, setMessages] = useState([]);
 
   console.log("1");
 
@@ -21,13 +22,16 @@ const GamePage = () => {
     console.log("2");
 
     // Save current socket id on database
-    let socketId = getSocketId();
+    //let socketId = getSocketId();
 
-    saveSocketId(user._id, socketId)
-      .then()
-      .catch((e) => {
-        console.log("Error " + e);
-      });
+    // Save client info on socket server
+    storeClientInfo(user._id);
+
+    // saveSocketId(user._id, socketId)
+    //   .then()
+    //   .catch((e) => {
+    //     console.log("Error " + e);
+    //   });
 
     // Check if user has an ongoing game
     if (!user.currentGame) {
@@ -83,8 +87,8 @@ const GamePage = () => {
     <Box>
       <NavBar />
       <Head rival={rival} />
-      <Chat />
-      <Foot rival={rival} />
+      <Chat messages={messages} setMessages={setMessages} />
+      <Foot rival={rival} messages={messages} setMessages={setMessages} />
     </Box>
   );
 };

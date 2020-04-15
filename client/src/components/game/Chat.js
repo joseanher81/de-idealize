@@ -12,8 +12,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Chat = () => {
-  const [messages, setMessages] = useState([]);
+const Chat = (props) => {
+  const { messages, setMessages } = props;
   const classes = useStyles();
 
   useEffect(() => {
@@ -22,6 +22,8 @@ const Chat = () => {
       "mensajePrivado",
       function (msg) {
         console.log("Mensaje Privado:", msg);
+
+        // Print msg on screen
         setMessages([...messages, msg]);
       },
       []
