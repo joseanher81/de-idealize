@@ -5,9 +5,14 @@ import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles((theme) => ({
   leftChat: {
-    justify: "left",
-    paddingTop: "1em",
+    justifyContent: "flex-start",
+    marginTop: "1em",
     paddingLeft: "1em",
+  },
+  rightChat: {
+    justifyContent: "flex-end",
+    marginTop: "1em",
+    paddingRight: "1em",
   },
   text: {
     textAlign: "left",
@@ -23,10 +28,13 @@ const useStyles = makeStyles((theme) => ({
 
 const Bubble = (props) => {
   const classes = useStyles();
-  const { msg } = props;
+  const { msg, ownMsg } = props;
 
   return (
-    <Grid container className={classes.leftChat}>
+    <Grid
+      container
+      className={`${ownMsg ? classes.leftChat : classes.rightChat}`}
+    >
       <Grid item xs={6} className={classes.text}>
         {msg}
       </Grid>
