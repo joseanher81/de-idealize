@@ -41,6 +41,8 @@ io.on("connection", function (client) {
     console.log(
       "Mensaje privado - client:" + JSON.stringify(toClient.socketId)
     );
-    client.broadcast.to(toClient.socketId).emit("mensajePrivado", message);
+    client.broadcast
+      .to(toClient.socketId)
+      .emit("mensajePrivado", { text: message, own: false });
   });
 });

@@ -35,7 +35,7 @@ const Foot = (props) => {
     sendMessage(rival._id, message);
 
     // Print msg on screen
-    setMessages([...messages, message]);
+    setMessages([...messages, { text: message, own: true }]);
 
     // Reset input
     e.target.reset();
