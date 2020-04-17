@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { MessagesContext } from "./../../contexts/messagesContext";
 import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
@@ -23,9 +24,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Foot = (props) => {
+  const { messages, setMessages } = useContext(MessagesContext);
   const classes = useStyles();
   const { register, handleSubmit, errors } = useForm(); // initialise hook-form
-  const { rival, messages, setMessages } = props;
+  const { rival } = props;
 
   const onSubmit = async (data, e) => {
     const { message } = data;

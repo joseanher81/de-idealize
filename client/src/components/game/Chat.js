@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { MessagesContext } from "./../../contexts/messagesContext";
 import Grid from "@material-ui/core/Box";
 import Bubble from "./Bubble";
 import { socket } from "./../../services/socketService";
@@ -14,24 +15,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Chat = (props) => {
-  const { messages, setMessages } = props;
+const Chat = () => {
   const classes = useStyles();
   const refContainer = useRef();
+  const { messages, setMessages } = useContext(MessagesContext);
 
   useEffect(() => {
     // Listen to private message
-    socket.on(
-      "mensajePrivado",
-      function (msg) {
-        console.log("Mensaje Privado:", msg);
+    socket.on("mensajePrivado", function (msg) {
+      console.log("Mensaje Privado:", messages);
 
-        // Print msg on screen
-        setMessages([...messages, msg]);
-      },
-      []
-    );
-  });
+      // Print msg on screen
+      setMessages((oldmessages) => [...oldmessages, msg]);
+    });
+  }, []);
 
   useEffect(() => {
     // Prior to getting your messages.

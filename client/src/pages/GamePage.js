@@ -13,7 +13,6 @@ const GamePage = () => {
   const { user, setUser } = useContext(UserContext);
   const [game, setGame] = useState();
   const [rival, setRival] = useState();
-  const [messages, setMessages] = useState([]);
 
   console.log("1");
 
@@ -87,8 +86,8 @@ const GamePage = () => {
     <Box>
       <NavBar />
       <Head rival={rival} />
-      <Chat messages={messages} setMessages={setMessages} />
-      <Foot rival={rival} messages={messages} setMessages={setMessages} />
+      <Chat />
+      <Foot rival={rival} />
     </Box>
   );
 };

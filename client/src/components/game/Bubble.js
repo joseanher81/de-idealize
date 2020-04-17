@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: "1em",
     backgroundColor: "#c3f0ca",
     border: "1px solid #ffc6c7",
-    borderRadius: "5px",
+    borderRadius: "15px 15px 15px 0",
   },
   ownText: {
     textAlign: "left",
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: "1em",
     backgroundColor: "#ffc6c7",
     border: "1px solid #ffc6c7",
-    borderRadius: "5px",
+    borderRadius: "15px 15px 0 15px",
   },
 }));
 

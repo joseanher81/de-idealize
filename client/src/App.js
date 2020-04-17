@@ -10,6 +10,7 @@ import ProfilePage from "./pages/ProfilePage";
 import GamePage from "./pages/GamePage";
 import { loggedin } from "./services/authService";
 import { useHistory } from "react-router-dom";
+import MessagesContextProvider from "./contexts/messagesContext";
 
 function App() {
   const theme = createTheme();
@@ -41,7 +42,9 @@ function App() {
           <Route exact path="/" component={LoginPage} />
           <Route exact path="/signup" component={SignupPage} />
           <Route exact path="/profile" component={ProfilePage} />
-          <Route exact path="/game" component={GamePage} />
+          <MessagesContextProvider>
+            <Route exact path="/game" component={GamePage} />
+          </MessagesContextProvider>
         </Switch>
       </ThemeProvider>
     </div>
