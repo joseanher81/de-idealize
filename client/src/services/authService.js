@@ -21,6 +21,7 @@ export const signup = async (formData) => {
     image2,
     image3,
   } = formData;
+  console.log("Al formData llega " + JSON.stringify(formData));
 
   try {
     const res = await service.post("/auth/signup", {

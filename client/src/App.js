@@ -9,10 +9,13 @@ import SignupPage from "./pages/SignupPage";
 import ProfilePage from "./pages/ProfilePage";
 import GamePage from "./pages/GamePage";
 import { loggedin } from "./services/authService";
+import { useHistory } from "react-router-dom";
+import MessagesContextProvider from "./contexts/messagesContext";
 
 function App() {
   const theme = createTheme();
   const { setUser } = useContext(UserContext);
+  const history = useHistory();
 
   useEffect(() => {
     // When the app starts this runs only once
@@ -22,7 +25,9 @@ function App() {
     loggedin()
       .then((user) => {
         console.log(`Welcome user` + JSON.stringify(user));
+        console.log("HACIENDO LOGGEDIN");
         setUser(user);
+        if (user) history.push("/game");
       })
       .catch((e) => {
         console.error("No user logged in ");
@@ -37,7 +42,9 @@ function App() {
           <Route exact path="/" component={LoginPage} />
           <Route exact path="/signup" component={SignupPage} />
           <Route exact path="/profile" component={ProfilePage} />
-          <Route exact path="/game" component={GamePage} />
+          <MessagesContextProvider>
+            <Route exact path="/game" component={GamePage} />
+          </MessagesContextProvider>
         </Switch>
       </ThemeProvider>
     </div>

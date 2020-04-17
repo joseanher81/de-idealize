@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { MessagesContext } from "./../../contexts/messagesContext";
 import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
@@ -7,6 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import SendIcon from "@material-ui/icons/Send";
 import { useForm } from "react-hook-form";
 import Grid from "@material-ui/core/Grid";
+import { sendMessage } from "./../../services/socketService";
 
 const useStyles = makeStyles((theme) => ({
   stickToBottom: {
@@ -21,13 +23,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Foot = () => {
+const Foot = (props) => {
+  const { messages, setMessages } = useContext(MessagesContext);
   const classes = useStyles();
   const { register, handleSubmit, errors } = useForm(); // initialise hook-form
+  const { rival } = props;
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data, e) => {
     const { message } = data;
     console.log("Mensaje " + message);
+
+    // Enviar información
+    sendMessage(rival._id, message);
+
+    // Print msg on screen
+    setMessages([...messages, { text: message, own: true }]);
+
+    // Reset input
+    e.target.reset();
   };
 
   return (

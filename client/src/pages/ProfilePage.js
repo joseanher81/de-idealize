@@ -66,7 +66,7 @@ const ProfilePage = () => {
 
   //Handle submit
   const onSubmit = async (data) => {
-    const { location, age, gender, looking, ageMin, ageMax } = data;
+    const { location, age, gender, lookingFor, minAge, maxAge } = data;
 
     // Upload images
     let image1, image2, image3;
@@ -78,7 +78,7 @@ const ProfilePage = () => {
       console.log("Error uploading file " + error);
     }
 
-    if (ageMin <= ageMax) {
+    if (minAge <= maxAge) {
       try {
         const user = await signup({
           username,
@@ -87,9 +87,9 @@ const ProfilePage = () => {
           location,
           age,
           gender,
-          looking,
-          ageMin,
-          ageMax,
+          lookingFor,
+          minAge,
+          maxAge,
           image1,
           image2,
           image3,
@@ -281,7 +281,7 @@ const ProfilePage = () => {
             fullWidth
             variant="outlined"
             className={classes.formControl}
-            error={!!errors.looking}
+            error={!!errors.lookingFor}
           >
             <InputLabel id="looking-label">Looking for</InputLabel>
 
@@ -296,7 +296,7 @@ const ProfilePage = () => {
                   <MenuItem value={"Both"}>Both</MenuItem>
                 </Select>
               }
-              name="looking"
+              name="lookingFor"
               rules={{ required: "this is required" }}
               control={control}
               defaultValue=""
@@ -309,7 +309,7 @@ const ProfilePage = () => {
                 fullWidth
                 variant="outlined"
                 className={classes.formControl}
-                error={!!errors.ageMin}
+                error={!!errors.minAge}
               >
                 <InputLabel id="age-min-label">From</InputLabel>
 
@@ -328,7 +328,7 @@ const ProfilePage = () => {
                       })}
                     </Select>
                   }
-                  name="ageMin"
+                  name="minAge"
                   rules={{ required: "this is required" }}
                   control={control}
                   defaultValue=""
@@ -341,7 +341,7 @@ const ProfilePage = () => {
                 fullWidth
                 variant="outlined"
                 className={classes.formControl}
-                error={!!errors.ageMax}
+                error={!!errors.maxAge}
               >
                 <InputLabel id="age-max-label">To</InputLabel>
 
@@ -360,7 +360,7 @@ const ProfilePage = () => {
                       })}
                     </Select>
                   }
-                  name="ageMax"
+                  name="maxAge"
                   rules={{ required: "this is required" }}
                   control={control}
                   defaultValue=""
