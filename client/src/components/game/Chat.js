@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Box";
 import Bubble from "./Bubble";
@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
 const Chat = (props) => {
   const { messages, setMessages } = props;
   const classes = useStyles();
+  const refContainer = useRef();
 
   useEffect(() => {
     // Listen to private message
@@ -32,8 +33,21 @@ const Chat = (props) => {
     );
   });
 
+  useEffect(() => {
+    // Prior to getting your messages.
+    let shouldScroll =
+      refContainer.current.scrollTop + refContainer.current.clientHeight ===
+      refContainer.current.scrollHeight;
+
+    console.log("Should scroll " + shouldScroll);
+    // After getting your messages.
+    if (!shouldScroll) {
+      refContainer.current.scrollTop = refContainer.current.scrollHeight;
+    }
+  }, [messages]);
+
   return (
-    <Grid container className={classes.chat}>
+    <Grid container className={classes.chat} ref={refContainer}>
       {messages.map((msg, i) => {
         return <Bubble key={i} msg={msg} />;
       })}
