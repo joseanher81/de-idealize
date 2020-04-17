@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     bottom: 0,
     height: "15vh",
+    borderTop: "1px solid #ff8ba7",
   },
   submit: {
     margin: theme.spacing(2, 0, 2, 0),

@@ -9,6 +9,7 @@ import Avatar from "@material-ui/core/Avatar";
 const useStyles = makeStyles((theme) => ({
   head: {
     height: "25vh",
+    borderBottom: "1px solid #ff8ba7",
   },
   name: {
     color: "#594A4E",
@@ -19,8 +20,11 @@ const useStyles = makeStyles((theme) => ({
     color: "#FF8BA7",
   },
   image: {
-    width: theme.spacing(12),
-    height: theme.spacing(12),
+    width: theme.spacing(11),
+    height: theme.spacing(11),
+    filter: "blur(5px)",
+    border: "2px solid #ff8ba7",
+    transform: "scale(1.1)",
   },
   item: {
     marginTop: "1em",
@@ -39,22 +43,22 @@ const Head = (props) => {
       <Grid container>
         <Grid item xs={4} className={classes.item} align="center">
           <Avatar
-            alt="Remy Sharp"
-            src="https://i.pinimg.com/originals/33/4f/5b/334f5bce0d22bc296a315839308d24a0.jpg"
+            alt={rival?.username}
+            src={rival?.image1.url}
             className={classes.image}
           />
         </Grid>
         <Grid item xs={4} className={classes.item} align="center">
           <Avatar
-            alt="Remy Sharp"
-            src="https://i.pinimg.com/originals/33/4f/5b/334f5bce0d22bc296a315839308d24a0.jpg"
+            alt={rival?.username}
+            src={rival?.image2.url}
             className={classes.image}
           />
         </Grid>
         <Grid item xs={4} className={classes.item} align="center">
           <Avatar
-            alt="Remy Sharp"
-            src="https://i.pinimg.com/originals/33/4f/5b/334f5bce0d22bc296a315839308d24a0.jpg"
+            alt={rival?.username}
+            src={rival?.image3.url}
             className={classes.image}
           />
         </Grid>
