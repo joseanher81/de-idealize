@@ -1,9 +1,10 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { MessagesContext } from "./../../contexts/messagesContext";
 
 const useStyles = makeStyles((theme) => ({
   boxOutter: {
@@ -26,15 +27,20 @@ const Timer = (props) => {
   const [minutes, setMinutes] = useState(9);
   const [seconds, setSeconds] = useState(59);
   const [percentage, setPercentage] = useState(100);
+  const { gameStatus, setGameStatus } = useContext(MessagesContext);
 
   useEffect(() => {
     let currentMilis = 0;
-    let currentTime = 90;
-    let initialTime = 90;
+    let currentTime = 10;
+    let initialTime = 10;
 
     const intervalId = setInterval(function () {
       currentMilis++;
       if (currentMilis % 100 === 0) currentTime--;
+      if (currentTime <= 0) {
+        setGameStatus("LOSE");
+        clearInterval(intervalId);
+      }
       setMinutes(getMinutes());
       setSeconds(getSeconds());
       setPercentage(getPercentage());

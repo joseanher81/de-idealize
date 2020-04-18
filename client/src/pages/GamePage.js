@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "./../contexts/userContexts";
-//import { MessagesContext } from "./../contexts/messagesContext";
+import { MessagesContext } from "./../contexts/messagesContext";
 import { createGame, getGame } from "./../services/gameService";
 import { getUser, saveSocketId } from "./../services/userService";
 import NavBar from "./../components/game/NavBar";
@@ -15,6 +15,7 @@ const GamePage = () => {
   //const { playerTurn, setPlayerTurn } = useContext(MessagesContext);
   const [game, setGame] = useState();
   const [rival, setRival] = useState();
+  const { gameStatus, setGameStatus } = useContext(MessagesContext);
 
   console.log("1");
 
@@ -83,6 +84,11 @@ const GamePage = () => {
         });
     }
   }, []);
+
+  useEffect(() => {
+    if (gameStatus === "LOSE") console.log("YOU HAVE LOST!!!");
+    if (gameStatus === "WIN") console.log("YOU HAVE WIN!!!");
+  }, [gameStatus]);
 
   return (
     <Box>
