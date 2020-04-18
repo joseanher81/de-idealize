@@ -15,10 +15,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Chat = () => {
+const Chat = (props) => {
   const classes = useStyles();
   const refContainer = useRef();
   const { messages, setMessages } = useContext(MessagesContext);
+  const { rival, game, setGame } = props;
 
   useEffect(() => {
     // Listen to private message
@@ -27,6 +28,11 @@ const Chat = () => {
 
       // Print msg on screen
       setMessages((oldmessages) => [...oldmessages, msg]);
+
+      // Cambiar turno y guardar en ddbb
+      setGame({ ...game, playerTurn: rival?._id });
+
+      // TODO Guardar en DDBB
     });
   }, []);
 

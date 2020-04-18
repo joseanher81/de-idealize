@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "./../contexts/userContexts";
+//import { MessagesContext } from "./../contexts/messagesContext";
 import { createGame, getGame } from "./../services/gameService";
 import { getUser, saveSocketId } from "./../services/userService";
 import NavBar from "./../components/game/NavBar";
@@ -11,6 +12,7 @@ import { getSocketId, storeClientInfo } from "./../services/socketService";
 
 const GamePage = () => {
   const { user, setUser } = useContext(UserContext);
+  //const { playerTurn, setPlayerTurn } = useContext(MessagesContext);
   const [game, setGame] = useState();
   const [rival, setRival] = useState();
 
@@ -86,8 +88,8 @@ const GamePage = () => {
     <Box>
       <NavBar />
       <Head rival={rival} />
-      <Chat />
-      <Foot rival={rival} />
+      <Chat rival={rival} game={game} setGame={setGame} />
+      <Foot rival={rival} game={game} setGame={setGame} />
     </Box>
   );
 };

@@ -4,9 +4,12 @@ export const MessagesContext = createContext();
 
 const MessagesContextProvider = (props) => {
   const [messages, setMessages] = useState([]);
+  const [playerTurn, setPlayerTurn] = useState("");
 
   return (
-    <MessagesContext.Provider value={{ messages, setMessages }}>
+    <MessagesContext.Provider
+      value={{ messages, setMessages, playerTurn, setPlayerTurn }}
+    >
       {props.children}
     </MessagesContext.Provider>
   );

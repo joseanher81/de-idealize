@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { MessagesContext } from "./../../contexts/messagesContext";
 import TextField from "@material-ui/core/TextField";
@@ -17,10 +17,21 @@ const useStyles = makeStyles((theme) => ({
     height: "15vh",
     borderTop: "1px solid #ff8ba7",
   },
-  submit: {
+  submitActive: {
     margin: theme.spacing(2, 0, 2, 0),
     backgroundColor: "#FF8BA7",
     color: "#594A4E",
+    border: "1px solid #FF8BA7",
+    "&:hover": { backgroundColor: "#FF8BA7" },
+    "&:focus": { backgroundColor: "#FF8BA7" },
+  },
+  submitInactive: {
+    margin: theme.spacing(2, 0, 2, 0),
+    backgroundColor: "#ffc6c7",
+    color: "#594A4E",
+    border: "1px solid #FF8BA7",
+    "&:hover": { backgroundColor: "#ffc6c7" },
+    "&:focus": { backgroundColor: "#ffc6c7" },
   },
 }));
 
@@ -28,7 +39,7 @@ const Foot = (props) => {
   const { messages, setMessages } = useContext(MessagesContext);
   const classes = useStyles();
   const { register, handleSubmit, errors } = useForm(); // initialise hook-form
-  const { rival } = props;
+  const { rival, game, setGame } = props;
 
   const onSubmit = async (data, e) => {
     const { message } = data;
@@ -40,9 +51,23 @@ const Foot = (props) => {
     // Print msg on screen
     setMessages([...messages, { text: message, own: true }]);
 
+    // Cambiar turno y guardar en ddbb
+    setGame({ ...game, playerTurn: rival._id });
+
+    // TODO Guardar en DDBB
+
     // Reset input
     e.target.reset();
   };
+
+  // Turn control
+  /*   useEffect(() => {
+    rival?._id === game?.playerTurn
+      ? (refButton.current.disabled = true)
+      : (refButton.current.disabled = false);
+    console.log("Rival entrando" + rival?._id);
+    console.log("Player turn entrando" + game?.playerTurn);
+  }, [rival]); */
 
   return (
     <Container className={classes.stickToBottom}>
@@ -69,7 +94,16 @@ const Foot = (props) => {
             <IconButton
               aria-label="send"
               type="submit"
-              className={classes.submit}
+              /*               classes={{
+                root: classes.submit,
+                focusVisible: classes.submit,
+              }} */
+              className={
+                rival?._id === game?.playerTurn
+                  ? classes.submitInactive
+                  : classes.submitActive
+              }
+              disabled={rival?._id === game?.playerTurn}
             >
               <SendIcon />
             </IconButton>
