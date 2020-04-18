@@ -27,11 +27,11 @@ const Chat = (props) => {
     socket.on("mensajePrivado", function (msg) {
       console.log("Mensaje Privado:", messages);
 
-      // Print msg on screen
-      setMessages((oldmessages) => [...oldmessages, msg]);
-
       // Cambiar turno y guardar en ddbb
       setGame({ ...game, playerTurn: rival?._id });
+
+      // Print msg on screen
+      setMessages((oldmessages) => [...oldmessages, msg]);
 
       // TODO Guardar en DDBB
     });
@@ -55,7 +55,7 @@ const Chat = (props) => {
       {messages.map((msg, i) => {
         return <Bubble key={i} msg={msg} />;
       })}
-      <Timer messages={messages} />
+      {!(rival?._id === game?.playerTurn) && <Timer messages={messages} />}
     </Grid>
   );
 };
