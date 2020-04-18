@@ -7,6 +7,7 @@ import { createTheme } from "./components/theme";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import ProfilePage from "./pages/ProfilePage";
+import EndPage from "./pages/EndPage";
 import GamePage from "./pages/GamePage";
 import { loggedin } from "./services/authService";
 import { useHistory } from "react-router-dom";
@@ -44,6 +45,7 @@ function App() {
           <Route exact path="/profile" component={ProfilePage} />
           <GameContextProvider>
             <Route exact path="/game" component={GamePage} />
+            <Route exact path="/end" component={EndPage} />
           </GameContextProvider>
         </Switch>
       </ThemeProvider>

@@ -6,6 +6,7 @@ const GameContextProvider = (props) => {
   const [messages, setMessages] = useState([]);
   const [playerTurn, setPlayerTurn] = useState("");
   const [gameStatus, setGameStatus] = useState("PLAYING");
+  const [match, setMatch] = useState(100);
 
   return (
     <GameContext.Provider
@@ -16,6 +17,8 @@ const GameContextProvider = (props) => {
         setPlayerTurn,
         gameStatus,
         setGameStatus,
+        match,
+        setMatch,
       }}
     >
       {props.children}

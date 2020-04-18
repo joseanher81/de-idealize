@@ -37,7 +37,7 @@ const Timer = (props) => {
     const intervalId = setInterval(function () {
       currentMilis++;
       if (currentMilis % 100 === 0) currentTime--;
-      if (currentTime <= 0) {
+      if (currentTime < 0) {
         setGameStatus("LOSE");
         clearInterval(intervalId);
       }

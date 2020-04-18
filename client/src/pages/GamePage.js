@@ -9,8 +9,10 @@ import Chat from "./../components/game/Chat";
 import Foot from "./../components/game/Foot";
 import { Container, Box } from "@material-ui/core";
 import { getSocketId, storeClientInfo } from "./../services/socketService";
+import { useHistory } from "react-router-dom";
 
 const GamePage = () => {
+  const history = useHistory();
   const { user, setUser } = useContext(UserContext);
   //const { playerTurn, setPlayerTurn } = useContext(GameContext);
   const [game, setGame] = useState();
@@ -22,6 +24,7 @@ const GamePage = () => {
   useEffect(() => {
     console.log("WELCOME TO THE GAME!");
     console.log("2");
+    setGameStatus("PLAYING");
 
     // Save current socket id on database
     //let socketId = getSocketId();
@@ -85,9 +88,10 @@ const GamePage = () => {
     }
   }, []);
 
+  // ENDING GAME
   useEffect(() => {
-    if (gameStatus === "LOSE") console.log("YOU HAVE LOST!!!");
-    if (gameStatus === "WIN") console.log("YOU HAVE WIN!!!");
+    if (gameStatus === "LOSE" || gameStatus === "WIN")
+      history.push("/end", { data: { user, rival, gameStatus } });
   }, [gameStatus]);
 
   return (
