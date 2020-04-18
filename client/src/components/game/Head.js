@@ -44,29 +44,34 @@ const Head = (props) => {
       <Typography component="h1" variant="h5" className={classes.name}>
         {rival && rival.username}
       </Typography>
-      <Grid container>
-        <Grid item xs={2} className={classes.item} align="center">
+      <Grid
+        container
+        direction="row"
+        justify="space-between"
+        alignItems="center"
+      >
+        <Grid item xs={2} className={classes.item}>
           <Avatar
             alt={rival?.username}
             src={rival?.image1.url}
             className={classes.image}
           />
         </Grid>
-        <Grid item xs={2} className={classes.item} align="center">
+        <Grid item xs={2} className={classes.item}>
           <Avatar
             alt={rival?.username}
             src={rival?.image2.url}
             className={classes.image}
           />
         </Grid>
-        <Grid item xs={2} className={classes.item} align="center">
+        <Grid item xs={2} className={classes.item}>
           <Avatar
             alt={rival?.username}
             src={rival?.image3.url}
             className={classes.image}
           />
         </Grid>
-        <Grid item xs={4} className={classes.item} align="right">
+        <Grid item xs={3} className={classes.item}>
           <CircularProgressbar
             value={match}
             text={`${match}%`}

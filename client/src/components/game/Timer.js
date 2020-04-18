@@ -31,8 +31,8 @@ const Timer = (props) => {
 
   useEffect(() => {
     let currentMilis = 0;
-    let currentTime = 10;
-    let initialTime = 10;
+    let currentTime = 599;
+    let initialTime = 599;
 
     const intervalId = setInterval(function () {
       currentMilis++;
