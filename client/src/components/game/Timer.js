@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import { MessagesContext } from "./../../contexts/messagesContext";
+import { GameContext } from "./../../contexts/gameContext";
 
 const useStyles = makeStyles((theme) => ({
   boxOutter: {
@@ -27,7 +27,7 @@ const Timer = (props) => {
   const [minutes, setMinutes] = useState(9);
   const [seconds, setSeconds] = useState(59);
   const [percentage, setPercentage] = useState(100);
-  const { gameStatus, setGameStatus } = useContext(MessagesContext);
+  const { gameStatus, setGameStatus } = useContext(GameContext);
 
   useEffect(() => {
     let currentMilis = 0;

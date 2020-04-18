@@ -1,14 +1,14 @@
 import React, { createContext, useState } from "react";
 
-export const MessagesContext = createContext();
+export const GameContext = createContext();
 
-const MessagesContextProvider = (props) => {
+const GameContextProvider = (props) => {
   const [messages, setMessages] = useState([]);
   const [playerTurn, setPlayerTurn] = useState("");
   const [gameStatus, setGameStatus] = useState("PLAYING");
 
   return (
-    <MessagesContext.Provider
+    <GameContext.Provider
       value={{
         messages,
         setMessages,
@@ -19,8 +19,8 @@ const MessagesContextProvider = (props) => {
       }}
     >
       {props.children}
-    </MessagesContext.Provider>
+    </GameContext.Provider>
   );
 };
 
-export default MessagesContextProvider;
+export default GameContextProvider;

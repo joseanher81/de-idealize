@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { MessagesContext } from "./../../contexts/messagesContext";
+import { GameContext } from "./../../contexts/gameContext";
 import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Foot = (props) => {
-  const { messages, setMessages } = useContext(MessagesContext);
+  const { messages, setMessages } = useContext(GameContext);
   const classes = useStyles();
   const { register, handleSubmit, errors } = useForm(); // initialise hook-form
   const { rival, game, setGame } = props;

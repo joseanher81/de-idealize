@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { MessagesContext } from "./../../contexts/messagesContext";
+import { GameContext } from "./../../contexts/gameContext";
 import Grid from "@material-ui/core/Box";
 import Bubble from "./Bubble";
 import Timer from "./Timer";
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 const Chat = (props) => {
   const classes = useStyles();
   const refContainer = useRef();
-  const { messages, setMessages } = useContext(MessagesContext);
+  const { messages, setMessages } = useContext(GameContext);
   const { rival, game, setGame } = props;
 
   useEffect(() => {
