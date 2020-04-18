@@ -1,37 +1,48 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 const useStyles = makeStyles((theme) => ({
-  box: {
-    width: "100px",
-    height: "100px",
+  boxOutter: {
+    marginTop: "1em",
+  },
+  boxInner: {
+    width: "80px",
+    height: "80px",
     margin: "auto",
+    marginTop: "0.5em",
+  },
+  title: {
+    color: "#ff8ba7",
   },
 }));
 
 const Timer = (props) => {
   const classes = useStyles();
-  const refTimer = useRef();
   const { messages } = props;
-  const percentage = 66;
+  const [minutes, setMinutes] = useState(9);
+  const [seconds, setSeconds] = useState(59);
+  const [percentage, setPercentage] = useState(100);
 
   useEffect(() => {
-    //refTimer.current.innerHTML = "Testing";
     let currentMilis = 0;
-    let currentTime = 599;
+    let currentTime = 90;
+    let initialTime = 90;
 
     const intervalId = setInterval(function () {
       currentMilis++;
-      if (currentMilis % 100 == 0) currentTime--;
-      // refTimer.current.innerHTML = `${getMinutes()} : ${getSeconds()}`;
+      if (currentMilis % 100 === 0) currentTime--;
+      setMinutes(getMinutes());
+      setSeconds(getSeconds());
+      setPercentage(getPercentage());
     }, 10);
 
     const getMinutes = () => Math.floor(currentTime / 60);
     const getSeconds = () => Math.floor(currentTime % 60);
+    const getPercentage = () => (currentTime * 100) / initialTime;
 
     return () => clearInterval(intervalId);
 
@@ -39,33 +50,34 @@ const Timer = (props) => {
   }, [messages]);
 
   return (
-    <Box className={classes.box}>
-      <CircularProgressbar
-        value={percentage}
-        text={`${percentage}%`}
-        styles={buildStyles({
-          // Rotation of path and trail, in number of turns (0-1)
-          rotation: 0.25,
+    <Box className={classes.boxOutter}>
+      <Typography variant="subtitle1" gutterBottom className={classes.title}>
+        Your turn... Hurry up!
+      </Typography>
 
-          // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
-          strokeLinecap: "butt",
-
-          // Text size
-          textSize: "16px",
-
-          // How long animation takes to go from one percentage to another, in seconds
-          pathTransitionDuration: 0.5,
-
-          // Can specify path transition in more detail, or remove it entirely
-          // pathTransition: 'none',
-
-          // Colors
-          pathColor: `rgba(62, 152, 199, ${percentage / 100})`,
-          textColor: "#ff8ba7",
-          trailColor: "#d6d6d6",
-          backgroundColor: "#3e98c7",
-        })}
-      />
+      <Box className={classes.boxInner}>
+        <CircularProgressbar
+          value={percentage}
+          text={`${minutes} : ${seconds}`}
+          styles={{
+            path: {
+              // Path color
+              stroke: "#ff8ba7",
+              // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+              strokeLinecap: "round",
+              // Customize transition animation
+              transition: "stroke-dashoffset 0.5s ease 0s",
+              // Rotate the path
+              transform: "rotate(0.25turn)",
+              transformOrigin: "center center",
+            },
+            text: {
+              // Text color
+              fill: "#ff8ba7",
+            },
+          }}
+        />
+      </Box>
     </Box>
   );
 };
