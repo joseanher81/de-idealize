@@ -8,19 +8,34 @@ import NavBar from "./../components/game/NavBar";
 import Head from "./../components/game/Head";
 import Chat from "./../components/game/Chat";
 import Foot from "./../components/game/Foot";
+import Quiz from "./../components/game/Quiz";
 import { Container, Box } from "@material-ui/core";
-import { getSocketId, storeClientInfo } from "./../services/socketService";
+import {
+  getSocketId,
+  storeClientInfo,
+  sendAnswer,
+} from "./../services/socketService";
 import { useHistory } from "react-router-dom";
 
 const GamePage = () => {
   const history = useHistory();
+  const [openQuiz, setOpenQuiz] = useState(false);
+
   const { user, setUser } = useContext(UserContext);
-  //const { playerTurn, setPlayerTurn } = useContext(GameContext);
-  const [game, setGame] = useState();
-  const [rival, setRival] = useState();
-  const { gameStatus, setGameStatus, stage, setStage, messages } = useContext(
+  const { playerTurn, setPlayerTurn, currentQuiz, setCurrentQuiz } = useContext(
     GameContext
   );
+  const {
+    gameStatus,
+    setGameStatus,
+    stage,
+    setStage,
+    messages,
+    game,
+    setGame,
+    rival,
+    setRival,
+  } = useContext(GameContext);
 
   console.log("1");
 
@@ -56,6 +71,7 @@ const GamePage = () => {
           setGame(game);
           setUser(playerA);
           setRival(playerB);
+          setPlayerTurn(game.playerTurn);
           console.log("5");
         })
         .catch((e) => {
@@ -71,6 +87,7 @@ const GamePage = () => {
       getGame(user._id)
         .then((game) => {
           setGame(game);
+          setPlayerTurn(game.playerTurn);
           console.log("8");
           console.log("GAME RECIEVED " + JSON.stringify(game));
 
@@ -107,14 +124,23 @@ const GamePage = () => {
           console.log(
             "LA PREGUNTA PARA EL MODAL ES " + JSON.stringify(question)
           );
+
+          setCurrentQuiz(question);
+          setOpenQuiz(true);
         })
         .catch((e) => {
-          console.log("Error getting player " + e);
+          console.log("Error getting question " + e);
         });
     }
 
     // Every 7 stages a Photo is revealed (controlled by header)
   }, [messages]);
+
+  // Process quiz
+  const processQuiz = (option) => {
+    console.log("La opción seleccionada es " + option);
+    sendAnswer(rival._id, option);
+  };
 
   // ENDING GAME
   useEffect(() => {
@@ -126,8 +152,15 @@ const GamePage = () => {
     <Box>
       <NavBar />
       <Head rival={rival} />
-      <Chat rival={rival} use={user} game={game} setGame={setGame} />
+      <Chat />
       <Foot rival={rival} game={game} setGame={setGame} />
+      {
+        <Quiz
+          openQuiz={openQuiz}
+          setOpenQuiz={setOpenQuiz}
+          processQuiz={processQuiz}
+        />
+      }
     </Box>
   );
 };

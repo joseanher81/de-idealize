@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { GameContext } from "./../../contexts/gameContext";
+import { UserContext } from "./../../contexts/userContexts";
 import Grid from "@material-ui/core/Box";
 import Bubble from "./Bubble";
 import Timer from "./Timer";
@@ -19,8 +20,16 @@ const useStyles = makeStyles((theme) => ({
 const Chat = (props) => {
   const classes = useStyles();
   const refContainer = useRef();
-  const { messages, setMessages } = useContext(GameContext);
-  const { rival, user, game, setGame } = props;
+  const {
+    messages,
+    setMessages,
+    game,
+    setGame,
+    rival,
+    playerTurn,
+    setPlayerTurn,
+  } = useContext(GameContext);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     // Listen to private message
@@ -28,7 +37,8 @@ const Chat = (props) => {
       console.log("Mensaje Privado:", messages);
 
       // Cambiar turno y guardar en ddbb
-      setGame({ ...game, playerTurn: user?._id });
+      setPlayerTurn(user._id);
+      //setGame({ ...game, playerTurn: user._id });
 
       // Print msg on screen
       setMessages((oldmessages) => [...oldmessages, msg]);
@@ -36,6 +46,10 @@ const Chat = (props) => {
       // TODO Guardar en DDBB
     });
   }, []);
+
+  useEffect(() => {
+    console.log("JODEEEER" + JSON.stringify(game));
+  }, [game]);
 
   useEffect(() => {
     // Prior to getting your messages.
@@ -55,7 +69,7 @@ const Chat = (props) => {
       {messages.map((msg, i) => {
         return <Bubble key={i} msg={msg} />;
       })}
-      {!(rival?._id === game?.playerTurn) && <Timer messages={messages} />}
+      {!(rival?._id === playerTurn) && <Timer messages={messages} />}
     </Grid>
   );
 };

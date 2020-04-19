@@ -15,6 +15,20 @@ export const sendMessage = (rivalId, message) => {
   );
 };
 
+// Send a answer to quiz
+export const sendAnswer = (rivalId, answer) => {
+  socket.emit(
+    "quizAnswer",
+    {
+      user: rivalId,
+      answer: answer,
+    },
+    function (resp) {
+      console.log("respuesta server: ", resp);
+    }
+  );
+};
+
 // Obtain socket id of client
 export const getSocketId = () => {
   return socket.id;

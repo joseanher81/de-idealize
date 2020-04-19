@@ -36,7 +36,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Foot = (props) => {
-  const { messages, setMessages } = useContext(GameContext);
+  const { messages, setMessages, playerTurn, setPlayerTurn } = useContext(
+    GameContext
+  );
   const classes = useStyles();
   const { register, handleSubmit, errors } = useForm(); // initialise hook-form
   const { rival, game, setGame } = props;
@@ -52,7 +54,8 @@ const Foot = (props) => {
     setMessages([...messages, { text: message, own: true }]);
 
     // Cambiar turno y guardar en ddbb
-    setGame({ ...game, playerTurn: rival._id });
+    setPlayerTurn(rival._id);
+    //setGame({ ...game, playerTurn: });
 
     // TODO Guardar en DDBB
 
@@ -102,11 +105,11 @@ const Foot = (props) => {
                 focusVisible: classes.submit,
               }} */
               className={
-                rival?._id === game?.playerTurn
+                rival?._id === playerTurn
                   ? classes.submitInactive
                   : classes.submitActive
               }
-              disabled={rival?._id === game?.playerTurn}
+              disabled={rival?._id === playerTurn}
             >
               <SendIcon />
             </IconButton>

@@ -9,6 +9,9 @@ const GameContextProvider = (props) => {
   const [match, setMatch] = useState(100);
   const [stage, setStage] = useState(0);
   const [picShown, setPicShown] = useState(0);
+  const [game, setGame] = useState();
+  const [rival, setRival] = useState();
+  const [currentQuiz, setCurrentQuiz] = useState({});
 
   return (
     <GameContext.Provider
@@ -25,6 +28,12 @@ const GameContextProvider = (props) => {
         setStage,
         picShown,
         setPicShown,
+        game,
+        setGame,
+        rival,
+        setRival,
+        currentQuiz,
+        setCurrentQuiz,
       }}
     >
       {props.children}
