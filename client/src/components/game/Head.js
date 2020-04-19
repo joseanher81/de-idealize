@@ -1,36 +1,41 @@
 import React, { useContext } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import Grid from "@material-ui/core/Grid";
-import Avatar from "@material-ui/core/Avatar";
+import {
+  makeStyles,
+  Container,
+  Typography,
+  Grid,
+  Avatar,
+} from "@material-ui/core";
 import "react-circular-progressbar/dist/styles.css";
-import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import { CircularProgressbarWithChildren } from "react-circular-progressbar";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import { GameContext } from "./../../contexts/gameContext";
 
 const useStyles = makeStyles((theme) => ({
   head: {
     height: "25vh",
-    borderBottom: "1px solid #ff8ba7",
+    borderBottom: "1px solid #FF8BA7",
   },
   name: {
     color: "#594A4E",
     paddingTop: 10,
   },
-  icon: {
-    fontSize: "7em",
-    color: "#FF8BA7",
-  },
   image: {
     width: theme.spacing(9),
     height: theme.spacing(9),
     filter: "blur(5px)",
-    border: "2px solid #ff8ba7",
+    border: "2px solid #FF8BA7",
     transform: "scale(1.1)",
   },
   item: {
     marginTop: "1em",
+  },
+  percentage: {
+    marginTop: "-5",
+    color: "#FF8BA7",
+  },
+  iconHeart: {
+    color: "#FF8BA7",
   },
 }));
 
@@ -72,9 +77,8 @@ const Head = (props) => {
           />
         </Grid>
         <Grid item xs={3} className={classes.item}>
-          <CircularProgressbar
+          <CircularProgressbarWithChildren
             value={match}
-            text={`${match}%`}
             styles={{
               path: {
                 // Path color
@@ -87,12 +91,13 @@ const Head = (props) => {
                 transform: "rotate(0.25turn)",
                 transformOrigin: "center center",
               },
-              text: {
-                // Text color
-                fill: "#ff8ba7",
-              },
             }}
-          />
+          >
+            <FavoriteIcon className={classes.iconHeart} />
+            <Typography variant="h6" className={classes.percentage}>
+              {match}%
+            </Typography>
+          </CircularProgressbarWithChildren>
         </Grid>
       </Grid>
     </Container>
