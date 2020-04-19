@@ -10,7 +10,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import { GameContext } from "./../../contexts/gameContext";
-import { socket } from "./../../services/socketService";
+import { socket, sendAnswer } from "./../../services/socketService";
 
 const useStyles = makeStyles((theme) => ({
   dialog: {
@@ -39,7 +39,17 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const Quiz = ({ openQuiz, setOpenQuiz, processQuiz }) => {
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
-  const { currentQuiz, setCurrentQuiz } = useContext(GameContext);
+  const {
+    currentQuiz,
+    setCurrentQuiz,
+    ownAnwser,
+    setOwnAnswer,
+    rivalAnswer,
+    setRivalAnswer,
+    match,
+    setMatch,
+    rival,
+  } = useContext(GameContext);
 
   useEffect(() => setOpen(openQuiz), [openQuiz]);
 
@@ -47,14 +57,37 @@ const Quiz = ({ openQuiz, setOpenQuiz, processQuiz }) => {
     // Listen to private message
     socket.on("quizAnswer", function (answer) {
       console.log("quizAnswer rival:" + JSON.stringify(answer));
+      setRivalAnswer(answer);
     });
   }, []);
 
+  // Check both answers
+  useEffect(() => {
+    if (ownAnwser?.answer && rivalAnswer?.answer) {
+      console.log("CAGO EN DIOS 111111111111");
+      if (ownAnwser.answer === rivalAnswer.answer) {
+        console.log("CAGO EN DIOS 222222222222");
+        setMatch(match + currentQuiz.factor);
+        setOwnAnswer(undefined);
+        setRivalAnswer(undefined);
+      } else {
+        console.log("CAGO EN DIOS 3333333333333");
+        setMatch(match - currentQuiz.factor);
+        setOwnAnswer(undefined);
+        setRivalAnswer(undefined);
+      }
+    } else {
+      console.log("ownAnwser " + JSON.stringify(ownAnwser));
+      console.log("rivalAnswer " + JSON.stringify(rivalAnswer));
+      console.log("CAGO EN DIOS 444444444444");
+      console.log("Falta alguna respuesta");
+    }
+  }, [ownAnwser, rivalAnswer]);
+
   const handleClose = (e, option) => {
-    //setCurrentQuiz({ ...currentQuiz, choosen: option });
-    processQuiz(option);
+    setOwnAnswer({ answer: option });
+    sendAnswer(rival._id, option);
     setOpenQuiz(false);
-    //setOpen(false);
   };
 
   return (

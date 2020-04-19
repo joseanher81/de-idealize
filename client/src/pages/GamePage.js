@@ -137,10 +137,10 @@ const GamePage = () => {
   }, [messages]);
 
   // Process quiz
-  const processQuiz = (option) => {
+  /*   const processQuiz = (option) => {
     console.log("La opción seleccionada es " + option);
     sendAnswer(rival._id, option);
-  };
+  }; */
 
   // ENDING GAME
   useEffect(() => {
@@ -154,13 +154,7 @@ const GamePage = () => {
       <Head rival={rival} />
       <Chat />
       <Foot rival={rival} game={game} setGame={setGame} />
-      {
-        <Quiz
-          openQuiz={openQuiz}
-          setOpenQuiz={setOpenQuiz}
-          processQuiz={processQuiz}
-        />
-      }
+      {<Quiz openQuiz={openQuiz} setOpenQuiz={setOpenQuiz} />}
     </Box>
   );
 };

@@ -12,6 +12,8 @@ const GameContextProvider = (props) => {
   const [game, setGame] = useState();
   const [rival, setRival] = useState();
   const [currentQuiz, setCurrentQuiz] = useState({});
+  const [ownAnwser, setOwnAnswer] = useState(undefined);
+  const [rivalAnswer, setRivalAnswer] = useState(undefined);
 
   return (
     <GameContext.Provider
@@ -34,6 +36,10 @@ const GameContextProvider = (props) => {
         setRival,
         currentQuiz,
         setCurrentQuiz,
+        ownAnwser,
+        setOwnAnswer,
+        rivalAnswer,
+        setRivalAnswer,
       }}
     >
       {props.children}
