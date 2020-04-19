@@ -3,6 +3,7 @@ import { UserContext } from "./../contexts/userContexts";
 import { GameContext } from "./../contexts/gameContext";
 import { createGame, getGame } from "./../services/gameService";
 import { getUser, saveSocketId } from "./../services/userService";
+import { getQuestion } from "./../services/questionService";
 import NavBar from "./../components/game/NavBar";
 import Head from "./../components/game/Head";
 import Chat from "./../components/game/Chat";
@@ -66,6 +67,7 @@ const GamePage = () => {
       console.log("7");
 
       // Get current game
+      console.log("JUEGO " + game);
       getGame(user._id)
         .then((game) => {
           setGame(game);
@@ -92,12 +94,24 @@ const GamePage = () => {
 
   // GAME STAGE LOGIC
   useEffect(() => {
+    console.log("GAME id " + JSON.stringify(game));
     //Every time a message is sent advance one stage
     setStage(stage + 1);
     console.log("GAME STAGE" + stage);
 
     // Every 5 stages a Question is asked
-    if (stage % 5 === 0) console.log("PREGUNTA!!!");
+    if (stage !== 0 && stage % 5 === 0) {
+      console.log("PREGUNTA!!!");
+      getQuestion(game._id)
+        .then((question) => {
+          console.log(
+            "LA PREGUNTA PARA EL MODAL ES " + JSON.stringify(question)
+          );
+        })
+        .catch((e) => {
+          console.log("Error getting player " + e);
+        });
+    }
 
     // Every 7 stages a Photo is revealed (controlled by header)
   }, [messages]);
@@ -112,7 +126,7 @@ const GamePage = () => {
     <Box>
       <NavBar />
       <Head rival={rival} />
-      <Chat rival={rival} game={game} setGame={setGame} />
+      <Chat rival={rival} use={user} game={game} setGame={setGame} />
       <Foot rival={rival} game={game} setGame={setGame} />
     </Box>
   );

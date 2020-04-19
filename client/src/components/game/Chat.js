@@ -20,7 +20,7 @@ const Chat = (props) => {
   const classes = useStyles();
   const refContainer = useRef();
   const { messages, setMessages } = useContext(GameContext);
-  const { rival, game, setGame } = props;
+  const { rival, user, game, setGame } = props;
 
   useEffect(() => {
     // Listen to private message
@@ -28,7 +28,7 @@ const Chat = (props) => {
       console.log("Mensaje Privado:", messages);
 
       // Cambiar turno y guardar en ddbb
-      setGame({ ...game, playerTurn: rival?._id });
+      setGame({ ...game, playerTurn: user?._id });
 
       // Print msg on screen
       setMessages((oldmessages) => [...oldmessages, msg]);

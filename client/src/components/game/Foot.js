@@ -60,6 +60,9 @@ const Foot = (props) => {
     e.target.reset();
   };
 
+  useEffect(() => {
+    console.log("A ver q hemos liado" + JSON.stringify(game));
+  }, [game]);
   // Turn control
   /*   useEffect(() => {
     rival?._id === game?.playerTurn
