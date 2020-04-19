@@ -7,6 +7,8 @@ const GameContextProvider = (props) => {
   const [playerTurn, setPlayerTurn] = useState("");
   const [gameStatus, setGameStatus] = useState("PLAYING");
   const [match, setMatch] = useState(100);
+  const [stage, setStage] = useState(0);
+  const [picShown, setPicShown] = useState(0);
 
   return (
     <GameContext.Provider
@@ -19,6 +21,10 @@ const GameContextProvider = (props) => {
         setGameStatus,
         match,
         setMatch,
+        stage,
+        setStage,
+        picShown,
+        setPicShown,
       }}
     >
       {props.children}

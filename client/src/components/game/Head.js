@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   makeStyles,
   Container,
@@ -20,12 +20,17 @@ const useStyles = makeStyles((theme) => ({
     color: "#594A4E",
     paddingTop: 10,
   },
-  image: {
+  imageBlur: {
     width: theme.spacing(9),
     height: theme.spacing(9),
     filter: "blur(5px)",
     border: "2px solid #FF8BA7",
     transform: "scale(1.1)",
+  },
+  imageSharp: {
+    width: theme.spacing(9),
+    height: theme.spacing(9),
+    border: "2px solid #FF8BA7",
   },
   item: {
     marginTop: "1em",
@@ -42,7 +47,13 @@ const useStyles = makeStyles((theme) => ({
 const Head = (props) => {
   const classes = useStyles();
   const { rival } = props;
-  const { match } = useContext(GameContext);
+  const { match, stage, picShown, setPicShown } = useContext(GameContext);
+
+  // GAME LOGIC RELATED TO HEADER
+  useEffect(() => {
+    // Reveal a picture every 7 Stages
+    if (stage !== 0 && stage % 7 === 0) setPicShown(picShown + 1);
+  }, [stage]);
 
   return (
     <Container className={classes.head}>
@@ -59,21 +70,21 @@ const Head = (props) => {
           <Avatar
             alt={rival?.username}
             src={rival?.image1.url}
-            className={classes.image}
+            className={picShown >= 1 ? classes.imageSharp : classes.imageBlur}
           />
         </Grid>
         <Grid item xs={2} className={classes.item}>
           <Avatar
             alt={rival?.username}
             src={rival?.image2.url}
-            className={classes.image}
+            className={picShown >= 2 ? classes.imageSharp : classes.imageBlur}
           />
         </Grid>
         <Grid item xs={2} className={classes.item}>
           <Avatar
             alt={rival?.username}
             src={rival?.image3.url}
-            className={classes.image}
+            className={picShown >= 3 ? classes.imageSharp : classes.imageBlur}
           />
         </Grid>
         <Grid item xs={3} className={classes.item}>

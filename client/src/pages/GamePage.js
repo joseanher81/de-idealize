@@ -17,7 +17,9 @@ const GamePage = () => {
   //const { playerTurn, setPlayerTurn } = useContext(GameContext);
   const [game, setGame] = useState();
   const [rival, setRival] = useState();
-  const { gameStatus, setGameStatus } = useContext(GameContext);
+  const { gameStatus, setGameStatus, stage, setStage, messages } = useContext(
+    GameContext
+  );
 
   console.log("1");
 
@@ -87,6 +89,18 @@ const GamePage = () => {
         });
     }
   }, []);
+
+  // GAME STAGE LOGIC
+  useEffect(() => {
+    //Every time a message is sent advance one stage
+    setStage(stage + 1);
+    console.log("GAME STAGE" + stage);
+
+    // Every 5 stages a Question is asked
+    if (stage % 5 === 0) console.log("PREGUNTA!!!");
+
+    // Every 7 stages a Photo is revealed (controlled by header)
+  }, [messages]);
 
   // ENDING GAME
   useEffect(() => {
