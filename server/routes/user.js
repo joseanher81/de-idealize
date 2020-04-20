@@ -52,4 +52,23 @@ router.post("/user/addToBlackList", async (req, res, next) => {
   }
 });
 
+// Delete current game from user
+router.post("/user/deleteCurrentGame", async (req, res, next) => {
+  try {
+    const user = req.user;
+
+    console.log("DELETING GAME " + user);
+
+    // Find current user
+    let usernew = await User.findByIdAndUpdate(user.id, {
+      currentGame: undefined,
+    });
+
+    res.json({ status: "ok" });
+  } catch (error) {
+    console.log("Error " + error);
+    res.status(500).json({ status: "error", message: error });
+  }
+});
+
 module.exports = router;

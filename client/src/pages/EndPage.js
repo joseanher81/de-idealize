@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
 import { useHistory } from "react-router-dom";
 import { createBrowserHistory } from "history";
+import { deleteCurrentGame } from "./../services/userService";
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -45,9 +46,13 @@ const EndPage = () => {
 
   const newGame = (e) => {
     console.log("Start new game");
-    history.push("/game");
 
-    //TODO MIRAR RESETEO DE JUEGO
+    if (gameStatus === "LOSE") {
+      // RESET GAME
+      deleteCurrentGame();
+    }
+
+    history.push("/game");
   };
 
   return (

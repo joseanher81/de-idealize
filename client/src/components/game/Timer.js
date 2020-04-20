@@ -46,7 +46,6 @@ const Timer = (props) => {
     let currentMilis = 0;
     let currentTime = 10;
     let initialTime = 10;
-    console.log("AMOS A VER " + JSON.stringify(rival));
 
     const intervalId = setInterval(function () {
       currentMilis++;
