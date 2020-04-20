@@ -24,15 +24,15 @@ const useStyles = makeStyles((theme) => ({
 const Timer = (props) => {
   const classes = useStyles();
   const { messages } = props;
-  const [minutes, setMinutes] = useState(9);
+  const [minutes, setMinutes] = useState(1);
   const [seconds, setSeconds] = useState(59);
   const [percentage, setPercentage] = useState(100);
   const { gameStatus, setGameStatus } = useContext(GameContext);
 
   useEffect(() => {
     let currentMilis = 0;
-    let currentTime = 599;
-    let initialTime = 599;
+    let currentTime = 119;
+    let initialTime = 119;
 
     const intervalId = setInterval(function () {
       currentMilis++;

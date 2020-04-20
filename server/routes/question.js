@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const mongoose = require("mongoose");
 const Question = require("../models/question");
 const Game = require("../models/game");
 
@@ -12,11 +13,18 @@ router.get("/question/get/:gameid", async (req, res, next) => {
     console.log("GAME FOUND " + currentGame.matchPercent);
 
     // Get a question not asked yet
+    let qIdObjects = currentGame.questions.map((s) =>
+      mongoose.Types.ObjectId(s)
+    );
+
+    console.log("QIOBJECTS " + qIdObjects);
+
+    // Get a question not asked yet
     const question = await Question.findOne({
-      id: { $nin: currentGame.questions },
+      _id: { $nin: qIdObjects },
     });
 
-    console.log("Pregunta encontrada: " + question.questionA);
+    console.log("Pregunta encontrada: " + question);
 
     // Save question to current game
     currentGame.questions.push(question);

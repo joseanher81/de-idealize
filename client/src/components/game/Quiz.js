@@ -14,7 +14,7 @@ import { socket, sendAnswer } from "./../../services/socketService";
 
 const useStyles = makeStyles((theme) => ({
   dialog: {
-    marginBottom: "2em",
+    backgroundColor: "#faeee7",
   },
   title: {
     color: "#33272a",
@@ -29,6 +29,18 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "3.5em",
     marginTop: "0.5em",
     marginBottom: "0.5em",
+  },
+  buttonA: {
+    padding: "1em",
+    borderRadius: "10px 0 10px 0",
+    color: "#fffffe",
+    marginTop: "2em",
+  },
+  buttonB: {
+    padding: "1em",
+    borderRadius: "0 10px 0 10px",
+    color: "#fffffe",
+    marginBottom: "2em",
   },
 }));
 
@@ -67,7 +79,9 @@ const Quiz = ({ openQuiz, setOpenQuiz, processQuiz }) => {
       console.log("CAGO EN DIOS 111111111111");
       if (ownAnwser.answer === rivalAnswer.answer) {
         console.log("CAGO EN DIOS 222222222222");
-        setMatch(match + currentQuiz.factor);
+        setMatch(
+          match + currentQuiz.factor < 100 ? match + currentQuiz.factor : 100
+        );
         setOwnAnswer(undefined);
         setRivalAnswer(undefined);
       } else {
@@ -110,7 +124,7 @@ const Quiz = ({ openQuiz, setOpenQuiz, processQuiz }) => {
                 type="submit"
                 variant="contained"
                 color="primary"
-                className={classes.submit}
+                className={classes.buttonA}
                 onClick={(e) => {
                   handleClose(e, "A");
                 }}
@@ -130,7 +144,7 @@ const Quiz = ({ openQuiz, setOpenQuiz, processQuiz }) => {
                 type="submit"
                 variant="contained"
                 color="primary"
-                className={classes.submit}
+                className={classes.buttonB}
                 onClick={(e) => {
                   handleClose(e, "B");
                 }}

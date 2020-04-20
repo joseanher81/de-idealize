@@ -14,7 +14,10 @@ const useStyles = makeStyles((theme) => ({
     height: "100vh",
   },
   item: {},
-  submit: {},
+  submit: {
+    borderRadius: "10px 0 10px 0",
+    color: "#fffffe",
+  },
   title: {
     color: "#ff8ba7",
     flexGrow: 1,
