@@ -12,8 +12,9 @@ export const createGame = async (userid) => {
 };
 
 export const getGame = async (userid) => {
+  console.log("userid getagme " + userid);
   const res = await api.get("/game/get");
-  // console.log("createGame response " + JSON.stringify(res));
+  console.log("getgame response " + JSON.stringify(res));
   return res.data.game;
 };
 

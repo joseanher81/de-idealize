@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { UserContext } from "./../contexts/userContexts";
+import { GameContext } from "./../contexts/gameContext";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
@@ -43,16 +45,47 @@ const EndPage = () => {
   const historyBrowser = createBrowserHistory();
   const history = useHistory();
   const { user, rival, gameStatus } = historyBrowser.location.state.data;
+  const { setUser } = useContext(UserContext);
+  const {
+    setPlayerTurn,
+    setMessages,
+    setGameStatus,
+    setMatch,
+    setStage,
+    setPicShown,
+    setCurrentQuiz,
+    setOwnAnswer,
+    setRivalAnswer,
+  } = useContext(GameContext);
 
-  const newGame = (e) => {
+  const newGame = async (e) => {
     console.log("Start new game");
 
     if (gameStatus === "LOSE") {
       // RESET GAME
-      deleteCurrentGame();
+      try {
+        let updatedUser = await deleteCurrentGame();
+        console.log("UPDATED USER " + JSON.stringify(updatedUser));
+        setUser(updatedUser);
+      } catch (error) {
+        console.log("Error deleting game from user " + error);
+      }
     }
 
+    resetStates();
     history.push("/game");
+  };
+
+  const resetStates = () => {
+    setPlayerTurn("");
+    setMessages([]);
+    setGameStatus("PLAYING");
+    setMatch(100);
+    setStage(0);
+    setPicShown(0);
+    setCurrentQuiz({});
+    setOwnAnswer(undefined);
+    setRivalAnswer(undefined);
   };
 
   return (

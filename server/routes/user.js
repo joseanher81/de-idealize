@@ -60,11 +60,17 @@ router.post("/user/deleteCurrentGame", async (req, res, next) => {
     console.log("DELETING GAME " + user);
 
     // Find current user
-    let usernew = await User.findByIdAndUpdate(user.id, {
-      currentGame: undefined,
-    });
+    let usernew = await User.findByIdAndUpdate(
+      user.id,
+      {
+        currentGame: undefined,
+      },
+      { new: true }
+    );
 
-    res.json({ status: "ok" });
+    console.log("JOPE " + usernew.currentGame);
+
+    res.json({ status: "ok", user: usernew });
   } catch (error) {
     console.log("Error " + error);
     res.status(500).json({ status: "error", message: error });

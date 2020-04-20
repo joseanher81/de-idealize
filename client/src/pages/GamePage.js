@@ -74,7 +74,7 @@ const GamePage = () => {
         });
     } else {
       // USER HAS GAME
-      console.log("USER HAS GAME and his id is " + user._id);
+      console.log("USER HAS GAME and his id is " + user.currentGame);
       console.log("7");
 
       // Get current game

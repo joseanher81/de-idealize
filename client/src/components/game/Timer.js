@@ -25,8 +25,8 @@ const useStyles = makeStyles((theme) => ({
 const Timer = (props) => {
   const classes = useStyles();
   const { messages } = props;
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(10);
+  const [minutes, setMinutes] = useState(1);
+  const [seconds, setSeconds] = useState(30);
   const [percentage, setPercentage] = useState(100);
   const { gameStatus, setGameStatus, rival } = useContext(GameContext);
   const [timedOut, setTimedOut] = useState(false);
@@ -44,8 +44,8 @@ const Timer = (props) => {
 
   useEffect(() => {
     let currentMilis = 0;
-    let currentTime = 10;
-    let initialTime = 10;
+    let currentTime = 90;
+    let initialTime = 90;
 
     const intervalId = setInterval(function () {
       currentMilis++;
