@@ -56,4 +56,12 @@ io.on("connection", function (client) {
       .to(toClient.socketId)
       .emit("quizAnswer", { answer: answer });
   });
+
+  // Timeout management
+  client.on("timeout", (data) => {
+    const { user } = data;
+    let toClient = clients.find((c) => c.user === user);
+
+    client.broadcast.to(toClient.socketId).emit("timeout");
+  });
 });

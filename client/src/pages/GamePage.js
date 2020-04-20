@@ -2,7 +2,11 @@ import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "./../contexts/userContexts";
 import { GameContext } from "./../contexts/gameContext";
 import { createGame, getGame } from "./../services/gameService";
-import { getUser, saveSocketId } from "./../services/userService";
+import {
+  getUser,
+  saveSocketId,
+  addToBlackList,
+} from "./../services/userService";
 import { getQuestion } from "./../services/questionService";
 import NavBar from "./../components/game/NavBar";
 import Head from "./../components/game/Head";
@@ -129,8 +133,14 @@ const GamePage = () => {
 
   // ENDING GAME
   useEffect(() => {
-    if (gameStatus === "LOSE" || gameStatus === "WIN")
+    if (gameStatus === "LOSE" || gameStatus === "WIN") {
+      // If LOSE add rival to blacklist to never meeting again
+      if (gameStatus === "LOSE") {
+        addToBlackList(rival._id);
+      }
+
       history.push("/end", { data: { user, rival, gameStatus } });
+    }
   }, [gameStatus]);
 
   return (

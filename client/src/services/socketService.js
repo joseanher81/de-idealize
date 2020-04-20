@@ -38,6 +38,11 @@ export const storeClientInfo = (user) => {
   socket.emit("storeClientInfo", { user: user });
 };
 
+// Send timeout to rival
+export const sendTimeOut = (rivalId) => {
+  socket.emit("timeout", { user: rivalId });
+};
+
 // Listen to private message
 /* socket.on("mensajePrivado", function (msg) {
   console.log("Mensaje Privado:", msg);
