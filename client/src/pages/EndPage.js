@@ -19,7 +19,11 @@ const useStyles = makeStyles((theme) => ({
   item: {},
   submit: {
     borderRadius: "10px 0 10px 0",
+    margin: theme.spacing(3, 0, 2),
+    height: "4em",
     color: "#fffffe",
+    fontSize: "1.3em",
+    fontWeight: "bold",
   },
   title: {
     color: "#ff8ba7",
