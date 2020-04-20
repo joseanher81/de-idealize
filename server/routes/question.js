@@ -26,10 +26,6 @@ router.get("/question/get/:gameid", async (req, res, next) => {
 
     console.log("Pregunta encontrada: " + question);
 
-    // Save question to current game
-    currentGame.questions.push(question);
-    currentGame.save();
-
     res.json({ status: "ok", question: question });
   } catch (error) {
     console.log("Error " + error);

@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../models/user");
 const Game = require("../models/game");
 const Chat = require("../models/chat");
+const Question = require("../models/question");
 
 // New Game
 router.post("/game/new", async (req, res, next) => {
@@ -91,6 +92,32 @@ router.get("/game/get", async (req, res, next) => {
 
     console.log("Juego encontrado: " + currentUser.currentGame);
     res.json({ status: "ok", game: currentUser.currentGame });
+  } catch (error) {
+    console.log("Error " + error);
+    res.status(500).json({ status: "error", message: error });
+  }
+});
+
+// Save a question to question array in game
+router.post("/game/addquestion", async (req, res, next) => {
+  console.log("Add a question to game");
+
+  try {
+    const { gameid, questionid } = req.body;
+
+    // Get current game
+    const currentGame = await Game.findById(gameid);
+    console.log("GAME FOUND " + currentGame.id);
+
+    // Get the qustion
+    const currentCuestion = await Question.findById(questionid);
+    console.log("QUESTION FOUND " + currentCuestion.id);
+
+    // Save question to current game
+    currentGame.questions.push(currentCuestion);
+    currentGame.save();
+
+    res.json({ status: "ok" });
   } catch (error) {
     console.log("Error " + error);
     res.status(500).json({ status: "error", message: error });

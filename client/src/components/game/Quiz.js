@@ -11,6 +11,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import { GameContext } from "./../../contexts/gameContext";
 import { socket, sendAnswer } from "./../../services/socketService";
+import { addQuestionToGame } from "./../../services/gameService";
 
 const useStyles = makeStyles((theme) => ({
   dialog: {
@@ -61,6 +62,7 @@ const Quiz = ({ openQuiz, setOpenQuiz, processQuiz }) => {
     match,
     setMatch,
     rival,
+    game,
   } = useContext(GameContext);
 
   useEffect(() => setOpen(openQuiz), [openQuiz]);
@@ -101,6 +103,7 @@ const Quiz = ({ openQuiz, setOpenQuiz, processQuiz }) => {
   const handleClose = (e, option) => {
     setOwnAnswer({ answer: option });
     sendAnswer(rival._id, option);
+    addQuestionToGame(game._id, currentQuiz._id);
     setOpenQuiz(false);
   };
 

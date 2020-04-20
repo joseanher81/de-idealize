@@ -44,17 +44,8 @@ const GamePage = () => {
     console.log("2");
     setGameStatus("PLAYING");
 
-    // Save current socket id on database
-    //let socketId = getSocketId();
-
     // Save client info on socket server
     storeClientInfo(user._id);
-
-    // saveSocketId(user._id, socketId)
-    //   .then()
-    //   .catch((e) => {
-    //     console.log("Error " + e);
-    //   });
 
     // Check if user has an ongoing game
     if (!user.currentGame) {
@@ -135,12 +126,6 @@ const GamePage = () => {
 
     // Every 7 stages a Photo is revealed (controlled by header)
   }, [messages]);
-
-  // Process quiz
-  /*   const processQuiz = (option) => {
-    console.log("La opción seleccionada es " + option);
-    sendAnswer(rival._id, option);
-  }; */
 
   // ENDING GAME
   useEffect(() => {
