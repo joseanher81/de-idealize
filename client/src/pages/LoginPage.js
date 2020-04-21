@@ -56,7 +56,7 @@ const LoginPage = () => {
       const user = await login({ username, password });
       if (user) {
         setUser(user);
-        history.push("/game");
+        history.push("/introduce");
       } else {
         console.log("No se encuentra el usuario");
         // TODO mostrar mensaje

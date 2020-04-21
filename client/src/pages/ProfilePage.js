@@ -103,7 +103,7 @@ const ProfilePage = () => {
         if (user) {
           console.log("El usuario es " + JSON.stringify(user));
           setUser(user);
-          history.push("/game");
+          history.push("/introduce");
         } else {
           console.log("Error en el signup");
           // TODO mostrar mensaje
