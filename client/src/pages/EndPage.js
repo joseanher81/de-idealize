@@ -97,17 +97,15 @@ const EndPage = () => {
         setUser(updatedUser);
         // RESET GAME
         resetStates();
+        history.push("/introduce");
       } catch (error) {
         console.log("Error deleting game from user " + error);
       }
-    }
-
-    if (gameStatus === "WIN") {
+    } else if (gameStatus === "WIN") {
       // CONTINUE TALKING WITHOUT LIMITS
       setGameStatus("MATCHED");
+      history.push("/game");
     }
-
-    history.push("/game");
   };
 
   const resetStates = () => {
