@@ -5,6 +5,7 @@ import { UserContext } from "./../../contexts/userContexts";
 import Grid from "@material-ui/core/Box";
 import Bubble from "./Bubble";
 import Timer from "./Timer";
+import Wait from "./Wait";
 import { socket } from "./../../services/socketService";
 
 const useStyles = makeStyles((theme) => ({
@@ -73,6 +74,7 @@ const Chat = (props) => {
       {!(rival?._id === playerTurn) && gameStatus !== "MATCHED" && (
         <Timer messages={messages} />
       )}
+      {rival?._id === playerTurn && gameStatus !== "MATCHED" && <Wait />}
     </Grid>
   );
 };
