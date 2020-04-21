@@ -36,7 +36,6 @@ const Timer = (props) => {
     socket.on("timeout", function () {
       setGameStatus("LOSE");
     });
-    return () => socket.off("timeout");
   }, []);
 
   useEffect(() => {

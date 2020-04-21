@@ -9,6 +9,7 @@ import SendIcon from "@material-ui/icons/Send";
 import { useForm } from "react-hook-form";
 import Grid from "@material-ui/core/Grid";
 import { sendMessage } from "./../../services/socketService";
+import { isValid } from "./../../lib/utils";
 
 const useStyles = makeStyles((theme) => ({
   stickToBottom: {
@@ -41,23 +42,28 @@ const Foot = (props) => {
   );
   const classes = useStyles();
   const { register, handleSubmit, errors } = useForm(); // initialise hook-form
-  const { rival, game, setGame } = props;
+  const { rival, game, setGame, setOpenToast, openToast } = props;
 
   const onSubmit = async (data, e) => {
     const { message } = data;
     console.log("Mensaje " + message);
 
-    // Enviar información
-    sendMessage(rival._id, message);
+    if (isValid(message)) {
+      // Enviar información
+      sendMessage(rival._id, message);
 
-    // Print msg on screen
-    setMessages([...messages, { text: message, own: true }]);
+      // Print msg on screen
+      setMessages([...messages, { text: message, own: true }]);
 
-    // Cambiar turno y guardar en ddbb
-    setPlayerTurn(rival._id);
-    //setGame({ ...game, playerTurn: });
+      // Cambiar turno y guardar en ddbb
+      setPlayerTurn(rival._id);
+      //setGame({ ...game, playerTurn: });
 
-    // TODO Guardar en DDBB
+      // TODO Guardar en DDBB
+    } else {
+      // Show a toast with warning
+      setOpenToast(true);
+    }
 
     // Reset input
     e.target.reset();

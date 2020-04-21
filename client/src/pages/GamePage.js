@@ -13,6 +13,7 @@ import Head from "./../components/game/Head";
 import Chat from "./../components/game/Chat";
 import Foot from "./../components/game/Foot";
 import Quiz from "./../components/game/Quiz";
+import Toast from "./../components/game/Toast";
 import { Container, Box } from "@material-ui/core";
 import {
   getSocketId,
@@ -24,6 +25,7 @@ import { useHistory } from "react-router-dom";
 const GamePage = () => {
   const history = useHistory();
   const [openQuiz, setOpenQuiz] = useState(false);
+  const [openToast, setOpenToast] = useState(false);
 
   const { user, setUser } = useContext(UserContext);
   const { playerTurn, setPlayerTurn, currentQuiz, setCurrentQuiz } = useContext(
@@ -149,8 +151,15 @@ const GamePage = () => {
       <NavBar />
       <Head rival={rival} />
       <Chat />
-      <Foot rival={rival} game={game} setGame={setGame} />
+      <Foot
+        rival={rival}
+        game={game}
+        setGame={setGame}
+        openToast={openToast}
+        setOpenToast={setOpenToast}
+      />
       {<Quiz openQuiz={openQuiz} setOpenQuiz={setOpenQuiz} />}
+      {<Toast openToast={openToast} setOpenToast={setOpenToast} />}
     </Box>
   );
 };
