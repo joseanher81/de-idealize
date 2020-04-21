@@ -15,6 +15,20 @@ export const sendMessage = (rivalId, message) => {
   );
 };
 
+// Send a answer to quiz
+export const sendAnswer = (rivalId, answer) => {
+  socket.emit(
+    "quizAnswer",
+    {
+      user: rivalId,
+      answer: answer,
+    },
+    function (resp) {
+      console.log("respuesta server: ", resp);
+    }
+  );
+};
+
 // Obtain socket id of client
 export const getSocketId = () => {
   return socket.id;
@@ -24,7 +38,7 @@ export const storeClientInfo = (user) => {
   socket.emit("storeClientInfo", { user: user });
 };
 
-// Listen to private message
-/* socket.on("mensajePrivado", function (msg) {
-  console.log("Mensaje Privado:", msg);
-}); */
+// Send timeout to rival
+export const sendTimeOut = (rivalId) => {
+  socket.emit("timeout", { user: rivalId });
+};

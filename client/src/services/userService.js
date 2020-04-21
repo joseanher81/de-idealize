@@ -21,3 +21,14 @@ export const saveSocketId = async (userid, socketid) => {
   const res = await api.post("/user/saveSocketId", { userid, socketid });
   return res.data;
 };
+
+export const addToBlackList = async (rivalid) => {
+  const res = await api.post("/user/addToBlackList", { rivalid });
+  return res.data;
+};
+
+export const deleteCurrentGame = async () => {
+  const res = await api.post("/user/deleteCurrentGame");
+  console.log("PUTOOO DIOS " + JSON.stringify(res));
+  return res.data.user;
+};

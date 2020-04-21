@@ -45,4 +45,23 @@ io.on("connection", function (client) {
       .to(toClient.socketId)
       .emit("mensajePrivado", { text: message, own: false });
   });
+
+  // Answer to quiz
+  client.on("quizAnswer", (data) => {
+    const { user, answer } = data;
+    console.log(`Answer to quiz - user: ${user} answer: ${answer}`);
+    let toClient = clients.find((c) => c.user === user);
+    console.log("Answer to quiz - client:" + JSON.stringify(toClient.socketId));
+    client.broadcast
+      .to(toClient.socketId)
+      .emit("quizAnswer", { answer: answer });
+  });
+
+  // Timeout management
+  client.on("timeout", (data) => {
+    const { user } = data;
+    let toClient = clients.find((c) => c.user === user);
+
+    if (toClient) client.broadcast.to(toClient.socketId).emit("timeout");
+  });
 });
