@@ -66,17 +66,23 @@ const EndPage = () => {
     console.log("Start new game");
 
     if (gameStatus === "LOSE") {
-      // RESET GAME
       try {
+        // PREPARE FOR NEW GAME
         let updatedUser = await deleteCurrentGame();
         console.log("UPDATED USER " + JSON.stringify(updatedUser));
         setUser(updatedUser);
+        // RESET GAME
+        resetStates();
       } catch (error) {
         console.log("Error deleting game from user " + error);
       }
     }
 
-    resetStates();
+    if (gameStatus === "WIN") {
+      // CONTINUE TALKING WITHOUT LIMITS
+      setGameStatus("MATCHED");
+    }
+
     history.push("/game");
   };
 

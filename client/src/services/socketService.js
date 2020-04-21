@@ -42,8 +42,3 @@ export const storeClientInfo = (user) => {
 export const sendTimeOut = (rivalId) => {
   socket.emit("timeout", { user: rivalId });
 };
-
-// Listen to private message
-/* socket.on("mensajePrivado", function (msg) {
-  console.log("Mensaje Privado:", msg);
-}); */

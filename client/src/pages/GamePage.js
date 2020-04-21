@@ -46,7 +46,8 @@ const GamePage = () => {
   useEffect(() => {
     console.log("WELCOME TO THE GAME!");
     console.log("2");
-    setGameStatus("PLAYING");
+    if (gameStatus !== "MATCHED") setGameStatus("PLAYING"); // The player has already matched
+    console.log("GAMESTATUS " + gameStatus);
 
     // Save client info on socket server
     storeClientInfo(user._id);
@@ -112,7 +113,7 @@ const GamePage = () => {
     console.log("GAME STAGE" + stage);
 
     // Every 5 stages a Question is asked
-    if (stage !== 0 && stage % 5 === 0) {
+    if (stage !== 0 && stage % 5 === 0 && gameStatus !== "MATCHED") {
       console.log("PREGUNTA!!!");
       getQuestion(game._id)
         .then((question) => {

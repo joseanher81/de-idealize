@@ -63,6 +63,7 @@ const Quiz = ({ openQuiz, setOpenQuiz, processQuiz }) => {
     setMatch,
     rival,
     game,
+    gameStatus,
   } = useContext(GameContext);
 
   useEffect(() => setOpen(openQuiz), [openQuiz]);
@@ -73,21 +74,22 @@ const Quiz = ({ openQuiz, setOpenQuiz, processQuiz }) => {
       console.log("quizAnswer rival:" + JSON.stringify(answer));
       setRivalAnswer(answer);
     });
+    return () => socket.off("quizAnswer");
   }, []);
 
   // Check both answers
   useEffect(() => {
     if (ownAnwser?.answer && rivalAnswer?.answer) {
-      console.log("CAGO EN DIOS 111111111111");
-      if (ownAnwser.answer === rivalAnswer.answer) {
-        console.log("CAGO EN DIOS 222222222222");
+      if (ownAnwser.answer === rivalAnswer.answer && gameStatus !== "MATCHED") {
         setMatch(
           match + currentQuiz.factor < 100 ? match + currentQuiz.factor : 100
         );
         setOwnAnswer(undefined);
         setRivalAnswer(undefined);
-      } else {
-        console.log("CAGO EN DIOS 3333333333333");
+      } else if (
+        ownAnwser.answer !== rivalAnswer.answer &&
+        gameStatus !== "MATCHED"
+      ) {
         setMatch(match - currentQuiz.factor);
         setOwnAnswer(undefined);
         setRivalAnswer(undefined);
@@ -95,7 +97,6 @@ const Quiz = ({ openQuiz, setOpenQuiz, processQuiz }) => {
     } else {
       console.log("ownAnwser " + JSON.stringify(ownAnwser));
       console.log("rivalAnswer " + JSON.stringify(rivalAnswer));
-      console.log("CAGO EN DIOS 444444444444");
       console.log("Falta alguna respuesta");
     }
   }, [ownAnwser, rivalAnswer]);

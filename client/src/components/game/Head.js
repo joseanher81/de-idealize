@@ -47,9 +47,14 @@ const useStyles = makeStyles((theme) => ({
 const Head = (props) => {
   const classes = useStyles();
   const { rival } = props;
-  const { match, stage, picShown, setPicShown, setGameStatus } = useContext(
-    GameContext
-  );
+  const {
+    match,
+    stage,
+    picShown,
+    setPicShown,
+    setGameStatus,
+    gameStatus,
+  } = useContext(GameContext);
 
   // GAME LOGIC RELATED TO HEADER
   useEffect(() => {
@@ -57,7 +62,7 @@ const Head = (props) => {
     if (stage !== 0 && stage % 7 === 0) setPicShown(picShown + 1);
 
     // If Stage is 22 end game in WIN state
-    if (stage === 22) setGameStatus("WIN");
+    if (stage === 22 && gameStatus !== "MATCHED") setGameStatus("WIN"); // SHOULD MOVE TO MAIN GAME
   }, [stage]);
 
   useEffect(() => {

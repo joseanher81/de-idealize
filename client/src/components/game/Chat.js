@@ -28,6 +28,7 @@ const Chat = (props) => {
     rival,
     playerTurn,
     setPlayerTurn,
+    gameStatus,
   } = useContext(GameContext);
   const { user } = useContext(UserContext);
 
@@ -38,13 +39,13 @@ const Chat = (props) => {
 
       // Cambiar turno y guardar en ddbb
       setPlayerTurn(user._id);
-      //setGame({ ...game, playerTurn: user._id });
 
       // Print msg on screen
       setMessages((oldmessages) => [...oldmessages, msg]);
 
       // TODO Guardar en DDBB
     });
+    return () => socket.off("mensajePrivado");
   }, []);
 
   useEffect(() => {
@@ -69,7 +70,9 @@ const Chat = (props) => {
       {messages.map((msg, i) => {
         return <Bubble key={i} msg={msg} />;
       })}
-      {!(rival?._id === playerTurn) && <Timer messages={messages} />}
+      {!(rival?._id === playerTurn) && gameStatus !== "MATCHED" && (
+        <Timer messages={messages} />
+      )}
     </Grid>
   );
 };

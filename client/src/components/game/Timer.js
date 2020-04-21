@@ -36,6 +36,7 @@ const Timer = (props) => {
     socket.on("timeout", function () {
       setGameStatus("LOSE");
     });
+    return () => socket.off("timeout");
   }, []);
 
   useEffect(() => {
@@ -50,7 +51,7 @@ const Timer = (props) => {
     const intervalId = setInterval(function () {
       currentMilis++;
       if (currentMilis % 100 === 0) currentTime--;
-      if (currentTime < 0) {
+      if (currentTime < 0 && gameStatus !== "MATCHED") {
         setTimedOut(true); // SEND TIMEOUT TO RIVAL
         setGameStatus("LOSE");
         clearInterval(intervalId);
