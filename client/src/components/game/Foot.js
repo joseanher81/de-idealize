@@ -37,9 +37,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Foot = (props) => {
-  const { messages, setMessages, playerTurn, setPlayerTurn } = useContext(
-    GameContext
-  );
+  const {
+    messages,
+    setMessages,
+    playerTurn,
+    setPlayerTurn,
+    gameStatus,
+  } = useContext(GameContext);
   const classes = useStyles();
   const { register, handleSubmit, errors } = useForm(); // initialise hook-form
   const { rival, game, setGame, setOpenToast, openToast } = props;
@@ -111,11 +115,11 @@ const Foot = (props) => {
                 focusVisible: classes.submit,
               }} */
               className={
-                rival?._id === playerTurn
+                rival?._id === playerTurn && gameStatus !== "MATCHED"
                   ? classes.submitInactive
                   : classes.submitActive
               }
-              disabled={rival?._id === playerTurn}
+              disabled={rival?._id === playerTurn && gameStatus !== "MATCHED"}
             >
               <SendIcon />
             </IconButton>
