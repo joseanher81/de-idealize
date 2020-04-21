@@ -62,6 +62,6 @@ io.on("connection", function (client) {
     const { user } = data;
     let toClient = clients.find((c) => c.user === user);
 
-    client.broadcast.to(toClient.socketId).emit("timeout");
+    if (toClient) client.broadcast.to(toClient.socketId).emit("timeout");
   });
 });

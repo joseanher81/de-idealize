@@ -6,15 +6,18 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { useHistory } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { deleteCurrentGame } from "./../services/userService";
+import { logout } from "./../services/authService";
 
 const useStyles = makeStyles((theme) => ({
   page: {
     display: "flex",
     alignItems: "center",
     height: "100vh",
+    paddingBottom: "2em",
   },
   item: {},
   submit: {
@@ -42,6 +45,14 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(20),
     border: "2px solid #ff8ba7",
   },
+  iconOut: {
+    color: "#FF8BA7",
+    marginTop: "20px",
+    marginLeft: "15px",
+  },
+  left: {
+    textAlign: "left",
+  },
 }));
 
 const EndPage = () => {
@@ -61,6 +72,19 @@ const EndPage = () => {
     setOwnAnswer,
     setRivalAnswer,
   } = useContext(GameContext);
+
+  const logOut = async (e) => {
+    console.log("LOGIN OUT");
+    e.preventDefault();
+    try {
+      const out = await logOut();
+      console.log("LOG OUT RESP " + out);
+    } catch (error) {
+      console.log("Error login out" + error);
+    }
+
+    history.push("/");
+  };
 
   const newGame = async (e) => {
     console.log("Start new game");
@@ -99,43 +123,50 @@ const EndPage = () => {
   };
 
   return (
-    <Grid container className={classes.page}>
-      <Grid item xs={12} align="center">
-        <Avatar
-          alt={user?.username}
-          src={user?.image1.url}
-          className={gameStatus === "LOSE" ? classes.imageLose : classes.image}
-        />
-      </Grid>
+    <div className={classes.left}>
+      <ExitToAppIcon className={classes.iconOut} onClick={logOut} />
+      <Grid container className={classes.page}>
+        <Grid item xs={12} align="center">
+          <Avatar
+            alt={user?.username}
+            src={user?.image1.url}
+            className={
+              gameStatus === "LOSE" ? classes.imageLose : classes.image
+            }
+          />
+        </Grid>
 
-      <Grid item xs={12} align="center">
-        <Typography component="h1" className={classes.title}>
-          {gameStatus === "LOSE"
-            ? "There where no future :("
-            : "It's your turn! ;-)"}
-        </Typography>
-      </Grid>
+        <Grid item xs={12} align="center">
+          <Typography component="h1" className={classes.title}>
+            {gameStatus === "LOSE"
+              ? "There where no future :("
+              : "It's your turn! ;-)"}
+          </Typography>
+        </Grid>
 
-      <Grid item xs={12} align="center">
-        <Avatar
-          alt={rival?.username}
-          src={rival?.image1.url}
-          className={gameStatus === "LOSE" ? classes.imageLose : classes.image}
-        />
-      </Grid>
+        <Grid item xs={12} align="center">
+          <Avatar
+            alt={rival?.username}
+            src={rival?.image1.url}
+            className={
+              gameStatus === "LOSE" ? classes.imageLose : classes.image
+            }
+          />
+        </Grid>
 
-      <Grid item xs={12} align="center">
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          className={classes.submit}
-          onClick={newGame}
-        >
-          {gameStatus === "LOSE" ? "Try another one!" : "Keep on talking!"}
-        </Button>
+        <Grid item xs={12} align="center">
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={newGame}
+          >
+            {gameStatus === "LOSE" ? "Try another one!" : "Keep on talking!"}
+          </Button>
+        </Grid>
       </Grid>
-    </Grid>
+    </div>
   );
 };
 
