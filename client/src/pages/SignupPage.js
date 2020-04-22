@@ -30,6 +30,12 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    borderRadius: "10px 0 10px 0",
+    margin: theme.spacing(3, 0, 2),
+    height: "4em",
+    color: "#fffffe",
+    fontSize: "1.3em",
+    fontWeight: "bold",
   },
   logo: {
     fontFamily: "Sacramento",

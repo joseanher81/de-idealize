@@ -29,7 +29,12 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   submit: {
+    borderRadius: "10px 0 10px 0",
     margin: theme.spacing(3, 0, 2),
+    height: "4em",
+    color: "#fffffe",
+    fontSize: "1.3em",
+    fontWeight: "bold",
   },
   logo: {
     fontFamily: "Sacramento",
@@ -51,7 +56,7 @@ const LoginPage = () => {
       const user = await login({ username, password });
       if (user) {
         setUser(user);
-        history.push("/game");
+        history.push("/introduce");
       } else {
         console.log("No se encuentra el usuario");
         // TODO mostrar mensaje

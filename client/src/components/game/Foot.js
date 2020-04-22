@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { MessagesContext } from "./../../contexts/messagesContext";
+import { GameContext } from "./../../contexts/gameContext";
 import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
@@ -9,39 +9,81 @@ import SendIcon from "@material-ui/icons/Send";
 import { useForm } from "react-hook-form";
 import Grid from "@material-ui/core/Grid";
 import { sendMessage } from "./../../services/socketService";
+import { isValid } from "./../../lib/utils";
 
 const useStyles = makeStyles((theme) => ({
   stickToBottom: {
     width: "100%",
     bottom: 0,
     height: "15vh",
+    borderTop: "1px solid #ff8ba7",
   },
-  submit: {
+  submitActive: {
     margin: theme.spacing(2, 0, 2, 0),
     backgroundColor: "#FF8BA7",
     color: "#594A4E",
+    border: "1px solid #FF8BA7",
+    "&:hover": { backgroundColor: "#FF8BA7" },
+    "&:focus": { backgroundColor: "#FF8BA7" },
+  },
+  submitInactive: {
+    margin: theme.spacing(2, 0, 2, 0),
+    backgroundColor: "#ffc6c7",
+    color: "#594A4E",
+    border: "1px solid #FF8BA7",
+    "&:hover": { backgroundColor: "#ffc6c7" },
+    "&:focus": { backgroundColor: "#ffc6c7" },
   },
 }));
 
 const Foot = (props) => {
-  const { messages, setMessages } = useContext(MessagesContext);
+  const {
+    messages,
+    setMessages,
+    playerTurn,
+    setPlayerTurn,
+    gameStatus,
+  } = useContext(GameContext);
   const classes = useStyles();
   const { register, handleSubmit, errors } = useForm(); // initialise hook-form
-  const { rival } = props;
+  const { rival, game, setGame, setOpenToast, openToast } = props;
 
   const onSubmit = async (data, e) => {
     const { message } = data;
     console.log("Mensaje " + message);
 
-    // Enviar información
-    sendMessage(rival._id, message);
+    if (isValid(message)) {
+      // Enviar información
+      sendMessage(rival._id, message);
 
-    // Print msg on screen
-    setMessages([...messages, { text: message, own: true }]);
+      // Print msg on screen
+      setMessages([...messages, { text: message, own: true }]);
+
+      // Cambiar turno y guardar en ddbb
+      setPlayerTurn(rival._id);
+      //setGame({ ...game, playerTurn: });
+
+      // TODO Guardar en DDBB
+    } else {
+      // Show a toast with warning
+      setOpenToast(true);
+    }
 
     // Reset input
     e.target.reset();
   };
+
+  useEffect(() => {
+    console.log("A ver q hemos liado" + JSON.stringify(game));
+  }, [game]);
+  // Turn control
+  /*   useEffect(() => {
+    rival?._id === game?.playerTurn
+      ? (refButton.current.disabled = true)
+      : (refButton.current.disabled = false);
+    console.log("Rival entrando" + rival?._id);
+    console.log("Player turn entrando" + game?.playerTurn);
+  }, [rival]); */
 
   return (
     <Container className={classes.stickToBottom}>
@@ -68,7 +110,16 @@ const Foot = (props) => {
             <IconButton
               aria-label="send"
               type="submit"
-              className={classes.submit}
+              /*               classes={{
+                root: classes.submit,
+                focusVisible: classes.submit,
+              }} */
+              className={
+                rival?._id === playerTurn && gameStatus !== "MATCHED"
+                  ? classes.submitInactive
+                  : classes.submitActive
+              }
+              disabled={rival?._id === playerTurn && gameStatus !== "MATCHED"}
             >
               <SendIcon />
             </IconButton>

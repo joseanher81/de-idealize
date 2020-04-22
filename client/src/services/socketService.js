@@ -1,5 +1,5 @@
 import io from "socket.io-client";
-export const socket = io("localhost:5000");
+export const socket = io(process.env.REACT_APP_SERVER);
 
 // Send a private message
 export const sendMessage = (rivalId, message) => {
@@ -8,6 +8,20 @@ export const sendMessage = (rivalId, message) => {
     {
       user: rivalId,
       message: message,
+    },
+    function (resp) {
+      console.log("respuesta server: ", resp);
+    }
+  );
+};
+
+// Send a answer to quiz
+export const sendAnswer = (rivalId, answer) => {
+  socket.emit(
+    "quizAnswer",
+    {
+      user: rivalId,
+      answer: answer,
     },
     function (resp) {
       console.log("respuesta server: ", resp);
@@ -24,7 +38,7 @@ export const storeClientInfo = (user) => {
   socket.emit("storeClientInfo", { user: user });
 };
 
-// Listen to private message
-/* socket.on("mensajePrivado", function (msg) {
-  console.log("Mensaje Privado:", msg);
-}); */
+// Send timeout to rival
+export const sendTimeOut = (rivalId) => {
+  socket.emit("timeout", { user: rivalId });
+};

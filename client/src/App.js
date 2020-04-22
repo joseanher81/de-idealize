@@ -7,10 +7,12 @@ import { createTheme } from "./components/theme";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import ProfilePage from "./pages/ProfilePage";
+import EndPage from "./pages/EndPage";
 import GamePage from "./pages/GamePage";
+import IntroducePage from "./pages/IntroducePage";
 import { loggedin } from "./services/authService";
 import { useHistory } from "react-router-dom";
-import MessagesContextProvider from "./contexts/messagesContext";
+import GameContextProvider from "./contexts/gameContext";
 
 function App() {
   const theme = createTheme();
@@ -42,9 +44,11 @@ function App() {
           <Route exact path="/" component={LoginPage} />
           <Route exact path="/signup" component={SignupPage} />
           <Route exact path="/profile" component={ProfilePage} />
-          <MessagesContextProvider>
+          <GameContextProvider>
+            <Route exact path="/introduce" component={IntroducePage} />
             <Route exact path="/game" component={GamePage} />
-          </MessagesContextProvider>
+            <Route exact path="/end" component={EndPage} />
+          </GameContextProvider>
         </Switch>
       </ThemeProvider>
     </div>

@@ -41,7 +41,12 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   submit: {
+    borderRadius: "10px 0 10px 0",
     margin: theme.spacing(3, 0, 2),
+    height: "3em",
+    color: "#fffffe",
+    fontSize: "1.3em",
+    fontWeight: "bold",
   },
   input: {
     display: "none",
@@ -98,7 +103,7 @@ const ProfilePage = () => {
         if (user) {
           console.log("El usuario es " + JSON.stringify(user));
           setUser(user);
-          history.push("/game");
+          history.push("/introduce");
         } else {
           console.log("Error en el signup");
           // TODO mostrar mensaje
