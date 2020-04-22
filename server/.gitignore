@@ -12,3 +12,7 @@ npm-debug.log
 
 # Visual Studio Code settings
 .vscode
+
+# DDBB Script
+dump/
+syncdbremote.sh
