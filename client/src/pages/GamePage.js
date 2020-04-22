@@ -9,6 +9,7 @@ import Head from "./../components/game/Head";
 import Chat from "./../components/game/Chat";
 import Foot from "./../components/game/Foot";
 import Quiz from "./../components/game/Quiz";
+import PicModal from "./../components/game/PicModal";
 import Toast from "./../components/game/Toast";
 import { Box } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
@@ -16,6 +17,8 @@ import { useHistory } from "react-router-dom";
 const GamePage = () => {
   const history = useHistory();
   const [openQuiz, setOpenQuiz] = useState(false);
+  const [openPic, setOpenPic] = useState(false);
+  const [picUrl, setPicUrl] = useState("");
   const [openToast, setOpenToast] = useState(false);
 
   const { user } = useContext(UserContext);
@@ -73,7 +76,7 @@ const GamePage = () => {
     <Box>
       {/* <NavBar /> */}
       <Menu/>
-      <Head rival={rival} />
+      <Head rival={rival} setOpenPic={setOpenPic} setPicUrl={setPicUrl}/>
       <Chat />
       <Foot
         rival={rival}
@@ -83,6 +86,7 @@ const GamePage = () => {
         setOpenToast={setOpenToast}
       />
       {<Quiz openQuiz={openQuiz} setOpenQuiz={setOpenQuiz} />}
+      {<PicModal openPic={openPic} setOpenPic={setOpenPic} picUrl={picUrl} setPicUrl={setPicUrl}/>}
       {<Toast openToast={openToast} setOpenToast={setOpenToast} />}
     </Box>
   );
