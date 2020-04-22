@@ -4,6 +4,7 @@ import { GameContext } from "./../contexts/gameContext";
 import { addToBlackList } from "./../services/userService";
 import { getQuestion } from "./../services/questionService";
 import NavBar from "./../components/game/NavBar";
+import Menu from "./../components/game/Menu";
 import Head from "./../components/game/Head";
 import Chat from "./../components/game/Chat";
 import Foot from "./../components/game/Foot";
@@ -70,7 +71,8 @@ const GamePage = () => {
 
   return (
     <Box>
-      <NavBar />
+      {/* <NavBar /> */}
+      <Menu/>
       <Head rival={rival} />
       <Chat />
       <Foot

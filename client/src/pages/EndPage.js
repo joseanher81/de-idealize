@@ -73,11 +73,11 @@ const EndPage = () => {
     setRivalAnswer,
   } = useContext(GameContext);
 
-  const logOut = async (e) => {
+  const handleLogOut = async (e) => {
     console.log("LOGIN OUT");
     e.preventDefault();
     try {
-      const out = await logOut();
+      const out = await logout();
       console.log("LOG OUT RESP " + out);
     } catch (error) {
       console.log("Error login out" + error);
@@ -122,7 +122,7 @@ const EndPage = () => {
 
   return (
     <div className={classes.left}>
-      <ExitToAppIcon className={classes.iconOut} onClick={logOut} />
+      <ExitToAppIcon className={classes.iconOut} onClick={handleLogOut} />
       <Grid container className={classes.page}>
         <Grid item xs={12} align="center">
           <Avatar
