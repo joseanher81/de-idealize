@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { UserContext } from "./../contexts/userContexts";
 import { GameContext } from "./../contexts/gameContext";
 import { createGame, getGame } from "./../services/gameService";
 import { getUser } from "./../services/userService";
-import { storeClientInfo } from "./../services/socketService";
+import { storeClientInfo, socket, sendAreYouThere, sendIAmHere } from "./../services/socketService";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     fontFamily: "Sacramento",
     fontSize: "2.5em",
+
   },
   imageBlurred: {
     width: theme.spacing(20),
@@ -44,13 +45,20 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(20),
     border: "2px solid #ff8ba7",
   },
+  name:{
+    fontWeight: "bold",
+  },
+  buttontext: {
+    paddingRight: "20px",
+    paddingLeft: "20px",
+  },
 }));
 
 const IntroducePage = () => {
   const classes = useStyles();
-  //const historyBrowser = createBrowserHistory();
   const history = useHistory();
-  //const { user, rival, gameStatus } = historyBrowser.location.state.data;
+  const [ready, setReady] = useState(false);
+  const [iamhere, setIamhere] = useState(false);
   const { user, setUser } = useContext(UserContext);
   const {
     setPlayerTurn,
@@ -62,13 +70,33 @@ const IntroducePage = () => {
     setRival,
   } = useContext(GameContext);
 
-  //SETTING UP GAME
-  console.log("1");
+  // Listening to readiness of the other player
   useEffect(() => {
-    console.log("SETTING UP GAME!");
-    console.log("2");
+    socket.on("areyouthere", function () {
+      setIamhere(true);
+    });
+    return () => socket.off("areyouthere");
+  }, []);
+
+  useEffect(() => {
+    socket.on("iamhere", function () {
+      setReady(true);
+    });
+    return () => socket.off("iamhere");
+  }, []);
+
+  useEffect(()=> {
+    if(iamhere) {
+      sendIAmHere(rival._id);
+      console.log("READY")
+      setReady(true);
+    }
+  }, [iamhere]);
+
+  //SETTING UP GAME
+  useEffect(() => {
+    console.log("Setting up game");
     if (gameStatus !== "MATCHED") setGameStatus("PLAYING"); // Check if the player has already matched
-    console.log("GAMESTATUS " + gameStatus);
 
     // Save client info on socket server
     storeClientInfo(user._id);
@@ -76,45 +104,38 @@ const IntroducePage = () => {
     // Check if user has an ongoing game
     if (!user.currentGame) {
       // USER HAS NO GAME
-      console.log("USER HAS NOT CURRENT GAME and his userid is " + user._id);
-      console.log("3");
+      console.log("User has not current game");
 
       // Create new game
       createGame(user._id)
         .then((data) => {
           const { game, playerA, playerB } = data;
-          console.log("GAME RECIEVED " + JSON.stringify(game));
-          console.log("4");
           setGame(game);
           setUser(playerA);
           setRival(playerB);
+          sendAreYouThere(playerB._id);
           setPlayerTurn(game.playerTurn);
-          console.log("5");
         })
         .catch((e) => {
           console.log("Error creating game " + e);
         });
     } else {
       // USER HAS GAME
-      console.log("USER HAS GAME and his id is " + user.currentGame);
-      console.log("7");
+      console.log("User has game");
 
       // Get current game
-      console.log("JUEGO " + game);
       getGame(user._id)
         .then((game) => {
           setGame(game);
           setPlayerTurn(game.playerTurn);
-          console.log("8");
-          console.log("GAME RECIEVED " + JSON.stringify(game));
 
           // Get current rival
           let rival = user._id === game.playerA ? game.playerB : game.playerA;
 
           getUser(rival)
             .then((player) => {
-              console.log("Rival recieved" + JSON.stringify(player));
               setRival(player);
+              sendAreYouThere(player._id);
             })
             .catch((e) => {
               console.log("Error getting player " + e);
@@ -144,7 +165,7 @@ const IntroducePage = () => {
 
         <Grid item xs={12} align="center">
           <Typography component="h1" className={classes.title}>
-            You are gonna meet {rival?.username} :D
+            You are gonna meet <div className={classes.name}>{rival?.username}</div>
           </Typography>
         </Grid>
 
@@ -162,9 +183,11 @@ const IntroducePage = () => {
             variant="contained"
             color="primary"
             className={classes.submit}
+            disabled={!ready}
             onClick={startGame}
           >
-            Let's start!
+            <span className={classes.buttontext}>{ready ? "Let's start!" : "Waiting player"}</span>
+            
           </Button>
         </Grid>
       </Grid>

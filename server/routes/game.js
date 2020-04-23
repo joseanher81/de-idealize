@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const mongoose = require("mongoose");
 const User = require("../models/user");
 const Game = require("../models/game");
 const Chat = require("../models/chat");
@@ -13,6 +14,11 @@ router.post("/game/new", async (req, res, next) => {
     // Get current player
     const { userid } = req.body;
     const currentUser = await User.findById(userid);
+
+    // Need to find a not blacklisted user
+    let qIdObjectsBlacklist = currentUser.blacklist.map((s) => mongoose.Types.ObjectId(s));
+
+    console.log("qIdObjectsBlacklist " +qIdObjectsBlacklist);
 
     // Try to find a suitable match
     const { lookingFor, minAge, maxAge, username, age, gender } = currentUser;
@@ -46,6 +52,11 @@ router.post("/game/new", async (req, res, next) => {
         },
         {
           currentGame: null,
+        },
+        {
+          _id: { 
+            $nin: qIdObjectsBlacklist, 
+          },
         },
         {
           username: {

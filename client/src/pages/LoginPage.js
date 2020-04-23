@@ -59,7 +59,6 @@ const LoginPage = () => {
         history.push("/introduce");
       } else {
         console.log("No se encuentra el usuario");
-        // TODO mostrar mensaje
       }
     } catch (error) {
       console.log(error);

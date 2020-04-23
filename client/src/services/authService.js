@@ -21,7 +21,6 @@ export const signup = async (formData) => {
     image2,
     image3,
   } = formData;
-  console.log("Al formData llega " + JSON.stringify(formData));
 
   try {
     const res = await service.post("/auth/signup", {
@@ -67,7 +66,6 @@ export const login = async (formData) => {
 export const logout = async () => {
   try {
     const res = await service.post("auth/logout");
-
     console.log("User logged out " + res);
     return res.data;
   } catch (error) {
@@ -79,7 +77,6 @@ export const logout = async () => {
 export const loggedin = async () => {
   try {
     const res = await service.get("auth/loggedin");
-
     console.log("Check user loged in " + res);
     return res.data.user;
   } catch (error) {

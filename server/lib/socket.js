@@ -59,9 +59,40 @@ io.on("connection", function (client) {
 
   // Timeout management
   client.on("timeout", (data) => {
+    console.log("One user hs timed out ");
+    console.log("He wants to notify to  " + data);
+    const { user } = data;
+    console.log("To user " + user);
+    let toClient = clients.find((c) => c.user === user);
+    console.log("Notifyin to client" + toClient);
+    console.log("With socket id" + toClient.socketId);
+    client.broadcast.to(toClient.socketId).emit("timeout");
+  });
+
+  // Checking players readiness for playing
+  client.on("areyouthere", (data) => {
     const { user } = data;
     let toClient = clients.find((c) => c.user === user);
-
-    if (toClient) client.broadcast.to(toClient.socketId).emit("timeout");
+console.log("areyouthere ");
+console.log(toClient);
+    if (toClient) client.broadcast.to(toClient.socketId).emit("areyouthere");
   });
+
+  client.on("iamhere", (data) => {
+    const { user } = data;
+    let toClient = clients.find((c) => c.user === user);
+    console.log("iamhere " );
+    console.log(toClient);
+    if (toClient) client.broadcast.to(toClient.socketId).emit("iamhere");
+  });
+
+  // Share question for quiz
+  client.on("shareQuiz", (data) => {
+    const { user, quiz } = data;
+    let toClient = clients.find((c) => c.user === user);
+    console.log("shareQuiz " + quiz);
+    console.log(toClient);
+    if (toClient) client.broadcast.to(toClient.socketId).emit("shareQuiz", {quiz: quiz});
+  });
+  
 });

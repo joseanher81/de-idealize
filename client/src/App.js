@@ -16,10 +16,11 @@ import GameContextProvider from "./contexts/gameContext";
 
 function App() {
   const theme = createTheme();
-  const { setUser } = useContext(UserContext);
-  const history = useHistory();
+  //const { setUser } = useContext(UserContext);
+  //const history = useHistory();
 
-  useEffect(() => {
+  // I think it is better not to autologin according to game logic (Left this for reference)
+/*   useEffect(() => {
     // When the app starts this runs only once
     console.log("WELCOME TO APP!");
 
@@ -34,7 +35,7 @@ function App() {
       .catch((e) => {
         console.error("No user logged in ");
       });
-  }, []);
+  }, []); */
 
   return (
     <div className="App">

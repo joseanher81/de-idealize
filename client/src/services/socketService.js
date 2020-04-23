@@ -40,5 +40,21 @@ export const storeClientInfo = (user) => {
 
 // Send timeout to rival
 export const sendTimeOut = (rivalId) => {
+  console.log("Sending time out from client service to " + rivalId);
   socket.emit("timeout", { user: rivalId });
+};
+
+// Checking players readiness for playing
+export const sendAreYouThere = (rivalId) => {
+  console.log("SendAreYouThere " + rivalId);
+  socket.emit("areyouthere", { user: rivalId });
+};
+
+export const sendIAmHere = (rivalId) => {
+  socket.emit("iamhere", { user: rivalId });
+};
+
+// Share a question for the Quiz
+export const shareQuiz = (quiz, user) => {
+  socket.emit("shareQuiz", { quiz: quiz, user: user });
 };

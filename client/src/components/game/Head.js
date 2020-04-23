@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Head = (props) => {
   const classes = useStyles();
-  const { rival } = props;
+  const { rival, setOpenPic, setPicUrl } = props;
   const {
     match,
     stage,
@@ -70,6 +70,13 @@ const Head = (props) => {
     if (match < 50) setGameStatus("LOSE");
   }, [match]);
 
+  const handleClicImg = (e, url, imgNumber) =>{
+    if(picShown >= imgNumber) { // Only show img if it is not blurred
+      setOpenPic(true);
+      setPicUrl(url);
+    }
+  }
+
   return (
     <Container className={classes.head}>
       <Typography component="h1" variant="h5" className={classes.name}>
@@ -85,6 +92,9 @@ const Head = (props) => {
           <Avatar
             alt={rival?.username}
             src={rival?.image1.url}
+            onClick={(e) => {
+              handleClicImg(e, rival?.image1.url, 1);
+            }}
             className={picShown >= 1 ? classes.imageSharp : classes.imageBlur}
           />
         </Grid>
@@ -92,6 +102,9 @@ const Head = (props) => {
           <Avatar
             alt={rival?.username}
             src={rival?.image2.url}
+            onClick={(e) => {
+              handleClicImg(e, rival?.image2.url, 2);
+            }}
             className={picShown >= 2 ? classes.imageSharp : classes.imageBlur}
           />
         </Grid>
@@ -99,6 +112,9 @@ const Head = (props) => {
           <Avatar
             alt={rival?.username}
             src={rival?.image3.url}
+            onClick={(e) => {
+              handleClicImg(e, rival?.image3.url, 3);
+            }}
             className={picShown >= 3 ? classes.imageSharp : classes.imageBlur}
           />
         </Grid>

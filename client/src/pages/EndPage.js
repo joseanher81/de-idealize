@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
     height: "100vh",
     paddingBottom: "2em",
   },
-  item: {},
   submit: {
     borderRadius: "10px 0 10px 0",
     margin: theme.spacing(3, 0, 2),
@@ -39,6 +38,13 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(20),
     border: "2px solid #ff8ba7",
     filter: "grayscale(100%) opacity(80%)",
+  },
+  imageLoseBlur: {
+    width: theme.spacing(20),
+    height: theme.spacing(20),
+    border: "2px solid #ff8ba7",
+    filter: "grayscale(100%) blur(5px) opacity(80%)",
+    transform: "scale(1.1)",
   },
   image: {
     width: theme.spacing(20),
@@ -71,14 +77,15 @@ const EndPage = () => {
     setCurrentQuiz,
     setOwnAnswer,
     setRivalAnswer,
+    picShown
   } = useContext(GameContext);
 
-  const logOut = async (e) => {
+  const handleLogOut = async (e) => {
     console.log("LOGIN OUT");
     e.preventDefault();
     try {
-      const out = await logOut();
-      console.log("LOG OUT RESP " + out);
+      await deleteCurrentGame();
+      await logout();
     } catch (error) {
       console.log("Error login out" + error);
     }
@@ -93,7 +100,7 @@ const EndPage = () => {
       try {
         // PREPARE FOR NEW GAME
         let updatedUser = await deleteCurrentGame();
-        console.log("UPDATED USER " + JSON.stringify(updatedUser));
+        console.log("Updated user " + JSON.stringify(updatedUser));
         setUser(updatedUser);
         // RESET GAME
         resetStates();
@@ -122,7 +129,7 @@ const EndPage = () => {
 
   return (
     <div className={classes.left}>
-      <ExitToAppIcon className={classes.iconOut} onClick={logOut} />
+      <ExitToAppIcon className={classes.iconOut} onClick={handleLogOut} />
       <Grid container className={classes.page}>
         <Grid item xs={12} align="center">
           <Avatar
@@ -147,7 +154,7 @@ const EndPage = () => {
             alt={rival?.username}
             src={rival?.image1.url}
             className={
-              gameStatus === "LOSE" ? classes.imageLose : classes.image
+              gameStatus === "LOSE" ? (picShown >= 1 ? classes.imageLose: classes.imageLoseBlur) : classes.image
             }
           />
         </Grid>

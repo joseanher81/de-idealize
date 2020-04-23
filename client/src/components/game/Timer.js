@@ -1,11 +1,11 @@
-import React, { useRef, useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { GameContext } from "./../../contexts/gameContext";
-import { socket, sendTimeOut } from "./../../services/socketService";
+import {  sendTimeOut } from "./../../services/socketService";
 
 const useStyles = makeStyles((theme) => ({
   boxOutter: {
@@ -25,33 +25,29 @@ const useStyles = makeStyles((theme) => ({
 const Timer = (props) => {
   const classes = useStyles();
   const { messages } = props;
-  const [minutes, setMinutes] = useState(1);
-  const [seconds, setSeconds] = useState(30);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(45);
   const [percentage, setPercentage] = useState(100);
   const { gameStatus, setGameStatus, rival } = useContext(GameContext);
   const [timedOut, setTimedOut] = useState(false);
 
   useEffect(() => {
-    // Listen to timeout of rival
-    socket.on("timeout", function () {
-      setGameStatus("LOSE");
-    });
-  }, []);
-
-  useEffect(() => {
-    if (timedOut) sendTimeOut(rival._id);
+    if (timedOut){
+      // Send time out notification to rival
+      sendTimeOut(rival._id);
+    } 
   }, [timedOut]);
 
   useEffect(() => {
     let currentMilis = 0;
-    let currentTime = 90;
-    let initialTime = 90;
+    let currentTime = 45;
+    let initialTime = 45;
 
     const intervalId = setInterval(function () {
       currentMilis++;
       if (currentMilis % 100 === 0) currentTime--;
       if (currentTime < 0 && gameStatus !== "MATCHED") {
-        setTimedOut(true); // SEND TIMEOUT TO RIVAL
+        setTimedOut(true); // Send time out to rival
         setGameStatus("LOSE");
         clearInterval(intervalId);
       }
@@ -65,8 +61,6 @@ const Timer = (props) => {
     const getPercentage = () => (currentTime * 100) / initialTime;
 
     return () => clearInterval(intervalId);
-
-    // TODO Check conditions
   }, [messages]);
 
   return (
@@ -78,7 +72,7 @@ const Timer = (props) => {
       <Box className={classes.boxInner}>
         <CircularProgressbar
           value={percentage}
-          text={`${minutes} : ${seconds}`}
+          text={`${seconds}`}
           styles={{
             path: {
               // Path color
@@ -94,6 +88,7 @@ const Timer = (props) => {
             text: {
               // Text color
               fill: "#ff8ba7",
+              fontSize: "2.5em"
             },
           }}
         />

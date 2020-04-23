@@ -6,7 +6,6 @@ const api = axios.create({
 });
 
 export const getQuestion = async (gameid) => {
-  console.log("GAME ID " + gameid);
   const res = await api.get("/question/get/" + gameid);
   console.log("Question received from serve " + res.data.question);
   return res.data.question;
