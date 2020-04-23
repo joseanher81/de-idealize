@@ -59,10 +59,14 @@ io.on("connection", function (client) {
 
   // Timeout management
   client.on("timeout", (data) => {
+    console.log("One user hs timed out ");
+    console.log("He wants to notify to  " + data);
     const { user } = data;
+    console.log("To user " + user);
     let toClient = clients.find((c) => c.user === user);
-
-    if (toClient) client.broadcast.to(toClient.socketId).emit("timeout");
+    console.log("Notifyin to client" + toClient);
+    console.log("With socket id" + toClient.socketId);
+    client.broadcast.to(toClient.socketId).emit("timeout");
   });
 
   // Checking players readiness for playing

@@ -120,7 +120,7 @@ const Quiz = ({ openQuiz, setOpenQuiz, processQuiz }) => {
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle id="alert-dialog-slide-title" classname={classes.title}>
+        <DialogTitle id="alert-dialog-slide-title" className={classes.title}>
           {"Quiz"}
         </DialogTitle>
         <DialogContent className={classes.dialog}>

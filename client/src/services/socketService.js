@@ -40,6 +40,7 @@ export const storeClientInfo = (user) => {
 
 // Send timeout to rival
 export const sendTimeOut = (rivalId) => {
+  console.log("Sending time out from client service to " + rivalId);
   socket.emit("timeout", { user: rivalId });
 };
 

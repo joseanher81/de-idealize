@@ -14,6 +14,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
 import { useHistory } from "react-router-dom";
 import { logout } from "./../../services/authService";
+import { deleteCurrentGame } from "./../../services/userService";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,7 +60,9 @@ export default function MenuAppBar() {
     console.log("LOGIN OUT");
     setAnchorEl(null);
     try {
+      let updatedUser = await deleteCurrentGame();
       const out = await logout();
+      console.log("LOG OUT RESP " + out + " user " + updatedUser);
       console.log("LOG OUT RESP " + out);
     } catch (error) {
       console.log("Error login out" + error);

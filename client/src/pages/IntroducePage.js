@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     fontFamily: "Sacramento",
     fontSize: "2.5em",
+
   },
   imageBlurred: {
     width: theme.spacing(20),
@@ -43,6 +44,13 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(20),
     height: theme.spacing(20),
     border: "2px solid #ff8ba7",
+  },
+  name:{
+    fontWeight: "bold",
+  },
+  buttontext: {
+    paddingRight: "20px",
+    paddingLeft: "20px",
   },
 }));
 
@@ -87,10 +95,6 @@ const IntroducePage = () => {
       setReady(true);
     }
   }, [iamhere]);
-
-  // useEffect(() => {
-  //   if(rival) sendAreYouThere(rival._id);
-  // }, [rival]);
 
   //SETTING UP GAME
   console.log("1");
@@ -180,7 +184,7 @@ const IntroducePage = () => {
 
         <Grid item xs={12} align="center">
           <Typography component="h1" className={classes.title}>
-            You are gonna meet {rival?.username} :D
+            You are gonna meet <div className={classes.name}>{rival?.username}</div>
           </Typography>
         </Grid>
 
@@ -201,7 +205,7 @@ const IntroducePage = () => {
             disabled={!ready}
             onClick={startGame}
           >
-            {ready ? "Let's start!" : "Waiting player"}
+            <span className={classes.buttontext}>{ready ? "Let's start!" : "Waiting player"}</span>
             
           </Button>
         </Grid>

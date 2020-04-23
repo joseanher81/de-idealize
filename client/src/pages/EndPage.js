@@ -40,10 +40,24 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid #ff8ba7",
     filter: "grayscale(100%) opacity(80%)",
   },
+  imageLoseBlur: {
+    width: theme.spacing(20),
+    height: theme.spacing(20),
+    border: "2px solid #ff8ba7",
+    filter: "grayscale(100%) blur(5px) opacity(80%)",
+    transform: "scale(1.1)",
+  },
   image: {
     width: theme.spacing(20),
     height: theme.spacing(20),
     border: "2px solid #ff8ba7",
+  },
+  imageBlur: {
+    width: theme.spacing(20),
+    height: theme.spacing(20),
+    border: "2px solid #ff8ba7",
+    filter: "blur(5px)",
+    transform: "scale(1.1)",
   },
   iconOut: {
     color: "#FF8BA7",
@@ -71,14 +85,16 @@ const EndPage = () => {
     setCurrentQuiz,
     setOwnAnswer,
     setRivalAnswer,
+    picShown
   } = useContext(GameContext);
 
   const handleLogOut = async (e) => {
     console.log("LOGIN OUT");
     e.preventDefault();
     try {
+      let updatedUser = await deleteCurrentGame();
       const out = await logout();
-      console.log("LOG OUT RESP " + out);
+      console.log("LOG OUT RESP " + out + " user " + updatedUser);
     } catch (error) {
       console.log("Error login out" + error);
     }
@@ -147,7 +163,7 @@ const EndPage = () => {
             alt={rival?.username}
             src={rival?.image1.url}
             className={
-              gameStatus === "LOSE" ? classes.imageLose : classes.image
+              gameStatus === "LOSE" ? (picShown >= 1 ? classes.imageLose: classes.imageLoseBlur) : classes.image
             }
           />
         </Grid>

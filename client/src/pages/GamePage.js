@@ -3,6 +3,7 @@ import { UserContext } from "./../contexts/userContexts";
 import { GameContext } from "./../contexts/gameContext";
 import { addToBlackList } from "./../services/userService";
 import { getQuestion } from "./../services/questionService";
+import { logout } from "./../services/authService";
 import NavBar from "./../components/game/NavBar";
 import Menu from "./../components/game/Menu";
 import Head from "./../components/game/Head";
@@ -13,6 +14,7 @@ import PicModal from "./../components/game/PicModal";
 import Toast from "./../components/game/Toast";
 import { Box } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
+import { socket } from "./../services/socketService";
 
 const GamePage = () => {
   const history = useHistory();
@@ -25,6 +27,7 @@ const GamePage = () => {
   const { setCurrentQuiz } = useContext(GameContext);
   const {
     gameStatus,
+    setGameStatus,
     stage,
     setStage,
     messages,
@@ -32,6 +35,7 @@ const GamePage = () => {
     setGame,
     rival,
   } = useContext(GameContext);
+
 
   // GAME STAGE LOGIC
   useEffect(() => {
@@ -65,12 +69,38 @@ const GamePage = () => {
     if (gameStatus === "LOSE" || gameStatus === "WIN") {
       // If LOSE add rival to blacklist to never meeting again
       if (gameStatus === "LOSE") {
-        addToBlackList(rival._id);
+        console.log("Adding to blacklist " + rival._id);
+        addToBlackList(rival._id)
+          .then(history.push("/end", { data: { user, rival, gameStatus } }))
+          .catch((e) => {
+          console.log("Error adding to blacklist " + e);
+        })
       }
 
-      history.push("/end", { data: { user, rival, gameStatus } });
+      //history.push("/end", { data: { user, rival, gameStatus } });
     }
   }, [gameStatus]);
+
+    // Avoid refreshing page and no users present
+    useEffect(() => {
+      if(!user) {
+        console.log("LOGGING OUT")
+        try {
+          logout().then(history.push("/")).catch();      
+        } catch (error) {
+          console.log("Error login out" + error);
+        }
+      }
+    }, []);
+
+    useEffect(() => {
+      // Listen to timeout of rival
+      console.log("ARRANCANDO EL TIMEOUT");
+      socket.on("timeout", function () {
+        console.log("THERE WAS A TIME OUT SETING TO LOSE")
+        setGameStatus("LOSE");
+      });
+    }, []);
 
   return (
     <Box>
