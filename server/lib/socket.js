@@ -64,4 +64,21 @@ io.on("connection", function (client) {
 
     if (toClient) client.broadcast.to(toClient.socketId).emit("timeout");
   });
+
+  // Checking players readiness for playing
+  client.on("areyouthere", (data) => {
+    const { user } = data;
+    let toClient = clients.find((c) => c.user === user);
+console.log("areyouthere ");
+console.log(toClient);
+    if (toClient) client.broadcast.to(toClient.socketId).emit("areyouthere");
+  });
+
+  client.on("iamhere", (data) => {
+    const { user } = data;
+    let toClient = clients.find((c) => c.user === user);
+    console.log("iamhere " );
+    console.log(toClient);
+    if (toClient) client.broadcast.to(toClient.socketId).emit("iamhere");
+  });
 });

@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { UserContext } from "./../contexts/userContexts";
 import { GameContext } from "./../contexts/gameContext";
 import { createGame, getGame } from "./../services/gameService";
 import { getUser } from "./../services/userService";
-import { storeClientInfo } from "./../services/socketService";
+import { storeClientInfo, socket, sendAreYouThere, sendIAmHere } from "./../services/socketService";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
@@ -51,6 +51,8 @@ const IntroducePage = () => {
   //const historyBrowser = createBrowserHistory();
   const history = useHistory();
   //const { user, rival, gameStatus } = historyBrowser.location.state.data;
+  const [ready, setReady] = useState(false);
+  const [iamhere, setIamhere] = useState(false);
   const { user, setUser } = useContext(UserContext);
   const {
     setPlayerTurn,
@@ -61,6 +63,34 @@ const IntroducePage = () => {
     rival,
     setRival,
   } = useContext(GameContext);
+
+  // Listening to readiness of the other player
+  useEffect(() => {
+    socket.on("areyouthere", function () {
+      setIamhere(true);
+    });
+    return () => socket.off("areyouthere");
+  }, []);
+
+  useEffect(() => {
+    socket.on("iamhere", function () {
+      setReady(true);
+    });
+    return () => socket.off("iamhere");
+  }, []);
+
+  useEffect(()=> {
+    if(iamhere) {
+      console.log("C - areyouthere" + rival._id);
+      sendIAmHere(rival._id);
+      console.log("READy")
+      setReady(true);
+    }
+  }, [iamhere]);
+
+  // useEffect(() => {
+  //   if(rival) sendAreYouThere(rival._id);
+  // }, [rival]);
 
   //SETTING UP GAME
   console.log("1");
@@ -88,6 +118,9 @@ const IntroducePage = () => {
           setGame(game);
           setUser(playerA);
           setRival(playerB);
+          console.log("A - playerB " + + JSON.stringify(playerB));
+          sendAreYouThere(playerB._id);
+          
           setPlayerTurn(game.playerTurn);
           console.log("5");
         })
@@ -115,6 +148,9 @@ const IntroducePage = () => {
             .then((player) => {
               console.log("Rival recieved" + JSON.stringify(player));
               setRival(player);
+              console.log("Z - Rival ");
+              console.log(JSON.stringify(player));
+              sendAreYouThere(player._id);
             })
             .catch((e) => {
               console.log("Error getting player " + e);
@@ -162,9 +198,11 @@ const IntroducePage = () => {
             variant="contained"
             color="primary"
             className={classes.submit}
+            disabled={!ready}
             onClick={startGame}
           >
-            Let's start!
+            {ready ? "Let's start!" : "Waiting player"}
+            
           </Button>
         </Grid>
       </Grid>

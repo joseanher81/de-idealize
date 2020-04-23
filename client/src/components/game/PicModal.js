@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   dialog: {
     backgroundColor: "#faeee7",
     padding: "0px !important",
-    border: "2px solid red",
+    border: "2px solid #fffffe",
   },
   image: {
       display: "block",
