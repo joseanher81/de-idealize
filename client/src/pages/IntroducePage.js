@@ -56,9 +56,7 @@ const useStyles = makeStyles((theme) => ({
 
 const IntroducePage = () => {
   const classes = useStyles();
-  //const historyBrowser = createBrowserHistory();
   const history = useHistory();
-  //const { user, rival, gameStatus } = historyBrowser.location.state.data;
   const [ready, setReady] = useState(false);
   const [iamhere, setIamhere] = useState(false);
   const { user, setUser } = useContext(UserContext);
@@ -89,20 +87,16 @@ const IntroducePage = () => {
 
   useEffect(()=> {
     if(iamhere) {
-      console.log("C - areyouthere" + rival._id);
       sendIAmHere(rival._id);
-      console.log("READy")
+      console.log("READY")
       setReady(true);
     }
   }, [iamhere]);
 
   //SETTING UP GAME
-  console.log("1");
   useEffect(() => {
-    console.log("SETTING UP GAME!");
-    console.log("2");
+    console.log("Setting up game");
     if (gameStatus !== "MATCHED") setGameStatus("PLAYING"); // Check if the player has already matched
-    console.log("GAMESTATUS " + gameStatus);
 
     // Save client info on socket server
     storeClientInfo(user._id);
@@ -110,50 +104,37 @@ const IntroducePage = () => {
     // Check if user has an ongoing game
     if (!user.currentGame) {
       // USER HAS NO GAME
-      console.log("USER HAS NOT CURRENT GAME and his userid is " + user._id);
-      console.log("3");
+      console.log("User has not current game");
 
       // Create new game
       createGame(user._id)
         .then((data) => {
           const { game, playerA, playerB } = data;
-          console.log("GAME RECIEVED " + JSON.stringify(game));
-          console.log("4");
           setGame(game);
           setUser(playerA);
           setRival(playerB);
-          console.log("A - playerB " + + JSON.stringify(playerB));
           sendAreYouThere(playerB._id);
-          
           setPlayerTurn(game.playerTurn);
-          console.log("5");
         })
         .catch((e) => {
           console.log("Error creating game " + e);
         });
     } else {
       // USER HAS GAME
-      console.log("USER HAS GAME and his id is " + user.currentGame);
-      console.log("7");
+      console.log("User has game");
 
       // Get current game
-      console.log("JUEGO " + game);
       getGame(user._id)
         .then((game) => {
           setGame(game);
           setPlayerTurn(game.playerTurn);
-          console.log("8");
-          console.log("GAME RECIEVED " + JSON.stringify(game));
 
           // Get current rival
           let rival = user._id === game.playerA ? game.playerB : game.playerA;
 
           getUser(rival)
             .then((player) => {
-              console.log("Rival recieved" + JSON.stringify(player));
               setRival(player);
-              console.log("Z - Rival ");
-              console.log(JSON.stringify(player));
               sendAreYouThere(player._id);
             })
             .catch((e) => {

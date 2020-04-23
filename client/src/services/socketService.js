@@ -46,7 +46,7 @@ export const sendTimeOut = (rivalId) => {
 
 // Checking players readiness for playing
 export const sendAreYouThere = (rivalId) => {
-  console.log("B - sendAreYouThere " + rivalId);
+  console.log("SendAreYouThere " + rivalId);
   socket.emit("areyouthere", { user: rivalId });
 };
 

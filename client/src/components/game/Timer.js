@@ -1,8 +1,8 @@
-import React, { useRef, useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { GameContext } from "./../../contexts/gameContext";
 import {  sendTimeOut } from "./../../services/socketService";
@@ -33,7 +33,7 @@ const Timer = (props) => {
 
   useEffect(() => {
     if (timedOut){
-      console.log("SENDING TIME OUT TO " + rival._id);
+      // Send time out notification to rival
       sendTimeOut(rival._id);
     } 
   }, [timedOut]);
@@ -47,7 +47,7 @@ const Timer = (props) => {
       currentMilis++;
       if (currentMilis % 100 === 0) currentTime--;
       if (currentTime < 0 && gameStatus !== "MATCHED") {
-        setTimedOut(true); // SEND TIMEOUT TO RIVAL
+        setTimedOut(true); // Send time out to rival
         setGameStatus("LOSE");
         clearInterval(intervalId);
       }
@@ -61,8 +61,6 @@ const Timer = (props) => {
     const getPercentage = () => (currentTime * 100) / initialTime;
 
     return () => clearInterval(intervalId);
-
-    // TODO Check conditions
   }, [messages]);
 
   return (

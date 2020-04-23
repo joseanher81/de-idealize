@@ -108,12 +108,12 @@ const Head = (props) => {
             className={picShown >= 2 ? classes.imageSharp : classes.imageBlur}
           />
         </Grid>
-        <Grid item xs={2} className={classes.item, 3}>
+        <Grid item xs={2} className={classes.item}>
           <Avatar
             alt={rival?.username}
             src={rival?.image3.url}
             onClick={(e) => {
-              handleClicImg(e, rival?.image3.url);
+              handleClicImg(e, rival?.image3.url, 3);
             }}
             className={picShown >= 3 ? classes.imageSharp : classes.imageBlur}
           />

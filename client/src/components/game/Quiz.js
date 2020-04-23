@@ -4,9 +4,7 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import { GameContext } from "./../../contexts/gameContext";
@@ -54,7 +52,6 @@ const Quiz = ({ openQuiz, setOpenQuiz, processQuiz }) => {
   const classes = useStyles();
   const {
     currentQuiz,
-    setCurrentQuiz,
     ownAnwser,
     setOwnAnswer,
     rivalAnswer,
@@ -71,7 +68,6 @@ const Quiz = ({ openQuiz, setOpenQuiz, processQuiz }) => {
   useEffect(() => {
     // Listen to private message
     socket.on("quizAnswer", function (answer) {
-      console.log("quizAnswer rival:" + JSON.stringify(answer));
       setRivalAnswer(answer);
     });
     return () => socket.off("quizAnswer");
@@ -95,8 +91,6 @@ const Quiz = ({ openQuiz, setOpenQuiz, processQuiz }) => {
         setRivalAnswer(undefined);
       }
     } else {
-      console.log("ownAnwser " + JSON.stringify(ownAnwser));
-      console.log("rivalAnswer " + JSON.stringify(rivalAnswer));
       console.log("Falta alguna respuesta");
     }
   }, [ownAnwser, rivalAnswer]);

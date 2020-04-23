@@ -4,7 +4,6 @@ import { GameContext } from "./../contexts/gameContext";
 import { addToBlackList } from "./../services/userService";
 import { getQuestion } from "./../services/questionService";
 import { logout } from "./../services/authService";
-import NavBar from "./../components/game/NavBar";
 import Menu from "./../components/game/Menu";
 import Head from "./../components/game/Head";
 import Chat from "./../components/game/Chat";
@@ -24,7 +23,7 @@ const GamePage = () => {
   const [openToast, setOpenToast] = useState(false);
 
   const { user } = useContext(UserContext);
-  const { currentQuiz, setCurrentQuiz } = useContext(GameContext);
+  const { setCurrentQuiz } = useContext(GameContext);
   const {
     gameStatus,
     setGameStatus,
@@ -40,21 +39,15 @@ const GamePage = () => {
 
   // GAME STAGE LOGIC
   useEffect(() => {
-    console.log("GAME id " + JSON.stringify(game));
+    console.log("Game id " + JSON.stringify(game));
     //Every time a message is sent advance one stage
     setStage(stage + 1);
-    console.log("GAME STAGE" + stage);
+    console.log("Game stage" + stage);
 
     // Every 5 stages shows a Question (only one player ask for it and shares it)
     if (stage !== 0 && stage % 5 === 0 && gameStatus !== "MATCHED" && user._id === playerTurn) {
-      console.log("PREGUNTA!!!");
-      console.log("user " + user._id );
-      console.log("turn " + playerTurn);
       getQuestion(game._id)
         .then((question) => {
-          console.log(
-            "LA PREGUNTA PARA EL MODAL ES " + JSON.stringify(question)
-          );
           shareQuiz(question, rival._id);
           setCurrentQuiz(question);
           setOpenQuiz(true);
@@ -69,11 +62,7 @@ const GamePage = () => {
 
   // Quiz selected
   useEffect(() => {
-    console.log("ARRANCANDO EL LISTENER DE QUIZ");
     socket.on("shareQuiz", function (data) {
-      console.log("holi")
-      console.log(data)
-      console.log(data)
       setCurrentQuiz(data.quiz);  
       setOpenQuiz(true);
     });
@@ -110,9 +99,8 @@ const GamePage = () => {
 
     useEffect(() => {
       // Listen to timeout of rival
-      console.log("ARRANCANDO EL TIMEOUT");
       socket.on("timeout", function () {
-        console.log("THERE WAS A TIME OUT SETING TO LOSE")
+        console.log("There was a time out, setting to lose")
         setGameStatus("LOSE");
       });
     }, []);

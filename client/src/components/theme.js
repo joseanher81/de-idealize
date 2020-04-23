@@ -1,4 +1,4 @@
-import { createMuiTheme, colors } from "@material-ui/core";
+import { createMuiTheme } from "@material-ui/core";
 
 export const createTheme = () => {
 
@@ -15,8 +15,5 @@ export const createTheme = () => {
         secondary: '#33272A',
       }
     },
-    typography: {
-      //fontFamily: ['"Baloo 2"', "-apple-system"].join(",")
-    }
   });
 };

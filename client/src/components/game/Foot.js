@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { GameContext } from "./../../contexts/gameContext";
 import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
-import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import SendIcon from "@material-ui/icons/Send";
 import { useForm } from "react-hook-form";
@@ -46,13 +45,12 @@ const Foot = (props) => {
   } = useContext(GameContext);
   const classes = useStyles();
   const { register, handleSubmit, errors } = useForm(); // initialise hook-form
-  const { rival, game, setGame, setOpenToast, openToast } = props;
+  const { rival, setOpenToast } = props;
 
   const onSubmit = async (data, e) => {
     const { message } = data;
-    console.log("Mensaje " + message);
 
-    if (isValid(message)) {
+    if (isValid(message) || gameStatus === "MATCHED") {
       // Enviar información
       sendMessage(rival._id, message);
 
@@ -62,9 +60,6 @@ const Foot = (props) => {
       // Print msg on screen
       setMessages([...messages, { text: message, own: true }]);
 
-     
-      //setGame({ ...game, playerTurn: });
-
     } else {
       // Show a toast with warning
       setOpenToast(true);
@@ -73,18 +68,6 @@ const Foot = (props) => {
     // Reset input
     e.target.reset();
   };
-
-  useEffect(() => {
-    console.log("A ver q hemos liado" + JSON.stringify(game));
-  }, [game]);
-  // Turn control
-  /*   useEffect(() => {
-    rival?._id === game?.playerTurn
-      ? (refButton.current.disabled = true)
-      : (refButton.current.disabled = false);
-    console.log("Rival entrando" + rival?._id);
-    console.log("Player turn entrando" + game?.playerTurn);
-  }, [rival]); */
 
   return (
     <Container className={classes.stickToBottom}>
@@ -111,10 +94,6 @@ const Foot = (props) => {
             <IconButton
               aria-label="send"
               type="submit"
-              /*               classes={{
-                root: classes.submit,
-                focusVisible: classes.submit,
-              }} */
               className={
                 rival?._id === playerTurn && gameStatus !== "MATCHED"
                   ? classes.submitInactive
@@ -124,15 +103,6 @@ const Foot = (props) => {
             >
               <SendIcon />
             </IconButton>
-            {/* <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Send
-            </Button> */}
           </Grid>
         </Grid>
       </form>

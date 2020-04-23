@@ -19,7 +19,7 @@ function App() {
   //const { setUser } = useContext(UserContext);
   //const history = useHistory();
 
-  // I think it is better not to autologin according to game logic
+  // I think it is better not to autologin according to game logic (Left this for reference)
 /*   useEffect(() => {
     // When the app starts this runs only once
     console.log("WELCOME TO APP!");

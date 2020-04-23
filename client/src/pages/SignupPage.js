@@ -10,7 +10,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import { signup } from "./../services/authService";
 
 // Styles
 const useStyles = makeStyles((theme) => ({
@@ -31,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
     borderRadius: "10px 0 10px 0",
-    margin: theme.spacing(3, 0, 2),
     height: "4em",
     color: "#fffffe",
     fontSize: "1.3em",
@@ -48,26 +46,11 @@ const useStyles = makeStyles((theme) => ({
 const SignupPage = () => {
   const classes = useStyles();
   const history = useHistory();
-  const { setUser } = useContext(UserContext);
   const { register, handleSubmit, errors } = useForm(); // initialise hook-form
 
   const onSubmit = async (data) => {
     const { username, password, email } = data;
-
     history.push("/profile", { data: { username, password, email } });
-
-    /*     try {
-      const user = await signup({ username, password });
-      if (user) {
-        setUser(user);
-        history.push("/signup");
-      } else {
-        console.log("No se encuentra el usuario");
-        // TODO mostrar mensaje
-      }
-    } catch (error) {
-      console.log(error);
-    } */
   };
 
   // For link to Login

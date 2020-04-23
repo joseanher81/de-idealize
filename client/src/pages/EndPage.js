@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
     height: "100vh",
     paddingBottom: "2em",
   },
-  item: {},
   submit: {
     borderRadius: "10px 0 10px 0",
     margin: theme.spacing(3, 0, 2),
@@ -51,13 +50,6 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(20),
     height: theme.spacing(20),
     border: "2px solid #ff8ba7",
-  },
-  imageBlur: {
-    width: theme.spacing(20),
-    height: theme.spacing(20),
-    border: "2px solid #ff8ba7",
-    filter: "blur(5px)",
-    transform: "scale(1.1)",
   },
   iconOut: {
     color: "#FF8BA7",
@@ -92,9 +84,8 @@ const EndPage = () => {
     console.log("LOGIN OUT");
     e.preventDefault();
     try {
-      let updatedUser = await deleteCurrentGame();
-      const out = await logout();
-      console.log("LOG OUT RESP " + out + " user " + updatedUser);
+      await deleteCurrentGame();
+      await logout();
     } catch (error) {
       console.log("Error login out" + error);
     }
@@ -109,7 +100,7 @@ const EndPage = () => {
       try {
         // PREPARE FOR NEW GAME
         let updatedUser = await deleteCurrentGame();
-        console.log("UPDATED USER " + JSON.stringify(updatedUser));
+        console.log("Updated user " + JSON.stringify(updatedUser));
         setUser(updatedUser);
         // RESET GAME
         resetStates();

@@ -25,7 +25,6 @@ const Chat = (props) => {
     messages,
     setMessages,
     game,
-    setGame,
     rival,
     playerTurn,
     setPlayerTurn,
@@ -49,12 +48,8 @@ const Chat = (props) => {
     return () => socket.off("mensajePrivado");
   }, []);
 
+  // Scrolling calculation
   useEffect(() => {
-    console.log("JODEEEER" + JSON.stringify(game));
-  }, [game]);
-
-  useEffect(() => {
-    // Prior to getting your messages.
     let shouldScroll =
       refContainer.current.scrollTop + refContainer.current.clientHeight ===
       refContainer.current.scrollHeight;
