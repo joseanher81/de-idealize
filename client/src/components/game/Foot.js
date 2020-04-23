@@ -56,14 +56,15 @@ const Foot = (props) => {
       // Enviar información
       sendMessage(rival._id, message);
 
+       // Cambiar turno 
+       setPlayerTurn(rival._id);
+
       // Print msg on screen
       setMessages([...messages, { text: message, own: true }]);
 
-      // Cambiar turno y guardar en ddbb
-      setPlayerTurn(rival._id);
+     
       //setGame({ ...game, playerTurn: });
 
-      // TODO Guardar en DDBB
     } else {
       // Show a toast with warning
       setOpenToast(true);

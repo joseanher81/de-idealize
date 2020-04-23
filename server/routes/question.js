@@ -19,10 +19,16 @@ router.get("/question/get/:gameid", async (req, res, next) => {
 
     console.log("QIOBJECTS " + qIdObjects);
 
-    // Get a question not asked yet
-    const question = await Question.findOne({
+    // Get a random question not asked yet
+    const size = await Question.count({
       _id: { $nin: qIdObjects },
     });
+
+    console.log("Size is " + size);
+
+    const question = await Question.findOne({
+      _id: { $nin: qIdObjects },
+    }).skip(Math.random() * size);
 
     console.log("Pregunta encontrada: " + question);
 

@@ -14,7 +14,7 @@ import PicModal from "./../components/game/PicModal";
 import Toast from "./../components/game/Toast";
 import { Box } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-import { socket } from "./../services/socketService";
+import { socket, shareQuiz } from "./../services/socketService";
 
 const GamePage = () => {
   const history = useHistory();
@@ -24,7 +24,7 @@ const GamePage = () => {
   const [openToast, setOpenToast] = useState(false);
 
   const { user } = useContext(UserContext);
-  const { setCurrentQuiz } = useContext(GameContext);
+  const { currentQuiz, setCurrentQuiz } = useContext(GameContext);
   const {
     gameStatus,
     setGameStatus,
@@ -34,6 +34,7 @@ const GamePage = () => {
     game,
     setGame,
     rival,
+    playerTurn,
   } = useContext(GameContext);
 
 
@@ -44,15 +45,17 @@ const GamePage = () => {
     setStage(stage + 1);
     console.log("GAME STAGE" + stage);
 
-    // Every 5 stages a Question is asked
-    if (stage !== 0 && stage % 5 === 0 && gameStatus !== "MATCHED") {
+    // Every 5 stages shows a Question (only one player ask for it and shares it)
+    if (stage !== 0 && stage % 5 === 0 && gameStatus !== "MATCHED" && user._id === playerTurn) {
       console.log("PREGUNTA!!!");
+      console.log("user " + user._id );
+      console.log("turn " + playerTurn);
       getQuestion(game._id)
         .then((question) => {
           console.log(
             "LA PREGUNTA PARA EL MODAL ES " + JSON.stringify(question)
           );
-
+          shareQuiz(question, rival._id);
           setCurrentQuiz(question);
           setOpenQuiz(true);
         })
@@ -63,6 +66,19 @@ const GamePage = () => {
 
     // Every 7 stages a Photo is revealed (controlled by header)
   }, [messages]);
+
+  // Quiz selected
+  useEffect(() => {
+    console.log("ARRANCANDO EL LISTENER DE QUIZ");
+    socket.on("shareQuiz", function (data) {
+      console.log("holi")
+      console.log(data)
+      console.log(data)
+      setCurrentQuiz(data.quiz);  
+      setOpenQuiz(true);
+    });
+    return () => socket.off("shareQuiz");
+  }, []);
 
   // ENDING GAME
   useEffect(() => {
@@ -76,8 +92,7 @@ const GamePage = () => {
           console.log("Error adding to blacklist " + e);
         })
       }
-
-      //history.push("/end", { data: { user, rival, gameStatus } });
+      history.push("/end", { data: { user, rival, gameStatus } });
     }
   }, [gameStatus]);
 

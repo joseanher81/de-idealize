@@ -85,4 +85,14 @@ console.log(toClient);
     console.log(toClient);
     if (toClient) client.broadcast.to(toClient.socketId).emit("iamhere");
   });
+
+  // Share question for quiz
+  client.on("shareQuiz", (data) => {
+    const { user, quiz } = data;
+    let toClient = clients.find((c) => c.user === user);
+    console.log("shareQuiz " + quiz);
+    console.log(toClient);
+    if (toClient) client.broadcast.to(toClient.socketId).emit("shareQuiz", {quiz: quiz});
+  });
+  
 });

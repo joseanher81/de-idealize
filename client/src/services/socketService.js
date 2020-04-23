@@ -53,3 +53,8 @@ export const sendAreYouThere = (rivalId) => {
 export const sendIAmHere = (rivalId) => {
   socket.emit("iamhere", { user: rivalId });
 };
+
+// Share a question for the Quiz
+export const shareQuiz = (quiz, user) => {
+  socket.emit("shareQuiz", { quiz: quiz, user: user });
+};
