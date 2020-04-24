@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { GameContext } from "./../../contexts/gameContext";
 import AppBar from '@material-ui/core/AppBar';
@@ -13,7 +13,8 @@ import Menu from '@material-ui/core/Menu';
 import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
 import { useHistory } from "react-router-dom";
 import { logout } from "./../../services/authService";
-import { deleteCurrentGame } from "./../../services/userService";
+import { deleteCurrentGame, addToBlackList } from "./../../services/userService";
+import { socket, unmatch } from "./../../services/socketService";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,9 +40,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MenuAppBar() {
+export default function MenuAppBar({ setOpenUnmatch }) {
   const history = useHistory();
-  const {gameStatus} = useContext(GameContext);
+  const {gameStatus, rival} = useContext(GameContext);
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -55,10 +56,12 @@ export default function MenuAppBar() {
     setAnchorEl(null);
   };
 
-  const handleLogOut = async (e) => {
-    console.log("LOGIN OUT");
+  const handleLogOut = async () => {
+    console.log("UNMATCHING AND LOGIN OUT");
     setAnchorEl(null);
     try {
+      await unmatch(rival._id); // Send unmatch notification to the other
+      await addToBlackList(rival._id);
       await deleteCurrentGame();
       await logout();
     } catch (error) {
@@ -67,6 +70,31 @@ export default function MenuAppBar() {
 
     history.push("/"); 
   };
+
+  // Same as handleLogOut but possible differences on future
+  const handleUnmatch = async () => {
+    console.log("UNMATCHING");
+    setAnchorEl(null);
+    try {
+      await unmatch(rival._id); // Send unmatch notification to the other
+      await addToBlackList(rival._id);
+      await deleteCurrentGame();
+      await logout();
+    } catch (error) {
+      console.log("Error login out" + error);
+    }
+
+    history.push("/"); 
+  };
+
+  useEffect(() => {
+    // Listen to unmatch from the other user
+    socket.on("unmatch", function (msg) {
+      console.log("You have been unmatched");
+      setOpenUnmatch(true); // Open confirmation dialog
+    });
+    return () => socket.off("unmatch");
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -99,7 +127,7 @@ export default function MenuAppBar() {
                 open={open}
                 onClose={handleClose}
               >
-                {(gameStatus==="MATCH") &&<MenuItem onClick={handleClose}>
+                {(gameStatus==="MATCHED") &&<MenuItem onClick={handleUnmatch}>
                   <IconButton
                     aria-label="account of current user"
                     aria-controls="primary-search-account-menu"
