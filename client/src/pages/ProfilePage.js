@@ -106,14 +106,12 @@ const ProfilePage = () => {
           history.push("/introduce");
         } else {
           console.log("Error en el signup");
-          // TODO mostrar mensaje
         }
       } catch (error) {
         console.log(error);
       }
     } else {
       console.log("Bad age range");
-      //TODO show message on screen
     }
   };
 

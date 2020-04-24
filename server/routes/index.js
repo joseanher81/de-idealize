@@ -10,5 +10,7 @@ const user = require("./user");
 router.use("/", user);
 const question = require("./question");
 router.use("/", question);
+const chat = require("./chat");
+router.use("/", chat);
 
 module.exports = router;

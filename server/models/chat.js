@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const chatSchema = new Schema(
   {
-    playerAmessages: [{ type: Schema.Types.ObjectId, ref: "Message" }],
-    playerBmessages: [{ type: Schema.Types.ObjectId, ref: "Message" }],
+    playerAmessages: [{ type: String }],
+    playerBmessages: [{ type: String}],
   },
   {
     timestamps: true,

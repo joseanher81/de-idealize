@@ -29,6 +29,5 @@ export const addToBlackList = async (rivalid) => {
 
 export const deleteCurrentGame = async () => {
   const res = await api.post("/user/deleteCurrentGame");
-  console.log("PUTOOO DIOS " + JSON.stringify(res));
   return res.data.user;
 };
