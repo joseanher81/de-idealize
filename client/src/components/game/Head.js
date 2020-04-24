@@ -66,8 +66,8 @@ const Head = (props) => {
   }, [stage]);
 
   useEffect(() => {
-    // If match is lower than 50 end game in LOSE state
-    if (match < 50) setGameStatus("LOSE");
+    // If match is lower than 60 end game in LOSE state
+    if (match < 60) setGameStatus("LOSE");
   }, [match]);
 
   const handleClicImg = (e, url, imgNumber) =>{
