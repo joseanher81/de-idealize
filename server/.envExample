@@ -1,0 +1,6 @@
+PORT=<selected port>
+MONGODB_URL=<database connection>
+CLIENT=<local server address : port>
+CLOUDINARY_CLOUD_NAME=<cloud name
+CLOUDINARY_API_KEY=<api key>
+CLOUDINARY_API_SECRET=<secret>
