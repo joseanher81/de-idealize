@@ -58,3 +58,8 @@ export const sendIAmHere = (rivalId) => {
 export const shareQuiz = (quiz, user) => {
   socket.emit("shareQuiz", { quiz: quiz, user: user });
 };
+
+// Notify unmatch
+export const unmatch = (rivalId) => {
+  socket.emit("unmatch", { user: rivalId });
+};

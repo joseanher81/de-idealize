@@ -94,5 +94,14 @@ console.log(toClient);
     console.log(toClient);
     if (toClient) client.broadcast.to(toClient.socketId).emit("shareQuiz", {quiz: quiz});
   });
+
+  // Manual unmatch notification
+    client.on("unmatch", (data) => {
+      const { user } = data;
+      let toClient = clients.find((c) => c.user === user);
+      console.log("unmatch " );
+      console.log(toClient);
+      if (toClient) client.broadcast.to(toClient.socketId).emit("unmatch");
+    });
   
 });

@@ -9,6 +9,7 @@ import Head from "./../components/game/Head";
 import Chat from "./../components/game/Chat";
 import Foot from "./../components/game/Foot";
 import Quiz from "./../components/game/Quiz";
+import UnmatchModal from "./../components/game/UnmatchModal";
 import PicModal from "./../components/game/PicModal";
 import Toast from "./../components/game/Toast";
 import { Box } from "@material-ui/core";
@@ -19,6 +20,7 @@ const GamePage = () => {
   const history = useHistory();
   const [openQuiz, setOpenQuiz] = useState(false);
   const [openPic, setOpenPic] = useState(false);
+  const [openUnmatch, setOpenUnmatch] = useState(false);
   const [picUrl, setPicUrl] = useState("");
   const [openToast, setOpenToast] = useState(false);
 
@@ -108,7 +110,7 @@ const GamePage = () => {
   return (
     <Box>
       {/* <NavBar /> */}
-      <Menu/>
+      <Menu setOpenUnmatch={setOpenUnmatch}/>
       <Head rival={rival} setOpenPic={setOpenPic} setPicUrl={setPicUrl}/>
       <Chat />
       <Foot
@@ -120,6 +122,7 @@ const GamePage = () => {
       />
       {<Quiz openQuiz={openQuiz} setOpenQuiz={setOpenQuiz} />}
       {<PicModal openPic={openPic} setOpenPic={setOpenPic} picUrl={picUrl} setPicUrl={setPicUrl}/>}
+      {<UnmatchModal openUnmatch={openUnmatch} setOpenUnmatch={setOpenUnmatch} />}
       {<Toast openToast={openToast} setOpenToast={setOpenToast} />}
     </Box>
   );
