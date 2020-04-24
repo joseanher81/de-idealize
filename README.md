@@ -1,7 +1,7 @@
 # De-idealize
 > A very different dating app
 
-![MainGame](https://user-images.githubusercontent.com/23436377/80244852-fea2ed80-8669-11ea-9ec5-f8cdea75b59b.png)
+![MainGameFinal](https://user-images.githubusercontent.com/23436377/80248279-e7ff9500-866f-11ea-8858-a1e5389c733b.png)
 
 **De-idealize** is not the typical dating App. Unlike other similar apps, such as *Tinder* or *OkCupid*, on De-idealize you can only chat  with another user at a time, you begin matched to her/him and there must be an unmatched before trying to meet someone else. De-idealize is not a *“market of love”*, you don’t play with tons of users and their feelings  simultaneously and **there is not chance of ghosting**. If you don’t like them, they will know immediately. If there is chemistry, then both will be sure the other one is not flirting with someone else.
 
@@ -24,19 +24,19 @@ In order to run this project locally do the following (on both client and server
 
 * After login or signup you will be introduced to a random canditate, according to your own preferences.
   
-![Introduce](https://user-images.githubusercontent.com/23436377/80245651-5aba4180-866b-11ea-8416-ede7c90089e3.png)
+![IntroduceFinal](https://user-images.githubusercontent.com/23436377/80248444-344ad500-8670-11ea-8c8e-f0262c995a82.png)
   
 * When the other player is ready, you are able to enter to the game screen. At the top, you will find the name of the other person, three pics of her/him (initially blurred and revealed as the game progress) and the Match percentage. Notice that this score is at 100% at the beginning and **you won’t want it to fall below 60%**, or everything will be over!
 
 * On the bottom, there is a text input, from where you can chat on turns. Just a message per turn, so don’t be boring, try to be creative and funny. Oh, by the way, don’t try to send your contact info (email, phone number…), our patented and incredibly smart AI will block the message.
 
-![Main](https://user-images.githubusercontent.com/23436377/80243996-812aad80-8668-11ea-8a35-fc387ba4f646.png)
+![MainFinal](https://user-images.githubusercontent.com/23436377/80248521-5e9c9280-8670-11ea-8ba7-e6ebb5d071b5.png)
 
 * **Very important:** on your turn look at the counter in the middle of the screen. Yes, those are seconds and a second is a small unit of time on a cosmic scale. Don’t let it reach zero, or everything will be over!
   
 * Finally, each five turns, both players will be presented with a quick quiz. There are only two opposite options, and the players never know which one selects the other. If both players give the same answer the Match counter will increase. If not, it will decrease  (remember, never let it fall below 60%).
 
-![Quiz](https://user-images.githubusercontent.com/23436377/80244779-d7e4b700-8669-11ea-86d8-f94c2f9c4dc0.png)
+![QuizFinal](https://user-images.githubusercontent.com/23436377/80248587-84299c00-8670-11ea-8217-ada43815daab.png)
 
 
 ## Ending game
@@ -48,6 +48,8 @@ In order to run this project locally do the following (on both client and server
 * **Important:** if the game ends in defeat, the other person will be blacklisted and you won’t meet never again. And when we say never **it means NEVER!**
   
 * But if against all odds, the players like what they see and what they read, then both users will have the chance of keeping on chatting  with no restrictions. Furthermore, they will have the opportunity of sharing private contact information to continue knowing each other by other ways ;)
+
+![EndFinal](https://user-images.githubusercontent.com/23436377/80248667-b5a26780-8670-11ea-8dc4-a479aa9e5305.png)
 
 **To do:**
 * Save chat messages to DDBB in case of Match
