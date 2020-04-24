@@ -43,9 +43,9 @@ In order to run this project locally do the following (on both client and server
 
 * The game may end on “Defeat” or “Victory”.
   
-* There are two ways of reaching a defeat ending. The first one implies an active role by the players. If one of them don’t like the other, he or she may let the timer run down to zero (ok, it is a kind of gentle “quick ghosting”). The other way is decided by our magic AI, **if the Match score decrease under 60%, it means that you are not made for each other** and our AI can’t allow you to have offspring, for the benefit of the human race.
+* There are two ways of reaching a defeat ending. The first one implies an active role by the players. If one of them don’t like the other, he or she may let the timer run down to zero (ok, it is a kind of gentle “quick ghosting”). The other way is decided by our magic AI, **if the Match score decreases under 60%, it means that you are not made for each other** and our AI can’t allow you to have offspring, for the benefit of the human race.
   
-* **Important:** if the game ends in defeat, the other person will be blacklisted and you won’t meet never again. And when we say never **it means NEVER!**
+* **Important:** if the game ends in defeat, the other person will be blacklisted and you will never meet again. And when we say never, **it means NEVER!**
   
 * But if against all odds, the players like what they see and what they read, then both users will have the chance of keeping on chatting  with no restrictions. Furthermore, they will have the opportunity of sharing private contact information to continue knowing each other by other ways ;)
 
