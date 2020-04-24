@@ -3,7 +3,7 @@
 
 ![MainGameFinal](https://user-images.githubusercontent.com/23436377/80248279-e7ff9500-866f-11ea-8858-a1e5389c733b.png)
 
-**De-idealize** is not the typical dating App. Unlike other similar apps, such as *Tinder* or *OkCupid*, on De-idealize you can only chat  with another user at a time, you begin matched to her/him and there must be an unmatched before trying to meet someone else. De-idealize is not a *“market of love”*, you don’t play with tons of users and their feelings  simultaneously and **there is not chance of ghosting**. If you don’t like them, they will know immediately. If there is chemistry, then both will be sure the other one is not flirting with someone else.
+**De-idealize** is not the typical dating App. Unlike other similar apps, such as *Tinder* or *OkCupid*, on De-idealize you can only chat  with another user at a time, you begin matched to her/him and there must be an unmatch before trying to meet someone else. De-idealize is not a *“market of love”*, you don’t play with tons of users and their feelings  simultaneously and **there is not chance of ghosting**. If you don’t like them, they will know immediately. If there is chemistry, then both will be sure the other one is not flirting with someone else.
 
 No hurt feelings anymore!
 
