@@ -23,10 +23,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Timer = (props) => {
+  const init_time = 45; // time for ansering in seconds
   const classes = useStyles();
   const { messages } = props;
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(45);
+  const [seconds, setSeconds] = useState(init_time);
   const [percentage, setPercentage] = useState(100);
   const { gameStatus, setGameStatus, rival } = useContext(GameContext);
   const [timedOut, setTimedOut] = useState(false);
@@ -40,8 +40,8 @@ const Timer = (props) => {
 
   useEffect(() => {
     let currentMilis = 0;
-    let currentTime = 45;
-    let initialTime = 45;
+    let currentTime = init_time;
+    let initialTime = init_time;
 
     const intervalId = setInterval(function () {
       currentMilis++;
@@ -51,12 +51,10 @@ const Timer = (props) => {
         setGameStatus("LOSE");
         clearInterval(intervalId);
       }
-      setMinutes(getMinutes());
       setSeconds(getSeconds());
       setPercentage(getPercentage());
     }, 10);
 
-    const getMinutes = () => Math.floor(currentTime / 60);
     const getSeconds = () => Math.floor(currentTime % 60);
     const getPercentage = () => (currentTime * 100) / initialTime;
 
