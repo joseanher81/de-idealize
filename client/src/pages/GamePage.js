@@ -9,6 +9,7 @@ import Head from "./../components/game/Head";
 import Chat from "./../components/game/Chat";
 import Foot from "./../components/game/Foot";
 import Quiz from "./../components/game/Quiz";
+import MenuDrawer from "./../components/game/MenuDrawer";
 import UnmatchModal from "./../components/game/UnmatchModal";
 import PicModal from "./../components/game/PicModal";
 import Toast from "./../components/game/Toast";
@@ -18,22 +19,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 import { socket, shareQuiz } from "./../services/socketService";
 
-import clsx from 'clsx';
-import Button from '@material-ui/core/Button';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-
 const useStyles = makeStyles({
   list: {
     width: 250,
-  },
-  fullList: {
-    width: 'auto',
   },
 });
 
@@ -68,36 +56,17 @@ const GamePage = () => {
       return;
     }
 
-    console.log("HELOO")
     setDrawer(open);
   };
 
   const list = () => (
     <div
-      className={clsx(classes.list, {
-        [classes.fullList]: false,
-      })}
+      className={classes.list}
       role="presentation"
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
+      <MenuDrawer setOpenUnmatch={ setOpenUnmatch }/>
     </div>
   );
 
@@ -163,12 +132,21 @@ const GamePage = () => {
       }
     }, []);
 
+    // Listen to timeout of rival
     useEffect(() => {
-      // Listen to timeout of rival
       socket.on("timeout", function () {
         console.log("There was a time out, setting to lose")
         setGameStatus("LOSE");
       });
+    }, []);
+
+    // Listen to unmatch from the other user
+    useEffect(() => {
+      socket.on("unmatch", function (msg) {
+        console.log("You have been unmatched");
+        setOpenUnmatch(true); // Open confirmation dialog
+      });
+      return () => socket.off("unmatch");
     }, []);
 
   return (
@@ -176,7 +154,7 @@ const GamePage = () => {
       <React.Fragment key='left'>
         <Box>
           {/* <NavBar /> */}
-          <Menu setOpenUnmatch={setOpenUnmatch} setDrawer={setDrawer}/>
+          <Menu setDrawer={setDrawer}/>
           <Head rival={rival} setOpenPic={setOpenPic} setPicUrl={setPicUrl}/>
           <Chat />
           <Foot
