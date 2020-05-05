@@ -153,7 +153,6 @@ const GamePage = () => {
     <div>
       <React.Fragment key='left'>
         <Box>
-          {/* <NavBar /> */}
           <Menu setDrawer={setDrawer}/>
           <Head rival={rival} setOpenPic={setOpenPic} setPicUrl={setPicUrl}/>
           <Chat />
