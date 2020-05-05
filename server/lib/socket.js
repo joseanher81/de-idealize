@@ -24,15 +24,6 @@ io.on("connection", function (client) {
     console.log("CLIENTS ARRAY " + clients);
   });
 
-  // Listen to client
-  // client.on("enviarMensaje", (data, callback) => {
-  //   const { to, message } = data;
-  //   console.log("DATA " + to + " " + message);
-  //   callback({
-  //     resp: "TODO SALIO BIEN!",
-  //   });
-  // });
-
   // Private messages
   client.on("mensajePrivado", (data) => {
     const { user, message } = data;
