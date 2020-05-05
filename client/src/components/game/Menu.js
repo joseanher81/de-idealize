@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MenuAppBar({ setOpenUnmatch }) {
+export default function MenuAppBar({ setOpenUnmatch, setDrawer }) {
   const history = useHistory();
   const {gameStatus, rival} = useContext(GameContext);
   const classes = useStyles();
@@ -49,7 +49,9 @@ export default function MenuAppBar({ setOpenUnmatch }) {
 
 
   const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
+    //setAnchorEl(event.currentTarget);
+    setDrawer(true);
+    console.log("Holiii")
   };
 
   const handleClose = () => {

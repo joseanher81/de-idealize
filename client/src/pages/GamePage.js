@@ -13,11 +13,33 @@ import UnmatchModal from "./../components/game/UnmatchModal";
 import PicModal from "./../components/game/PicModal";
 import Toast from "./../components/game/Toast";
 import { Box } from "@material-ui/core";
+import Drawer from '@material-ui/core/Drawer';
+import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 import { socket, shareQuiz } from "./../services/socketService";
 
+import clsx from 'clsx';
+import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
+
+const useStyles = makeStyles({
+  list: {
+    width: 250,
+  },
+  fullList: {
+    width: 'auto',
+  },
+});
+
 const GamePage = () => {
   const history = useHistory();
+  const classes = useStyles();
   const [openQuiz, setOpenQuiz] = useState(false);
   const [openPic, setOpenPic] = useState(false);
   const [openUnmatch, setOpenUnmatch] = useState(false);
@@ -38,6 +60,48 @@ const GamePage = () => {
     playerTurn,
   } = useContext(GameContext);
 
+  // DRAWER SETUP
+  const [drawer, setDrawer] = React.useState(false);
+
+  const toggleDrawer = (open) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    console.log("HELOO")
+    setDrawer(open);
+  };
+
+  const list = () => (
+    <div
+      className={clsx(classes.list, {
+        [classes.fullList]: false,
+      })}
+      role="presentation"
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
+    >
+      <List>
+        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+    </div>
+  );
+
+  //END DRAWER SETUP
 
   // GAME STAGE LOGIC
   useEffect(() => {
@@ -108,23 +172,30 @@ const GamePage = () => {
     }, []);
 
   return (
-    <Box>
-      {/* <NavBar /> */}
-      <Menu setOpenUnmatch={setOpenUnmatch}/>
-      <Head rival={rival} setOpenPic={setOpenPic} setPicUrl={setPicUrl}/>
-      <Chat />
-      <Foot
-        rival={rival}
-        game={game}
-        setGame={setGame}
-        openToast={openToast}
-        setOpenToast={setOpenToast}
-      />
-      {<Quiz openQuiz={openQuiz} setOpenQuiz={setOpenQuiz} />}
-      {<PicModal openPic={openPic} setOpenPic={setOpenPic} picUrl={picUrl} setPicUrl={setPicUrl}/>}
-      {<UnmatchModal openUnmatch={openUnmatch} setOpenUnmatch={setOpenUnmatch} />}
-      {<Toast openToast={openToast} setOpenToast={setOpenToast} />}
-    </Box>
+    <div>
+      <React.Fragment key='left'>
+        <Box>
+          {/* <NavBar /> */}
+          <Menu setOpenUnmatch={setOpenUnmatch} setDrawer={setDrawer}/>
+          <Head rival={rival} setOpenPic={setOpenPic} setPicUrl={setPicUrl}/>
+          <Chat />
+          <Foot
+            rival={rival}
+            game={game}
+            setGame={setGame}
+            openToast={openToast}
+            setOpenToast={setOpenToast}
+          />
+          {<Quiz openQuiz={openQuiz} setOpenQuiz={setOpenQuiz} />}
+          {<PicModal openPic={openPic} setOpenPic={setOpenPic} picUrl={picUrl} setPicUrl={setPicUrl}/>}
+          {<UnmatchModal openUnmatch={openUnmatch} setOpenUnmatch={setOpenUnmatch} />}
+          {<Toast openToast={openToast} setOpenToast={setOpenToast} />}
+          <Drawer anchor='left' open={drawer} onClose={toggleDrawer(false)}>
+            {list()}
+          </Drawer>
+        </Box>
+      </React.Fragment>
+    </div>
   );
 };
 
