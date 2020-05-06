@@ -1,10 +1,6 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext } from 'react';
 import { GameContext } from "./../../contexts/gameContext";
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import {List, Divider, ListItem, ListItemIcon, ListItemText} from '@material-ui/core';
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
 import AccountCircle from '@material-ui/icons/AccountCircle';

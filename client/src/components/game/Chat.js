@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Chat = (props) => {
+export const Chat = (props) => {
   const classes = useStyles();
   const refContainer = useRef();
   const {

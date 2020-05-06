@@ -1,12 +1,5 @@
 import React, { useEffect, useContext } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Slide from "@material-ui/core/Slide";
+import { makeStyles, Button, Dialog, Typography, Grid, DialogContent, DialogTitle, Slide } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import { GameContext } from "./../../contexts/gameContext";
 import { deleteCurrentGame, addToBlackList } from "./../../services/userService";

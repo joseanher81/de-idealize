@@ -1,11 +1,7 @@
 import React, { useContext } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, Grid, Typography, Button, Avatar } from "@material-ui/core";
 import { UserContext } from "./../contexts/userContexts";
 import { GameContext } from "./../contexts/gameContext";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import Avatar from "@material-ui/core/Avatar";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { useHistory } from "react-router-dom";
 import { createBrowserHistory } from "history";

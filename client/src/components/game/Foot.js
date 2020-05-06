@@ -1,12 +1,9 @@
 import React, { useContext, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { GameContext } from "./../../contexts/gameContext";
-import TextField from "@material-ui/core/TextField";
-import Container from "@material-ui/core/Container";
-import IconButton from "@material-ui/core/IconButton";
+import {TextField, Container, IconButton, Grid} from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
 import { useForm } from "react-hook-form";
-import Grid from "@material-ui/core/Grid";
 import { sendMessage } from "./../../services/socketService";
 import { isValid } from "./../../lib/utils";
 

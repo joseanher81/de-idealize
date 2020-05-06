@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
-import { CircularProgressbar } from "react-circular-progressbar";
-import "react-circular-progressbar/dist/styles.css";
+import { makeStyles, Typography, Box } from "@material-ui/core";
 import { GameContext } from "./../../contexts/gameContext";
 import {  sendTimeOut } from "./../../services/socketService";
+import { CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 const useStyles = makeStyles((theme) => ({
   boxOutter: {
