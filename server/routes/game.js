@@ -3,8 +3,8 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const User = require("../models/user");
 const Game = require("../models/game");
-const Chat = require("../models/chat");
 const Question = require("../models/question");
+const Message = require("../models/message");
 
 // New Game
 router.post("/game/new", async (req, res, next) => {
@@ -67,11 +67,10 @@ router.post("/game/new", async (req, res, next) => {
     console.log("User found: " + matchedUser);
 
     // Create game
-    const newChat = await Chat.create({});
+    //const newChat = await Chat.create({}); TODO DELETE
 
     const newGame = await Game.create({
       playerTurn: userid,
-      chat: newChat._id,
       playerA: currentUser._id,
       playerB: matchedUser._id,
     });
@@ -123,6 +122,38 @@ router.post("/game/addquestion", async (req, res, next) => {
 
     // Save question to current game
     currentGame.questions.push(currentCuestion);
+    currentGame.save();
+
+    res.json({ status: "ok" });
+  } catch (error) {
+    console.log("Error " + error);
+    res.status(500).json({ status: "error", message: error });
+  }
+});
+
+// Save a message to messages array in game
+router.post("/game/addmessage", async (req, res, next) => {
+  console.log("Add a message to game");
+
+  try {
+    const { gameid, message, userid } = req.body;
+
+    // Get current game
+    const currentGame = await Game.findById(gameid);
+    console.log("GAME FOUND " + currentGame.id);
+
+    // Get user
+    const currentUser = await User.findById(userid);
+    console.log("USER FOUND " + currentUser.id);
+
+    // Create message
+    const newMessage = await Message.create({
+      text: message,
+      user: currentUser,
+    });
+
+    // Save question to current game
+    currentGame.messages.push(newMessage);
     currentGame.save();
 
     res.json({ status: "ok" });

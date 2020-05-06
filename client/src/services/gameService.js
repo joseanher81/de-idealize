@@ -21,3 +21,9 @@ export const addQuestionToGame = async (gameid, questionid) => {
   console.log("addQuestion response " + JSON.stringify(res));
   return res.data;
 };
+
+export const addMessageToGame = async (gameid, message, userid) => {
+  const res = await api.post("/game/addmessage", { gameid, message, userid });
+  console.log("addMessage response " + JSON.stringify(res));
+  return res.data;
+};
