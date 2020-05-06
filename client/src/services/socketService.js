@@ -4,13 +4,13 @@ export const socket = io(process.env.REACT_APP_SERVER);
 // Send a private message
 export const sendMessage = (rivalId, message) => {
   socket.emit(
-    "mensajePrivado",
+    "privateMessage",
     {
       user: rivalId,
       message: message,
     },
     function (resp) {
-      console.log("respuesta server: ", resp);
+      console.log("Server response: ", resp);
     }
   );
 };
@@ -24,7 +24,7 @@ export const sendAnswer = (rivalId, answer) => {
       answer: answer,
     },
     function (resp) {
-      console.log("respuesta server: ", resp);
+      console.log("Server response: ", resp);
     }
   );
 };

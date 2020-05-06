@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Chat = (props) => {
+export const Chat = (props) => {
   const classes = useStyles();
   const refContainer = useRef();
   const {
@@ -34,8 +34,8 @@ const Chat = (props) => {
 
   useEffect(() => {
     // Listen to private message
-    socket.on("mensajePrivado", function (msg) {
-      console.log("Mensaje Privado:", messages);
+    socket.on("privateMessage", function (msg) {
+      console.log("Private Message:", messages);
 
       // Cambiar turno y guardar en ddbb
       setPlayerTurn(user._id);
@@ -45,7 +45,7 @@ const Chat = (props) => {
 
       // TODO Guardar en DDBB
     });
-    return () => socket.off("mensajePrivado");
+    return () => socket.off("privateMessage");
   }, []);
 
   // Scrolling calculation

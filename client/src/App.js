@@ -1,18 +1,10 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import "./App.css";
 import { Switch, Route } from "react-router-dom";
-import { UserContext } from "./contexts/userContexts";
+import GameContextProvider from "./contexts/gameContext";
 import { CssBaseline, ThemeProvider } from "@material-ui/core";
 import { createTheme } from "./components/theme";
-import LoginPage from "./pages/LoginPage";
-import SignupPage from "./pages/SignupPage";
-import ProfilePage from "./pages/ProfilePage";
-import EndPage from "./pages/EndPage";
-import GamePage from "./pages/GamePage";
-import IntroducePage from "./pages/IntroducePage";
-import { loggedin } from "./services/authService";
-import { useHistory } from "react-router-dom";
-import GameContextProvider from "./contexts/gameContext";
+import {LoginPage, SignupPage, ProfilePage, EndPage, GamePage, IntroducePage} from "./pages";
 
 function App() {
   const theme = createTheme();

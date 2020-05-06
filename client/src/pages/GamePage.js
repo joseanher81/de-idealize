@@ -4,20 +4,20 @@ import { GameContext } from "./../contexts/gameContext";
 import { addToBlackList } from "./../services/userService";
 import { getQuestion } from "./../services/questionService";
 import { logout } from "./../services/authService";
-import Menu from "./../components/game/Menu";
-import Head from "./../components/game/Head";
-import Chat from "./../components/game/Chat";
-import Foot from "./../components/game/Foot";
-import Quiz from "./../components/game/Quiz";
-import UnmatchModal from "./../components/game/UnmatchModal";
-import PicModal from "./../components/game/PicModal";
-import Toast from "./../components/game/Toast";
-import { Box } from "@material-ui/core";
+import { Menu, Head, Foot, Quiz, MenuDrawer, UnmatchModal, PicModal, Toast, Chat } from "./../components/game";
+import { makeStyles, Box, Drawer } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import { socket, shareQuiz } from "./../services/socketService";
 
+const useStyles = makeStyles({
+  list: {
+    width: 250,
+  },
+});
+
 const GamePage = () => {
   const history = useHistory();
+  const classes = useStyles();
   const [openQuiz, setOpenQuiz] = useState(false);
   const [openPic, setOpenPic] = useState(false);
   const [openUnmatch, setOpenUnmatch] = useState(false);
@@ -38,6 +38,29 @@ const GamePage = () => {
     playerTurn,
   } = useContext(GameContext);
 
+  // DRAWER SETUP
+  const [drawer, setDrawer] = React.useState(false);
+
+  const toggleDrawer = (open) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setDrawer(open);
+  };
+
+  const list = () => (
+    <div
+      className={classes.list}
+      role="presentation"
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
+    >
+      <MenuDrawer setOpenUnmatch={ setOpenUnmatch }/>
+    </div>
+  );
+
+  //END DRAWER SETUP
 
   // GAME STAGE LOGIC
   useEffect(() => {
@@ -99,32 +122,47 @@ const GamePage = () => {
       }
     }, []);
 
+    // Listen to timeout of rival
     useEffect(() => {
-      // Listen to timeout of rival
       socket.on("timeout", function () {
         console.log("There was a time out, setting to lose")
         setGameStatus("LOSE");
       });
     }, []);
 
+    // Listen to unmatch from the other user
+    useEffect(() => {
+      socket.on("unmatch", function (msg) {
+        console.log("You have been unmatched");
+        setOpenUnmatch(true); // Open confirmation dialog
+      });
+      return () => socket.off("unmatch");
+    }, []);
+
   return (
-    <Box>
-      {/* <NavBar /> */}
-      <Menu setOpenUnmatch={setOpenUnmatch}/>
-      <Head rival={rival} setOpenPic={setOpenPic} setPicUrl={setPicUrl}/>
-      <Chat />
-      <Foot
-        rival={rival}
-        game={game}
-        setGame={setGame}
-        openToast={openToast}
-        setOpenToast={setOpenToast}
-      />
-      {<Quiz openQuiz={openQuiz} setOpenQuiz={setOpenQuiz} />}
-      {<PicModal openPic={openPic} setOpenPic={setOpenPic} picUrl={picUrl} setPicUrl={setPicUrl}/>}
-      {<UnmatchModal openUnmatch={openUnmatch} setOpenUnmatch={setOpenUnmatch} />}
-      {<Toast openToast={openToast} setOpenToast={setOpenToast} />}
-    </Box>
+    <div>
+      <React.Fragment key='left'>
+        <Box>
+          <Menu setDrawer={setDrawer}/>
+          <Head rival={rival} setOpenPic={setOpenPic} setPicUrl={setPicUrl}/>
+          <Chat />
+          <Foot
+            rival={rival}
+            game={game}
+            setGame={setGame}
+            openToast={openToast}
+            setOpenToast={setOpenToast}
+          />
+          {<Quiz openQuiz={openQuiz} setOpenQuiz={setOpenQuiz} />}
+          {<PicModal openPic={openPic} setOpenPic={setOpenPic} picUrl={picUrl} setPicUrl={setPicUrl}/>}
+          {<UnmatchModal openUnmatch={openUnmatch} setOpenUnmatch={setOpenUnmatch} />}
+          {<Toast openToast={openToast} setOpenToast={setOpenToast} />}
+          <Drawer anchor='left' open={drawer} onClose={toggleDrawer(false)}>
+            {list()}
+          </Drawer>
+        </Box>
+      </React.Fragment>
+    </div>
   );
 };
 
