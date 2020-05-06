@@ -27,12 +27,14 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "10px 0 10px 0",
     color: "#fffffe",
     marginTop: "2em",
+    width: '50%',
   },
   buttonB: {
     padding: "1em",
     borderRadius: "0 10px 0 10px",
     color: "#fffffe",
     marginBottom: "2em",
+    width: '50%',
   },
 }));
 
