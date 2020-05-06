@@ -27,3 +27,9 @@ export const addMessageToGame = async (gameid, message, userid) => {
   console.log("addMessage response " + JSON.stringify(res));
   return res.data;
 };
+
+export const getMessages = async (gameid) => {
+  const res = await api.get("/game/messages/" + gameid );
+  console.log("getmessages response " + JSON.stringify(res));
+  return res.data.messages;
+};

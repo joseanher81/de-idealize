@@ -55,8 +55,7 @@ const Foot = (props) => {
       // Send message to rival
       sendMessage(rival._id, message);
 
-      // Save message to array in game model
-      console.log("SAVING MSG "+ game._id + message + user._id);
+      // Save message to ddbb
       await addMessageToGame(game._id, message, user._id);
 
        // Change turn

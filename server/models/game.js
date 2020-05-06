@@ -7,9 +7,9 @@ const gameSchema = new Schema(
     matchPercent: { type: Number, default: 100 },
     playerA: { type: Schema.Types.ObjectId, ref: "User" },
     playerB: { type: Schema.Types.ObjectId, ref: "User" },
-    messages: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    messages: [{ type: Schema.Types.ObjectId, ref: "Message" }],
     questions: [{ type: Schema.Types.ObjectId, ref: "Question" }],
-    status: { type: String, enum: ["Playing", "Matched"] },
+    status: { type: String, enum: ["PLAYING", "MATCHED"] },
   },
   {
     timestamps: true,

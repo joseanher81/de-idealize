@@ -163,4 +163,17 @@ router.post("/game/addmessage", async (req, res, next) => {
   }
 });
 
+// Get messages from game
+router.get("/game/messages/:gameid", async (req, res, next) => {
+  try {
+    // Get current game
+    const currentGame = await Game.findById(req.params.gameid).populate("messages");
+    console.log("MESSAGES "+ currentGame)
+    res.json({ status: "ok", messages: currentGame.messages });
+  } catch (error) {
+    console.log("Error " + error);
+    res.status(500).json({ status: "error", message: error });
+  }
+});
+
 module.exports = router;

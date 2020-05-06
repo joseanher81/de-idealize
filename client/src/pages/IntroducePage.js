@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { makeStyles, Typography, Grid, Button, Avatar} from "@material-ui/core";
 import { UserContext } from "./../contexts/userContexts";
 import { GameContext } from "./../contexts/gameContext";
-import { createGame, getGame } from "./../services/gameService";
+import { createGame, getGame, getMessages } from "./../services/gameService";
 import { getUser } from "./../services/userService";
 import { storeClientInfo, socket, sendAreYouThere, sendIAmHere } from "./../services/socketService";
 import { useHistory } from "react-router-dom";
@@ -64,6 +64,7 @@ const IntroducePage = () => {
     setGame,
     rival,
     setRival,
+    setMessages
   } = useContext(GameContext);
 
   // Listening to readiness of the other player
@@ -116,14 +117,16 @@ const IntroducePage = () => {
           console.log("Error creating game " + e);
         });
     } else {
-      // USER HAS GAME
-      console.log("User has game");
+      // USER HAS MATCHED GAME
+      console.log("User has matched game");
 
       // Get current game
       getGame(user._id)
         .then((game) => {
           setGame(game);
           setPlayerTurn(game.playerTurn);
+
+          if (game.status === "MATCHED") setGameStatus("MATCHED");
 
           // Get current rival
           let rival = user._id === game.playerA ? game.playerB : game.playerA;
@@ -136,6 +139,25 @@ const IntroducePage = () => {
             .catch((e) => {
               console.log("Error getting player " + e);
             });
+
+          // Load old messages
+          getMessages(game._id)
+            .then((messages) => {
+            
+            // Process messages
+            let newMessages = messages.map(msg => {
+              return {text: msg.text, own: (user._id===msg.user)};
+            });
+
+            console.log("A ver que tenemos " + JSON.stringify(newMessages));
+
+            setMessages(newMessages);
+            })
+            .catch((e) => {
+              console.log("Error getting messages" + e);
+            });
+          
+          
         })
         .catch((e) => {
           console.log("Error getting game " + e);
