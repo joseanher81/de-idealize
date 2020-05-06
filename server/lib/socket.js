@@ -25,16 +25,14 @@ io.on("connection", function (client) {
   });
 
   // Private messages
-  client.on("mensajePrivado", (data) => {
+  client.on("privateMessage", (data) => {
     const { user, message } = data;
-    console.log(`Mensaje privado - user: ${user} message: ${message}`);
+    console.log(`Private message - user: ${user} message: ${message}`);
     let toClient = clients.find((c) => c.user === user);
-    console.log(
-      "Mensaje privado - client:" + JSON.stringify(toClient.socketId)
-    );
+    
     client.broadcast
       .to(toClient.socketId)
-      .emit("mensajePrivado", { text: message, own: false });
+      .emit("privateMessage", { text: message, own: false });
   });
 
   // Answer to quiz
@@ -42,7 +40,7 @@ io.on("connection", function (client) {
     const { user, answer } = data;
     console.log(`Answer to quiz - user: ${user} answer: ${answer}`);
     let toClient = clients.find((c) => c.user === user);
-    console.log("Answer to quiz - client:" + JSON.stringify(toClient.socketId));
+
     client.broadcast
       .to(toClient.socketId)
       .emit("quizAnswer", { answer: answer });
@@ -50,13 +48,8 @@ io.on("connection", function (client) {
 
   // Timeout management
   client.on("timeout", (data) => {
-    console.log("One user hs timed out ");
-    console.log("He wants to notify to  " + data);
     const { user } = data;
-    console.log("To user " + user);
     let toClient = clients.find((c) => c.user === user);
-    console.log("Notifyin to client" + toClient);
-    console.log("With socket id" + toClient.socketId);
     client.broadcast.to(toClient.socketId).emit("timeout");
   });
 
@@ -64,16 +57,12 @@ io.on("connection", function (client) {
   client.on("areyouthere", (data) => {
     const { user } = data;
     let toClient = clients.find((c) => c.user === user);
-console.log("areyouthere ");
-console.log(toClient);
     if (toClient) client.broadcast.to(toClient.socketId).emit("areyouthere");
   });
 
   client.on("iamhere", (data) => {
     const { user } = data;
     let toClient = clients.find((c) => c.user === user);
-    console.log("iamhere " );
-    console.log(toClient);
     if (toClient) client.broadcast.to(toClient.socketId).emit("iamhere");
   });
 
@@ -81,8 +70,6 @@ console.log(toClient);
   client.on("shareQuiz", (data) => {
     const { user, quiz } = data;
     let toClient = clients.find((c) => c.user === user);
-    console.log("shareQuiz " + quiz);
-    console.log(toClient);
     if (toClient) client.broadcast.to(toClient.socketId).emit("shareQuiz", {quiz: quiz});
   });
 
@@ -90,8 +77,6 @@ console.log(toClient);
     client.on("unmatch", (data) => {
       const { user } = data;
       let toClient = clients.find((c) => c.user === user);
-      console.log("unmatch " );
-      console.log(toClient);
       if (toClient) client.broadcast.to(toClient.socketId).emit("unmatch");
     });
   

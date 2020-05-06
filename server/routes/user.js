@@ -6,8 +6,7 @@ const User = require("../models/user");
 router.get("/user/get/:userid", async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userid);
-
-    console.log("Usuario encontrado: " + user.currentGame);
+    console.log("User found: " + user.currentGame);
     res.json({ status: "ok", user: user });
   } catch (error) {
     console.log("Error " + error);
@@ -19,8 +18,7 @@ router.get("/user/get/:userid", async (req, res, next) => {
 router.post("/user/saveSocketId", async (req, res, next) => {
   try {
     const { userid, socketid } = req.body;
-
-    // Find user and updat its socketid
+    // Find user and update its socketid
     const user = await User.findByIdAndUpdate(userid, { socketId: socketid });
     console.log("SocketId: " + user);
     res.json({ status: "ok", user: user });
@@ -67,8 +65,6 @@ router.post("/user/deleteCurrentGame", async (req, res, next) => {
       },
       { new: true }
     );
-
-    console.log("JOPE " + usernew.currentGame);
 
     res.json({ status: "ok", user: usernew });
   } catch (error) {

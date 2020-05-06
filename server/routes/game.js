@@ -18,8 +18,6 @@ router.post("/game/new", async (req, res, next) => {
     // Need to find a not blacklisted user
     let qIdObjectsBlacklist = currentUser.blacklist.map((s) => mongoose.Types.ObjectId(s));
 
-    console.log("qIdObjectsBlacklist " +qIdObjectsBlacklist);
-
     // Try to find a suitable match
     const { lookingFor, minAge, maxAge, username, age, gender } = currentUser;
     const matchedUser = await User.findOne({
@@ -66,7 +64,7 @@ router.post("/game/new", async (req, res, next) => {
       ],
     });
 
-    console.log("Usuario encontrado: " + matchedUser);
+    console.log("User found: " + matchedUser);
 
     // Create game
     const newChat = await Chat.create({});
@@ -100,8 +98,7 @@ router.get("/game/get", async (req, res, next) => {
   try {
     // Get game from current player
     const currentUser = await User.findById(req.user).populate("currentGame");
-
-    console.log("Juego encontrado: " + currentUser.currentGame);
+    console.log("Game found: " + currentUser.currentGame);
     res.json({ status: "ok", game: currentUser.currentGame });
   } catch (error) {
     console.log("Error " + error);
@@ -120,7 +117,7 @@ router.post("/game/addquestion", async (req, res, next) => {
     const currentGame = await Game.findById(gameid);
     console.log("GAME FOUND " + currentGame.id);
 
-    // Get the qustion
+    // Get the question
     const currentCuestion = await Question.findById(questionid);
     console.log("QUESTION FOUND " + currentCuestion.id);
 
