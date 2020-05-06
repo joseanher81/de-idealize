@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Timer = (props) => {
-  const init_time = 45; // time for ansering in seconds
+  const init_time = 45; // time for answering in seconds
   const classes = useStyles();
   const { messages } = props;
   const [seconds, setSeconds] = useState(init_time);

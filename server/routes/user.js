@@ -14,20 +14,6 @@ router.get("/user/get/:userid", async (req, res, next) => {
   }
 });
 
-// Save socket id
-router.post("/user/saveSocketId", async (req, res, next) => {
-  try {
-    const { userid, socketid } = req.body;
-    // Find user and update its socketid
-    const user = await User.findByIdAndUpdate(userid, { socketId: socketid });
-    console.log("SocketId: " + user);
-    res.json({ status: "ok", user: user });
-  } catch (error) {
-    console.log("Error " + error);
-    res.status(500).json({ status: "error", message: error });
-  }
-});
-
 // Add an user to blacklist
 router.post("/user/addToBlackList", async (req, res, next) => {
   try {
