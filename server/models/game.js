@@ -9,7 +9,7 @@ const gameSchema = new Schema(
     playerB: { type: Schema.Types.ObjectId, ref: "User" },
     messages: [{ type: Schema.Types.ObjectId, ref: "Message" }],
     questions: [{ type: Schema.Types.ObjectId, ref: "Question" }],
-    status: { type: String, enum: ["PLAYING", "MATCHED"] },
+    status: { type: String, enum: ["PLAYING", "MATCHED", "WAITING"], default: "WAITING" },
   },
   {
     timestamps: true,

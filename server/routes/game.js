@@ -66,9 +66,6 @@ router.post("/game/new", async (req, res, next) => {
 
     console.log("User found: " + matchedUser);
 
-    // Create game
-    //const newChat = await Chat.create({}); TODO DELETE
-
     const newGame = await Game.create({
       playerTurn: userid,
       playerA: currentUser._id,
@@ -170,6 +167,30 @@ router.get("/game/messages/:gameid", async (req, res, next) => {
     const currentGame = await Game.findById(req.params.gameid).populate("messages");
     console.log("MESSAGES "+ currentGame)
     res.json({ status: "ok", messages: currentGame.messages });
+  } catch (error) {
+    console.log("Error " + error);
+    res.status(500).json({ status: "error", message: error });
+  }
+});
+
+// Change game status
+router.post("/game/setstatus", async (req, res, next) => {
+  console.log("Change game status");
+
+  try {
+    const { gameid, status } = req.body;
+
+    // Get current game
+    let currentGame = await Game.findByIdAndUpdate(
+      gameid,
+      {
+        status: status,
+      },
+      { new: true }
+    );
+    console.log("GAME FOUND AND UPDATED " + currentGame.id);
+
+    res.json({ status: "ok" });
   } catch (error) {
     console.log("Error " + error);
     res.status(500).json({ status: "error", message: error });

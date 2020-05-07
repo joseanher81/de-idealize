@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { makeStyles, Typography, Grid, Button, Avatar} from "@material-ui/core";
 import { UserContext } from "./../contexts/userContexts";
 import { GameContext } from "./../contexts/gameContext";
-import { createGame, getGame, getMessages } from "./../services/gameService";
+import { createGame, getGame, getMessages, setStatus } from "./../services/gameService";
 import { getUser } from "./../services/userService";
 import { storeClientInfo, socket, sendAreYouThere, sendIAmHere } from "./../services/socketService";
 import { useHistory } from "react-router-dom";
@@ -98,8 +98,10 @@ const IntroducePage = () => {
     // Save client info on socket server
     storeClientInfo(user._id);
 
-    // Check if user has an ongoing game
-    if (!user.currentGame) {
+    console.log("A ver " + JSON.stringify(user));
+
+    // Check if user has to create a new game
+    if (!user.currentGame || user.currentGame?.status==="PLAYING") {
       // USER HAS NO GAME
       console.log("User has not current game");
 
@@ -117,7 +119,7 @@ const IntroducePage = () => {
           console.log("Error creating game " + e);
         });
     } else {
-      // USER HAS MATCHED GAME
+      // USER HAS MATCHED GAME OR IS WAITING TO START
       console.log("User has matched game");
 
       // Get current game
@@ -167,6 +169,11 @@ const IntroducePage = () => {
 
   const startGame = async (e) => {
     console.log("Starting new game");
+
+    //Change game status if it is not an already MATCHED state
+    if(game.status!=="MATCHED") setStatus(game._id, "PLAYING");
+
+    // Go to game page
     history.push("/game");
   };
 
