@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { makeStyles, Typography, Grid, Button, Avatar} from "@material-ui/core";
 import { UserContext } from "./../contexts/userContexts";
 import { GameContext } from "./../contexts/gameContext";
-import { createGame, getGame, getMessages, setStatus } from "./../services/gameService";
+import { createGame, getGame, getMessages, saveStatus } from "./../services/gameService";
 import { getUser } from "./../services/userService";
 import { storeClientInfo, socket, sendAreYouThere, sendIAmHere } from "./../services/socketService";
 import { useHistory } from "react-router-dom";
@@ -62,6 +62,7 @@ const IntroducePage = () => {
     setGameStatus,
     game,
     setGame,
+    setMatch,
     rival,
     setRival,
     setMessages
@@ -127,6 +128,7 @@ const IntroducePage = () => {
         .then((game) => {
           setGame(game);
           setPlayerTurn(game.playerTurn);
+          setMatch(game.matchPercent);
 
           if (game.status === "MATCHED") setGameStatus("MATCHED");
 
@@ -171,7 +173,7 @@ const IntroducePage = () => {
     console.log("Starting new game");
 
     //Change game status if it is not an already MATCHED state
-    if(game.status!=="MATCHED") setStatus(game._id, "PLAYING");
+    if(game.status!=="MATCHED") saveStatus(game._id, "PLAYING");
 
     // Go to game page
     history.push("/game");

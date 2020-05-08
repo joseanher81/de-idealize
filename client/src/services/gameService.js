@@ -34,8 +34,14 @@ export const getMessages = async (gameid) => {
   return res.data.messages;
 };
 
-export const setStatus = async (gameid, status) => {
+export const saveStatus = async (gameid, status) => {
   const res = await api.post("/game/setstatus", { gameid, status });
+  console.log("addMessage response " + JSON.stringify(res));
+  return res.data;
+};
+
+export const saveMatch = async (gameid, match) => {
+  const res = await api.post("/game/setmatch", { gameid, match });
   console.log("addMessage response " + JSON.stringify(res));
   return res.data;
 };

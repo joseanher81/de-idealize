@@ -6,7 +6,7 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { useHistory } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { deleteCurrentGame } from "./../services/userService";
-import { setStatus } from "./../services/gameService";
+import { saveStatus, saveMatch } from "./../services/gameService";
 import { logout } from "./../services/authService";
 
 const useStyles = makeStyles((theme) => ({
@@ -66,6 +66,7 @@ const EndPage = () => {
   const { setUser } = useContext(UserContext);
   const {
     game,
+    match,
     setPlayerTurn,
     setMessages,
     setGameStatus,
@@ -111,7 +112,11 @@ const EndPage = () => {
       setGameStatus("MATCHED");
 
       //Change game status on ddbb
-      setStatus(game._id, "MATCHED");
+      saveStatus(game._id, "MATCHED");
+
+      // Save Final Match on ddbb 
+      saveMatch(game._id, match);
+
       history.push("/game");
     }
   };

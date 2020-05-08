@@ -197,4 +197,28 @@ router.post("/game/setstatus", async (req, res, next) => {
   }
 });
 
+// Save Match percentage
+router.post("/game/setmatch", async (req, res, next) => {
+  console.log("Save match percentage");
+
+  try {
+    const { gameid, match } = req.body;
+
+    // Get current game
+    let currentGame = await Game.findByIdAndUpdate(
+      gameid,
+      {
+        matchPercent: match,
+      },
+      { new: true }
+    );
+    console.log("GAME FOUND AND UPDATED " + currentGame.id);
+
+    res.json({ status: "ok" });
+  } catch (error) {
+    console.log("Error " + error);
+    res.status(500).json({ status: "error", message: error });
+  }
+});
+
 module.exports = router;
