@@ -130,7 +130,10 @@ const IntroducePage = () => {
           setPlayerTurn(game.playerTurn);
           setMatch(game.matchPercent);
 
-          if (game.status === "MATCHED") setGameStatus("MATCHED");
+          if (game.status === "MATCHED") {
+            setGameStatus("MATCHED");
+            setReady(true);
+          } 
 
           // Get current rival
           let rival = user._id === game.playerA ? game.playerB : game.playerA;

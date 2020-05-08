@@ -30,9 +30,11 @@ io.on("connection", function (client) {
     console.log(`Private message - user: ${user} message: ${message}`);
     let toClient = clients.find((c) => c.user === user);
     
-    client.broadcast
+    if(toClient) {
+      client.broadcast
       .to(toClient.socketId)
       .emit("privateMessage", { text: message, own: false });
+    }
   });
 
   // Answer to quiz
