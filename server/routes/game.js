@@ -3,8 +3,8 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const User = require("../models/user");
 const Game = require("../models/game");
-const Chat = require("../models/chat");
 const Question = require("../models/question");
+const Message = require("../models/message");
 
 // New Game
 router.post("/game/new", async (req, res, next) => {
@@ -66,12 +66,8 @@ router.post("/game/new", async (req, res, next) => {
 
     console.log("User found: " + matchedUser);
 
-    // Create game
-    const newChat = await Chat.create({});
-
     const newGame = await Game.create({
       playerTurn: userid,
-      chat: newChat._id,
       playerA: currentUser._id,
       playerB: matchedUser._id,
     });
@@ -124,6 +120,99 @@ router.post("/game/addquestion", async (req, res, next) => {
     // Save question to current game
     currentGame.questions.push(currentCuestion);
     currentGame.save();
+
+    res.json({ status: "ok" });
+  } catch (error) {
+    console.log("Error " + error);
+    res.status(500).json({ status: "error", message: error });
+  }
+});
+
+// Save a message to messages array in game
+router.post("/game/addmessage", async (req, res, next) => {
+  console.log("Add a message to game");
+
+  try {
+    const { gameid, message, userid } = req.body;
+
+    // Get current game
+    const currentGame = await Game.findById(gameid);
+    console.log("GAME FOUND " + currentGame.id);
+
+    // Get user
+    const currentUser = await User.findById(userid);
+    console.log("USER FOUND " + currentUser.id);
+
+    // Create message
+    const newMessage = await Message.create({
+      text: message,
+      user: currentUser,
+    });
+
+    // Save question to current game
+    currentGame.messages.push(newMessage);
+    currentGame.save();
+
+    res.json({ status: "ok" });
+  } catch (error) {
+    console.log("Error " + error);
+    res.status(500).json({ status: "error", message: error });
+  }
+});
+
+// Get messages from game
+router.get("/game/messages/:gameid", async (req, res, next) => {
+  try {
+    // Get current game
+    const currentGame = await Game.findById(req.params.gameid).populate("messages");
+    console.log("MESSAGES "+ currentGame)
+    res.json({ status: "ok", messages: currentGame.messages });
+  } catch (error) {
+    console.log("Error " + error);
+    res.status(500).json({ status: "error", message: error });
+  }
+});
+
+// Change game status
+router.post("/game/setstatus", async (req, res, next) => {
+  console.log("Change game status");
+
+  try {
+    const { gameid, status } = req.body;
+
+    // Get current game
+    let currentGame = await Game.findByIdAndUpdate(
+      gameid,
+      {
+        status: status,
+      },
+      { new: true }
+    );
+    console.log("GAME FOUND AND UPDATED " + currentGame.id);
+
+    res.json({ status: "ok" });
+  } catch (error) {
+    console.log("Error " + error);
+    res.status(500).json({ status: "error", message: error });
+  }
+});
+
+// Save Match percentage
+router.post("/game/setmatch", async (req, res, next) => {
+  console.log("Save match percentage");
+
+  try {
+    const { gameid, match } = req.body;
+
+    // Get current game
+    let currentGame = await Game.findByIdAndUpdate(
+      gameid,
+      {
+        matchPercent: match,
+      },
+      { new: true }
+    );
+    console.log("GAME FOUND AND UPDATED " + currentGame.id);
 
     res.json({ status: "ok" });
   } catch (error) {

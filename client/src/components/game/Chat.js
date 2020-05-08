@@ -37,13 +37,12 @@ export const Chat = (props) => {
     socket.on("privateMessage", function (msg) {
       console.log("Private Message:", messages);
 
-      // Cambiar turno y guardar en ddbb
+      // Change turn
       setPlayerTurn(user._id);
 
       // Print msg on screen
       setMessages((oldmessages) => [...oldmessages, msg]);
 
-      // TODO Guardar en DDBB
     });
     return () => socket.off("privateMessage");
   }, []);

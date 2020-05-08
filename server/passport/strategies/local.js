@@ -6,7 +6,7 @@ const { checkPassword } = require("../../lib/hashing");
 passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
-      const registeredUser = await User.findOne({ username });
+      const registeredUser = await User.findOne({ username }).populate("currentGame");
       if (
         !registeredUser ||
         !checkPassword(password, registeredUser.password)

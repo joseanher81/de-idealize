@@ -6,6 +6,7 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { useHistory } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { deleteCurrentGame } from "./../services/userService";
+import { saveStatus, saveMatch } from "./../services/gameService";
 import { logout } from "./../services/authService";
 
 const useStyles = makeStyles((theme) => ({
@@ -64,6 +65,8 @@ const EndPage = () => {
   const { user, rival, gameStatus } = historyBrowser.location.state.data;
   const { setUser } = useContext(UserContext);
   const {
+    game,
+    match,
     setPlayerTurn,
     setMessages,
     setGameStatus,
@@ -107,6 +110,13 @@ const EndPage = () => {
     } else if (gameStatus === "WIN") {
       // CONTINUE TALKING WITHOUT LIMITS
       setGameStatus("MATCHED");
+
+      //Change game status on ddbb
+      saveStatus(game._id, "MATCHED");
+
+      // Save Final Match on ddbb 
+      saveMatch(game._id, match);
+
       history.push("/game");
     }
   };
