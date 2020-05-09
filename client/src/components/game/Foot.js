@@ -1,13 +1,12 @@
 import React, { useContext, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { GameContext } from "./../../contexts/gameContext";
-import TextField from "@material-ui/core/TextField";
-import Container from "@material-ui/core/Container";
-import IconButton from "@material-ui/core/IconButton";
+import { UserContext } from "./../../contexts/userContexts";
+import {TextField, Container, IconButton, Grid} from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
 import { useForm } from "react-hook-form";
-import Grid from "@material-ui/core/Grid";
 import { sendMessage } from "./../../services/socketService";
+import { addMessageToGame } from "./../../services/gameService";
 import { isValid } from "./../../lib/utils";
 
 const useStyles = makeStyles((theme) => ({
@@ -37,12 +36,14 @@ const useStyles = makeStyles((theme) => ({
 
 const Foot = (props) => {
   const {
+    game,
     messages,
     setMessages,
     playerTurn,
     setPlayerTurn,
     gameStatus,
   } = useContext(GameContext);
+  const { user } = useContext(UserContext);
   const classes = useStyles();
   const { register, handleSubmit, errors } = useForm(); // initialise hook-form
   const { rival, setOpenToast } = props;
@@ -51,10 +52,13 @@ const Foot = (props) => {
     const { message } = data;
 
     if (isValid(message) || gameStatus === "MATCHED") {
-      // Enviar información
+      // Send message to rival
       sendMessage(rival._id, message);
 
-       // Cambiar turno 
+      // Save message to ddbb
+      await addMessageToGame(game._id, message, user._id);
+
+       // Change turn
        setPlayerTurn(rival._id);
 
       // Print msg on screen

@@ -2,9 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const Game = require("../models/game");
-const Chat = require("../models/chat");
 
-// Save a question to question array in game
 router.post("/chat/savemsg", async (req, res, next) => {
   console.log("Add a question to game");
 

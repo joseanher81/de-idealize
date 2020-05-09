@@ -21,3 +21,27 @@ export const addQuestionToGame = async (gameid, questionid) => {
   console.log("addQuestion response " + JSON.stringify(res));
   return res.data;
 };
+
+export const addMessageToGame = async (gameid, message, userid) => {
+  const res = await api.post("/game/addmessage", { gameid, message, userid });
+  console.log("addMessage response " + JSON.stringify(res));
+  return res.data;
+};
+
+export const getMessages = async (gameid) => {
+  const res = await api.get("/game/messages/" + gameid );
+  console.log("getmessages response " + JSON.stringify(res));
+  return res.data.messages;
+};
+
+export const saveStatus = async (gameid, status) => {
+  const res = await api.post("/game/setstatus", { gameid, status });
+  console.log("addMessage response " + JSON.stringify(res));
+  return res.data;
+};
+
+export const saveMatch = async (gameid, match) => {
+  const res = await api.post("/game/setmatch", { gameid, match });
+  console.log("addMessage response " + JSON.stringify(res));
+  return res.data;
+};

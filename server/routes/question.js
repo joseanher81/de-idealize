@@ -7,7 +7,6 @@ const Game = require("../models/game");
 // Get a question not asked yet
 router.get("/question/get/:gameid", async (req, res, next) => {
   try {
-    console.log("Se busca juego " + req.params.gameid);
     // Get current game
     const currentGame = await Game.findById(req.params.gameid);
     console.log("GAME FOUND " + currentGame.matchPercent);
@@ -17,20 +16,16 @@ router.get("/question/get/:gameid", async (req, res, next) => {
       mongoose.Types.ObjectId(s)
     );
 
-    console.log("QIOBJECTS " + qIdObjects);
-
     // Get a random question not asked yet
     const size = await Question.count({
       _id: { $nin: qIdObjects },
     });
 
-    console.log("Size is " + size);
-
     const question = await Question.findOne({
       _id: { $nin: qIdObjects },
     }).skip(Math.random() * size);
 
-    console.log("Pregunta encontrada: " + question);
+    console.log("Question found: " + question);
 
     res.json({ status: "ok", question: question });
   } catch (error) {

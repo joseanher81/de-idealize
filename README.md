@@ -52,7 +52,6 @@ In order to run this project locally do the following (on both client and server
 ![EndFinal](https://user-images.githubusercontent.com/23436377/80248667-b5a26780-8670-11ea-8dc4-a479aa9e5305.png)
 
 **To do:**
-* Save chat messages to DDBB in case of Match
 * Quiz editor for admins
 * Improve the regex method for blocking contact info 
 
@@ -65,12 +64,6 @@ In order to run this project locally do the following (on both client and server
 
 ## Overview 
 This is the third and last project to be made during the Ironhack Web Development Bootcamp. I have had the chance to apply all the knowledge acquired during the course to develop a full stack web application from scratch, using state-of-the-art technologies, such as **React** or **SocketIO**.
-
-## Contributing
-If you wish to contribute to this project, you may add yourself to [CONTRIBUTING.md](https://github.com/joseanher81/de-idealize/blob/master/CONTRIBUTING.md)
-
-## License
-Please refer to [LICENSE.md](https://github.com/joseanher81/de-idealize/blob/master/LICENSE.md)
 
 ## Authors
 <table>
