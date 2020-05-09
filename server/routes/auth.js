@@ -79,16 +79,6 @@ router.post("/auth/login", passport.authenticate("local"), (req, res) => {
   return res.json({ status: "ok", user: req.user.toJSON() });
 });
 
-// Edit user
-/* router.post("/auth/edit", async (req, res, next) => {
-  try {
-    const { username, campus, course } = req.body;
-    res.json(`User updated ${username} ${campus} ${course}`);
-  } catch (error) {
-    console.log(error);
-  }
-}); */
-
 // Logout
 router.post("/auth/logout", async (req, res, next) => {
   if (req.user) {
