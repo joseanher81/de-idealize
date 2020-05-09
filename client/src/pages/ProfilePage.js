@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState, useEffect } from "react";
 import { createBrowserHistory } from "history";
 import { UserContext } from "./../contexts/userContexts";
 import { makeStyles, Container, Button, CssBaseline, TextField, Grid, Typography, InputLabel, MenuItem, FormControl, Select, IconButton } from "@material-ui/core";
@@ -8,6 +8,7 @@ import { signup } from "./../services/authService";
 import { ageGenerator } from "./../lib/utils";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import DoneIcon from "@material-ui/icons/Done";
+import { Avatar } from "@material-ui/core";
 import { changeAvatar } from "./../services/userService";
 
 // Styles
@@ -43,6 +44,10 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     fontSize: "4em",
   },
+  image: {
+    width: "4em",
+    height: "4em",
+  },
 }));
 
 const ProfilePage = () => {
@@ -54,9 +59,19 @@ const ProfilePage = () => {
   const [image1, setImage1] = useState();
   const [image2, setImage2] = useState();
   const [image3, setImage3] = useState();
+  const [tempImage1, setTempImage1] = useState({ file: null });
+  const [tempImage2, setTempImage2] = useState({ file: null });
+  const [tempImage3, setTempImage3] = useState({ file: null });
 
   // Get data from signup page
   const { username, password, email } = historyBrowser.location.state.data;
+
+  // Temporary url handler
+  useEffect(() => {
+    if (image1) setTempImage1({ file: URL.createObjectURL(image1) });
+    if (image2) setTempImage2({ file: URL.createObjectURL(image2) });
+    if (image3) setTempImage3({ file: URL.createObjectURL(image3) });
+  }, [image1, image2, image3]);
 
   //Handle submit
   const onSubmit = async (data) => {
@@ -106,9 +121,9 @@ const ProfilePage = () => {
 
   const handleFiles = (e) => {
     console.log("Se seleccionó imagen " + e.target.id);
-    if (e.target.id === "file1") setImage1(e.target);
-    if (e.target.id === "file2") setImage2(e.target);
-    if (e.target.id === "file3") setImage3(e.target);
+    if (e.target.id === "file1") setImage1(e.target.files[0]);
+    if (e.target.id === "file2") setImage2(e.target.files[0]);
+    if (e.target.id === "file3") setImage3(e.target.files[0]);
   };
 
   const inputRef = useRef();
@@ -144,7 +159,9 @@ const ProfilePage = () => {
                   component="span"
                 >
                   {!image1 && <AccountCircleIcon className={classes.icon} />}
-                  {image1 && <DoneIcon className={classes.icon} />}
+                  {image1 && <Avatar src={tempImage1.file} className={classes.image}>
+                                {tempImage1.file }
+                              </Avatar>}
                 </IconButton>
               </label>
             </Grid>
@@ -165,7 +182,9 @@ const ProfilePage = () => {
                   component="span"
                 >
                   {!image2 && <AccountCircleIcon className={classes.icon} />}
-                  {image2 && <DoneIcon className={classes.icon} />}
+                  {image2 && <Avatar src={tempImage2.file} className={classes.image}>
+                                {tempImage2.file }
+                              </Avatar>}
                 </IconButton>
               </label>
             </Grid>
@@ -182,11 +201,13 @@ const ProfilePage = () => {
               <label htmlFor="file3">
                 <IconButton
                   color="primary"
-                  aria-label="upload picture3"
+                  aria-label="upload picture"
                   component="span"
                 >
                   {!image3 && <AccountCircleIcon className={classes.icon} />}
-                  {image3 && <DoneIcon className={classes.icon} />}
+                  {image3 && <Avatar src={tempImage3.file} className={classes.image}>
+                                {tempImage3.file }
+                              </Avatar>}
                 </IconButton>
               </label>
             </Grid>
