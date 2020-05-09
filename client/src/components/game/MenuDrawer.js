@@ -46,13 +46,6 @@ const MenuDrawer = ({ setOpenUnmatch }) => {
   return(
     <div>
       <List>
-        <ListItem button>
-          <ListItemIcon><AccountCircle /></ListItemIcon>
-          <ListItemText primary="Profile" />
-        </ListItem>
-      </List>
-      <Divider />
-      <List>
         {(gameStatus==="MATCHED") &&<ListItem button onClick={handleUnmatch}>
           <ListItemIcon><DirectionsRunIcon /></ListItemIcon>
           <ListItemText primary="Unmatch" />
