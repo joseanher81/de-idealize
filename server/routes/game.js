@@ -19,7 +19,7 @@ router.post("/game/new", async (req, res, next) => {
     let qIdObjectsBlacklist = currentUser.blacklist.map((s) => mongoose.Types.ObjectId(s));
 
     // Try to find a suitable match
-    const { lookingFor, minAge, maxAge, username, age, gender } = currentUser;
+    const { lookingFor, minAge, maxAge, username, age, gender, location } = currentUser;
     const matchedUser = await User.findOne({
       $and: [
         {
@@ -34,6 +34,9 @@ router.post("/game/new", async (req, res, next) => {
         },
         {
           lookingFor: gender,
+        },
+        {
+          location: location,
         },
         {
           age: {
