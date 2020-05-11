@@ -19,6 +19,7 @@ In order to run this project locally do the following (on both client and server
 2. Run `npm install` to install all the dependencies
 3. Change .envExample file name to .env and paste the required environment variables in the corresponding field 
 4. Run `npm run dev` to launch the application and access it at localhost:port
+5. Try it using a mobile view
 
 ## Game rules
 
